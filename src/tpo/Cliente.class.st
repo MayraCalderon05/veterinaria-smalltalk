@@ -53,3 +53,8 @@ Cliente >> inicializarClienteConTelefono: arg1 email: arg2 tipo: arg3 mascotas: 
 	tipo := arg3.
 	colMascotas := arg4
 ]
+
+{ #category : 'visualizadores' }
+Cliente >> telefono [
+^telefono 
+]
