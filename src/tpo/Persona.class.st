@@ -11,14 +11,6 @@ Class {
 	#package : 'tpo'
 }
 
-{ #category : 'constructores' }
-Persona class >> crearPersonaConDni: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio [
-| p |
-p := self new.
-p inicializarPersonaConDni: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio .
-^p
-]
-
 { #category : 'visualizadores' }
 Persona >> apellido [
 
@@ -26,8 +18,9 @@ Persona >> apellido [
 ]
 
 { #category : 'modificadores' }
-Persona >> apellido: unApellido [
-apellido := unApellido 
+Persona >> apellido: arg1 [
+
+	apellido := arg1
 ]
 
 { #category : 'visualizadores' }
@@ -43,16 +36,18 @@ Persona >> domicilio [
 ]
 
 { #category : 'modificadores' }
-Persona >> domicilio: unDomicilio [
-domicilio := unDomicilio 
+Persona >> domicilio: arg1 [
+
+	domicilio := arg1
 ]
 
 { #category : 'inicializadores' }
-Persona >> inicializarPersonaConDni: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio [
-	dni := unDni .
-	nombre := unNombre .
-	apellido := unApellido .
-	domicilio := unDomicilio .
+Persona >> inicializarPersonaConDni: arg1 nombre: arg2 apellido: arg3 domicilio: arg4 [
+
+	dni := arg1.
+	nombre := arg2.
+	apellido := arg3.
+	domicilio := arg4
 ]
 
 { #category : 'visualizadores' }
@@ -62,6 +57,7 @@ Persona >> nombre [
 ]
 
 { #category : 'modificadores' }
-Persona >> nombre: unNombre [
-nombre := unNombre 
+Persona >> nombre: arg1 [
+
+	nombre := arg1
 ]
