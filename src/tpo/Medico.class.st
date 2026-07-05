@@ -10,6 +10,26 @@ Class {
 	#package : 'tpo'
 }
 
+{ #category : 'constructores' }
+Medico class >> crearMedicoConfechaNacimiento: unaFecha cuil: elCuil [
+
+	| m |
+	m := self new.
+	m
+		inicializarMedicoNacido: unaFecha
+		cuil: elCuil
+		matriculas: OrderedCollection new.
+	^ m
+]
+
+{ #category : 'constructores' }
+Medico class >> crearMedicoConfechaNacimiento: unaFecha cuil: elCuil matriculas: lasMatriculas [
+| m |
+m := self new.
+m inicializarMedicoNacido: unaFecha cuil: elCuil matriculas: lasMatriculas .
+^m
+]
+
 { #category : 'propios del tipo' }
 Medico >> agregarMatricula: unaMatricula [
 colMatriculas add: unaMatricula 
