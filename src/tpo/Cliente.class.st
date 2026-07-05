@@ -45,6 +45,11 @@ Cliente class >> crearClienteCon: arg1 nombre: arg2 apellido: arg3 domicilio: ar
 	^ tmp1
 ]
 
+{ #category : 'visualizadores' }
+Cliente >> email [
+^email 
+]
+
 { #category : 'inicializadores' }
 Cliente >> inicializarClienteConTelefono: arg1 email: arg2 tipo: arg3 mascotas: arg4 [
 
