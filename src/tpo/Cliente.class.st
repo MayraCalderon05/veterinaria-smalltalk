@@ -12,49 +12,86 @@ Class {
 }
 
 { #category : 'constructores' }
-Cliente class >> crearClienteCon: arg1 nombre: arg2 apellido: arg3 domicilio: arg4 telefono: arg5 email: arg6 tipo: arg7 [
+Cliente class >> crearClienteCon: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio telefono: unTelefono email: unEmail tipo: unTipo [
 
-	| tmp1 |
-	tmp1 := self new.
-	tmp1
-		inicializarPersonaConDni: arg1
-		nombre: arg2
-		apellido: arg3
-		domicilio: arg4;
-		inicializarClienteConTelefono: arg5
-		email: arg6
-		tipo: arg7
+	| c |
+	c := self new.
+	c
+		inicializarPersonaConDni: unDni
+		nombre: unNombre 
+		apellido: unApellido 
+		domicilio: unDomicilio .
+	c
+		inicializarClienteConTelefono: unTelefono 
+		email: unEmail 
+		tipo: unTipo 
 		mascotas: OrderedCollection new.
-	^ tmp1
+	^ c
 ]
 
 { #category : 'constructores' }
-Cliente class >> crearClienteCon: arg1 nombre: arg2 apellido: arg3 domicilio: arg4 telefono: arg5 email: arg6 tipo: arg7 conMascotas: arg8 [
+Cliente class >> crearClienteCon: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio telefono: unTelefono email: unEmail tipo: unTipo mascotas: lasMascotas [
 
-	| tmp1 |
-	tmp1 := self new.
-	tmp1
-		inicializarPersonaConDni: arg1
-		nombre: arg2
-		apellido: arg3
-		domicilio: arg4;
-		inicializarClienteConTelefono: arg5
-		email: arg6
-		tipo: arg7
-		mascotas: arg8.
-	^ tmp1
+	| c |
+	c := self new.
+	c
+		inicializarPersonaConDni: unDni
+		nombre: unNombre
+		apellido: unApellido
+		domicilio: unDomicilio.
+	c
+		inicializarClienteConTelefono: unTelefono
+		email: unEmail
+		tipo: unTipo
+		mascotas: lasMascotas .
+	^ c
+]
+
+{ #category : 'propios del tipo' }
+Cliente >> agregarMascota: unaMascota [
+colMascotas add: unaMascota 
+]
+
+{ #category : 'visualizadores' }
+Cliente >> email [
+^email 
+]
+
+{ #category : 'modificadores' }
+Cliente >> email: unEmail [
+email := unEmail 
 ]
 
 { #category : 'inicializadores' }
-Cliente >> inicializarClienteConTelefono: arg1 email: arg2 tipo: arg3 mascotas: arg4 [
+Cliente >> inicializarClienteConTelefono: unTelefono email: unEmail tipo: unTipo mascotas: lasMascotas [
 
-	telefono := arg1.
-	email := arg2.
-	tipo := arg3.
-	colMascotas := arg4
+	telefono := unTelefono .
+	email := unEmail .
+	tipo := unTipo.
+	colMascotas := lasMascotas .
+]
+
+{ #category : 'visualizadores' }
+Cliente >> mascotas [
+^colMascotas 
 ]
 
 { #category : 'visualizadores' }
 Cliente >> telefono [
 ^telefono 
+]
+
+{ #category : 'modificadores' }
+Cliente >> telefono: unTelefono [
+telefono := unTelefono 
+]
+
+{ #category : 'visualizadores' }
+Cliente >> tipo [
+^tipo 
+]
+
+{ #category : 'modificadores' }
+Cliente >> tipo: elTipo [
+tipo := elTipo 
 ]
