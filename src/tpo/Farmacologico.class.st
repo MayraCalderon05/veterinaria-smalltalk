@@ -11,12 +11,16 @@ Class {
 }
 
 { #category : 'constructores' }
-Farmacologico class >> crearTratFarmacologicoConFecha: unaFecha motivo: unMotivo estado: unEstado monodroga: unMedicamento dosis: laDosis frecuencia: laFrecuencia [
-| t |
-t := self new.
-t inicializarTratamientoConFecha: unaFecha motivo: unMotivo .
-t inicializarFarmacologicoConMonodroga: unMedicamento dosis: laDosis frencuencia: laFrecuencia .
-^t
+Farmacologico class >> crearTratFarmacologicoConFecha: unaFecha motivo: unMotivo monodroga: unMedicamento dosis: laDosis frecuencia: laFrecuencia [
+
+	| t |
+	t := self new.
+	t inicializarTratamientoConFecha: unaFecha motivo: unMotivo.
+	t
+		inicializarFarmacologicoConMonodroga: unMedicamento
+		dosis: laDosis
+		frencuencia: laFrecuencia.
+	^ t
 ]
 
 { #category : 'visualizadores' }
