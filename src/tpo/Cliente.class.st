@@ -12,24 +12,6 @@ Class {
 }
 
 { #category : 'constructores' }
-Cliente class >> crearClienteCon: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio telefono: unTelefono email: unEmail tipo: unTipo [
-
-	| c |
-	c := self new.
-	c
-		inicializarPersonaConDni: unDni
-		nombre: unNombre 
-		apellido: unApellido 
-		domicilio: unDomicilio .
-	c
-		inicializarClienteConTelefono: unTelefono 
-		email: unEmail 
-		tipo: unTipo 
-		mascotas: OrderedCollection new.
-	^ c
-]
-
-{ #category : 'constructores' }
 Cliente class >> crearClienteCon: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio telefono: unTelefono email: unEmail tipo: unTipo mascotas: lasMascotas [
 
 	| c |
