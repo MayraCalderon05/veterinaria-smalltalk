@@ -11,11 +11,33 @@ Class {
 }
 
 { #category : 'constructores' }
-Medico class >> crearMedicoConfechaNacimiento: unaFecha cuil: elCuil matriculas: lasMatriculas [
-| m |
-m := self new.
-m inicializarMedicoNacido: unaFecha cuil: elCuil matriculas: lasMatriculas .
-^m
+Medico class >> crearMedicoConDni: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio fechaNacimiento: unaFecha cuil: elCuil matricula: unaMatricula [
+
+	| m |
+	m := self new.
+	m inicializarPersonaConDni: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio .
+	m
+		inicializarMedicoNacido: unaFecha
+		cuil: elCuil
+		matricula: unaMatricula.
+	^ m
+]
+
+{ #category : 'constructores' }
+Medico class >> crearMedicoConDni: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio fechaNacimiento: unaFecha cuil: elCuil matriculas: lasMatriculas [
+
+	| m |
+	m := self new.
+	m
+		inicializarPersonaConDni: unDni
+		nombre: unNombre
+		apellido: unApellido
+		domicilio: unDomicilio.
+	m
+		inicializarMedicoNacido: unaFecha
+		cuil: elCuil
+		matriculas: lasMatriculas.
+	^ m
 ]
 
 { #category : 'propios del tipo' }
@@ -31,6 +53,15 @@ Medico >> cuil [
 { #category : 'visualizadores' }
 Medico >> fechaNacimiento [
 ^fechaNacimiento 
+]
+
+{ #category : 'inicializadores' }
+Medico >> inicializarMedicoNacido: laFechaNacimiento cuil: elCuil matricula: unaMatricula [
+
+	fechaNacimiento := laFechaNacimiento.
+	cuil := elCuil.
+	colMatriculas := OrderedCollection  new .
+	colMatriculas add: unaMatricula
 ]
 
 { #category : 'inicializadores' }

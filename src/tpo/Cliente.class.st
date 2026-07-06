@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : 'constructores' }
-Cliente class >> crearClienteCon: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio telefono: unTelefono email: unEmail tipo: unTipo mascotas: lasMascotas [
+Cliente class >> crearClienteConDni: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio telefono: unTelefono email: unEmail tipo: unTipo mascota: unaMascota [
 
 	| c |
 	c := self new.
@@ -25,7 +25,25 @@ Cliente class >> crearClienteCon: unDni nombre: unNombre apellido: unApellido do
 		inicializarClienteConTelefono: unTelefono
 		email: unEmail
 		tipo: unTipo
-		mascotas: lasMascotas .
+		mascota: unaMascota.
+	^ c
+]
+
+{ #category : 'constructores' }
+Cliente class >> crearClienteConDni: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio telefono: unTelefono email: unEmail tipo: unTipo mascotas: lasMascotas [
+
+	| c |
+	c := self new.
+	c
+		inicializarPersonaConDni: unDni
+		nombre: unNombre
+		apellido: unApellido
+		domicilio: unDomicilio.
+	c
+		inicializarClienteConTelefono: unTelefono
+		email: unEmail
+		tipo: unTipo
+		mascotas: lasMascotas.
 	^ c
 ]
 
@@ -42,6 +60,16 @@ Cliente >> email [
 { #category : 'modificadores' }
 Cliente >> email: unEmail [
 email := unEmail 
+]
+
+{ #category : 'inicializadores' }
+Cliente >> inicializarClienteConTelefono: unTelefono email: unEmail tipo: unTipo mascota: unaMascota [
+
+	telefono := unTelefono.
+	email := unEmail.
+	tipo := unTipo.
+	colMascotas := OrderedCollection new.
+	colMascotas add: unaMascota
 ]
 
 { #category : 'inicializadores' }
