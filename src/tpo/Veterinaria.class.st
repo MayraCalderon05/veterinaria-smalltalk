@@ -39,6 +39,9 @@ colResultado := colFacturasPendientes collect: [:factura | | arreglo |
 											arreglo ].
 
 ^colResultado .
+]
+
+{ #category : 'propios del tipo' }
 Veterinaria >> buscarClienteConMascota: mascota [
 |cliente|
 cliente := colClientes detect: [ :cadaCliente | cadaCliente  tieneMascota: mascota ] ifNone: [ nil ].
