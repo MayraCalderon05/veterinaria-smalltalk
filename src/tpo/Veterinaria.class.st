@@ -89,12 +89,21 @@ Veterinaria >> generarFactura: unDiagnostico [
 
 	| facturaGenerada hoy mascotaDiagnostico elCliente montoAbonar |
 	hoy := Date today.
+	facturaGenerada := nil.
 
 	colFacturas
 		detect: [ :factura |
 		factura buscarFactura: unDiagnostico enDia: hoy ]
-		ifNone: [ mascotaDiagnostico := unDiagnostico mascota ]
-		"pendiente"
+		ifNone: [ mascotaDiagnostico := unDiagnostico mascota .
+					elCliente := self buscarClienteConMascota:mascotaDiagnostico .
+					montoAbonar := unDiagnostico calcularMontoFinal .
+					facturaGenerada := Factura crearFacturaConCliente: elCliente 
+						cuitVeterinaria: cuit 
+						diagnostico: unDiagnostico 
+						montoTotal: montoAbonar 
+						fechaGeneracion: hoy.].
+					
+		^facturaGenerada 
 ]
 
 { #category : 'inicializadores' }
