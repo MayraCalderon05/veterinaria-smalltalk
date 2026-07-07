@@ -46,6 +46,18 @@ Diagnostico >> descripcion: unaDescripcion [
 descripcion := unaDescripcion 
 ]
 
+{ #category : 'propios del tipo' }
+Diagnostico >> equals: otroDiagnostico [
+
+	| rta |
+	rta := false.
+	((fechaDiagnostico = otroDiagnostico fechaDiagnostico)
+	& (descripcion = otroDiagnostico descripcion)
+	& (veterinario equals: otroDiagnostico veterinario)
+	& (mascota equals: otroDiagnostico mascota)) ifTrue: [ rta := true ].
+	^ rta
+]
+
 { #category : 'visualizadores' }
 Diagnostico >> fechaDiagnostico [
 ^fechaDiagnostico 
@@ -64,6 +76,17 @@ Diagnostico >> inicializarDiagnosticoConFecha: unaFecha descripcion: laDescripci
 { #category : 'visualizadores' }
 Diagnostico >> mascota [
 ^mascota 
+]
+
+{ #category : 'propios del tipo' }
+Diagnostico >> registrarNuevoTratamiento: unTratamiento [
+
+	| exito |
+	exito := false.
+	(unTratamiento esValido) ifTrue: [
+		colTratamientos add: unTratamiento.
+		exito := true ].
+	^ exito
 ]
 
 { #category : 'visualizadores' }

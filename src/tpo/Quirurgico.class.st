@@ -18,7 +18,8 @@ Class {
 Quirurgico class >> crearTratQuirurgicoConFecha: unaFecha motivo: unMotivo nombreProcedimiento: unNombre nivelRiesgo: unNivel tipoAnestesia: unTipo [
 
 	| t |
-	self inicializarTablas .
+	self inicializarTablas.
+	self inicializarCostoBase .
 	t := self new.
 	t inicializarTratamientoConFecha: unaFecha motivo: unMotivo.
 	t
@@ -45,6 +46,17 @@ Quirurgico class >> inicializarTablas [
 			at: 2 put: 20 ]
 ]
 
+{ #category : 'propios del tipo' }
+Quirurgico class >> obtenerValorAumentoRiesgoDeNivel: unNivel delMonto: unMonto [
+
+	| valor |
+	valor := 0.
+	tablaDeRiesgo
+		at: unNivel
+		ifPresent: [ :porcentaje | valor := (unMonto * porcentaje)/100 ].
+	^ valor
+]
+
 { #category : 'visualizadores' }
 Quirurgico class >> tablaDeAnestesia [
 
@@ -55,6 +67,16 @@ Quirurgico class >> tablaDeAnestesia [
 Quirurgico class >> tablaDeRiesgo [
 
 	^ tablaDeRiesgo
+]
+
+{ #category : 'propios del tipo' }
+Quirurgico >> esValido [
+
+	| validez |
+	validez := false.
+	((super esValido) & (nivelRiesgo = 2) & (tipoAnestesia = 'General'))
+		ifTrue: [ validez := true ].
+	^ validez
 ]
 
 { #category : 'inicializadores' }

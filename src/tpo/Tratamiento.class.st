@@ -16,7 +16,24 @@ Class {
 { #category : 'visualizadores' }
 Tratamiento class >> costoBase [
 
-	^ costoBase ifNil: [ costoBase := 5000 ]
+	^ costoBase.
+]
+
+{ #category : 'inicializadores' }
+Tratamiento class >> inicializarCostoBase [
+	costoBase ifNil: [ costoBase := 5000 ]
+]
+
+{ #category : 'propios del tipo' }
+Tratamiento >> esValido [
+
+	| dia valido |
+	dia := fechaTratamiento dayOfWeek.
+	valido := true.
+
+	(#(6 7) includes: dia ) ifTrue: [ valido := false ].
+
+	^ valido
 ]
 
 { #category : 'visualizadores' }

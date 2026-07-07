@@ -28,6 +28,17 @@ v
 ]
 
 { #category : 'propios del tipo' }
+Veterinaria >> armarResultado: colFacturasPendientes [
+| colResultado |
+
+colResultado := colFacturasPendientes collect: [:factura | | arreglo |
+									arreglo := Array new: 3.
+									arreglo at: 1 put: factura;
+											at: 2 put: (factura cliente);
+											at: 3 put: (factura obtenerSaldoPendiente).
+											arreglo ].
+
+^colResultado .
 Veterinaria >> buscarClienteConMascota: mascota [
 |cliente|
 cliente := colClientes detect: [ :cadaCliente | cadaCliente  tieneMascota: mascota ] ifNone: [ nil ].
@@ -58,6 +69,31 @@ Veterinaria >> facturas [
 	^ colFacturas 
 ]
 
+{ #category : 'propios del tipo' }
+Veterinaria >> facturasPendientes [
+| colPendientes colFacturasPendientes |
+colFacturasPendientes := OrderedCollection new.
+
+colPendientes := self obtenerFacturasPendientes .
+
+( colPendientes ) ifNotEmpty: [ colFacturasPendientes := self armarResultado: colPendientes ].
+
+^colFacturasPendientes 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> generarFactura: unDiagnostico [
+
+	| facturaGenerada hoy mascotaDiagnostico elCliente montoAbonar |
+	hoy := Date today.
+
+	colFacturas
+		detect: [ :factura |
+		factura buscarFactura: unDiagnostico enDia: hoy ]
+		ifNone: [ mascotaDiagnostico := unDiagnostico mascota ]
+		"pendiente"
+]
+
 { #category : 'inicializadores' }
 Veterinaria >> inicializarVeterinariaConNombre: unNombre cuit: unCuit [
 nombre := unNombre.
@@ -85,6 +121,15 @@ Veterinaria >> nombre [
 { #category : 'modificadores' }
 Veterinaria >> nombre: unNombre [
 nombre := unNombre.
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> obtenerFacturasPendientes [
+
+	| colPendientes |
+	colPendientes := colFacturas reject: [ :factura |
+		                 factura verificarPago ].
+	^ colPendientes
 ]
 
 { #category : 'visualizadores' }

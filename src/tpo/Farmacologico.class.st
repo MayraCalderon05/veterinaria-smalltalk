@@ -14,6 +14,7 @@ Class {
 Farmacologico class >> crearTratFarmacologicoConFecha: unaFecha motivo: unMotivo monodroga: unMedicamento dosis: laDosis frecuencia: laFrecuencia [
 
 	| t |
+	self inicializarCostoBase .
 	t := self new.
 	t inicializarTratamientoConFecha: unaFecha motivo: unMotivo.
 	t
@@ -31,6 +32,16 @@ Farmacologico >> dosis [
 { #category : 'modificadores' }
 Farmacologico >> dosis: laDosis [
 dosis := laDosis 
+]
+
+{ #category : 'propios del tipo' }
+Farmacologico >> esValido [
+
+	| validez |
+	validez := true.
+	(((super esValido) not) & ((monodroga esDeVentaLibre) not)) ifTrue: [
+		validez := false ].
+	^ validez
 ]
 
 { #category : 'visualizadores' }
