@@ -33,6 +33,16 @@ Farmacologico >> dosis: laDosis [
 dosis := laDosis 
 ]
 
+{ #category : 'propios del tipo' }
+Farmacologico >> esValido [
+
+	| validez |
+	validez := true.
+	(((super esValido) not) & ((monodroga esDeVentaLibre) not)) ifTrue: [
+		validez := false ].
+	^ validez
+]
+
 { #category : 'visualizadores' }
 Farmacologico >> frecuencia [
 ^frecuencia 

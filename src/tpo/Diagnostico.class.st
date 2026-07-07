@@ -56,6 +56,17 @@ Diagnostico >> mascota [
 ^mascota 
 ]
 
+{ #category : 'propios del tipo' }
+Diagnostico >> registrarNuevoTratamiento: unTratamiento [
+
+	| exito |
+	exito := false.
+	(unTratamiento esValido) ifTrue: [
+		colTratamientos add: unTratamiento.
+		exito := true ].
+	^ exito
+]
+
 { #category : 'visualizadores' }
 Diagnostico >> tratamientos [
 ^colTratamientos 

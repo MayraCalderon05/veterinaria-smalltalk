@@ -57,6 +57,16 @@ Quirurgico class >> tablaDeRiesgo [
 	^ tablaDeRiesgo
 ]
 
+{ #category : 'propios del tipo' }
+Quirurgico >> esValido [
+
+	| validez |
+	validez := false.
+	((super esValido) & (nivelRiesgo = 2) & (tipoAnestesia = 'General'))
+		ifTrue: [ validez := true ].
+	^ validez
+]
+
 { #category : 'inicializadores' }
 Quirurgico >> inicializarQuirurgicoConNombreProcedimiento: unNombre nivelRiesgo: unNivel tipoAnestesia: elTipoAnestesia [
 nombreProcedimiento := unNombre .
