@@ -12,52 +12,45 @@ Class {
 }
 
 { #category : 'visualizadores' }
-Persona >> apellido [
-
-	^ apellido
+Persona >> apellido [ 
+^apellido 
 ]
 
 { #category : 'modificadores' }
-Persona >> apellido: arg1 [
-
-	apellido := arg1
+Persona >> apellido: unApellido [
+apellido := unApellido 
 ]
 
 { #category : 'visualizadores' }
-Persona >> dni [
-
-	^ dni
+Persona >> dni [ 
+^dni
 ]
 
 { #category : 'visualizadores' }
 Persona >> domicilio [
 
-	^ domicilio
+^domicilio
 ]
 
 { #category : 'modificadores' }
-Persona >> domicilio: arg1 [
-
-	domicilio := arg1
+Persona >> domicilio: unDomicilio [
+domicilio := unDomicilio 
 ]
 
 { #category : 'inicializadores' }
-Persona >> inicializarPersonaConDni: arg1 nombre: arg2 apellido: arg3 domicilio: arg4 [
-
-	dni := arg1.
-	nombre := arg2.
-	apellido := arg3.
-	domicilio := arg4
+Persona >> inicializarPersonaConDni: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio [
+dni := unDni .
+nombre := unNombre .
+apellido := unApellido .
+domicilio := unDomicilio .
 ]
 
 { #category : 'visualizadores' }
 Persona >> nombre [
-
-	^ nombre
+^nombre 
 ]
 
 { #category : 'modificadores' }
-Persona >> nombre: arg1 [
-
-	nombre := arg1
+Persona >> nombre: unNombre [
+nombre := unNombre 
 ]
