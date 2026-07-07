@@ -9,20 +9,17 @@ Class {
 		'fechaNacim',
 		'peso'
 	],
-	#classInstVars : [
-		'ultimoId'
-	],
 	#category : 'tpo',
 	#package : 'tpo'
 }
 
 { #category : 'constructores' }
-Mascota class >> CrearMascotaConId: unIdMascota nombre: unNombre especie: unaEspecie raza: unaRaza fechaNacimiento: unaFechaNacim peso: unPeso [
+Mascota class >> crearMascotaConId: unIdMascota nombre: unNombre especie: unaEspecie raza: unaRaza fechaNacimiento: unaFechaNacim peso: unPeso [
 
 	| m |
 	m := self new.
 	m
-		inicializarMascotaConId: unIdMascota 
+		inicializarMascotaConId: unIdMascota
 		nombre: unNombre
 		especie: unaEspecie
 		raza: unaRaza
@@ -31,18 +28,21 @@ Mascota class >> CrearMascotaConId: unIdMascota nombre: unNombre especie: unaEsp
 	^ m
 ]
 
-{ #category : 'constructores' }
-Mascota class >> CrearMascotaConNombre: unNombre especie: unaEspecie raza: unaRaza fechaNacimiento: unaFechaNacim peso: unPeso [
+{ #category : 'visualizadores' }
+Mascota >> especie [ 
 
-	| m |
-	m := self new.
-	m 
-	inicializarMascotaConNombre: unNombre 
-	especie: unaEspecie 
-	raza: unaRaza 
-	fechaNacimiento: unaFechaNacim 
-	peso: unPeso.
-	^m
+	^ especie 
+]
+
+{ #category : 'visualizadores' }
+Mascota >> fechaNacim [ 
+
+	^fechaNacim 
+]
+
+{ #category : 'visualizadores' }
+Mascota >> idMascota [
+^idMascota 
 ]
 
 { #category : 'inicializadores' }
@@ -54,4 +54,28 @@ raza := unaRaza.
 fechaNacim := unaFechaNacim.
 peso := unPeso.
 
+]
+
+{ #category : 'visualizadores' }
+Mascota >> nombre [ 
+
+	^ nombre 
+]
+
+{ #category : 'visualizadores' }
+Mascota >> peso [ 
+
+	^peso 
+]
+
+{ #category : 'modificadores' }
+Mascota >> peso: unPeso [
+peso := unPeso 
+
+]
+
+{ #category : 'visualizadores' }
+Mascota >> raza [
+
+	^ raza 
 ]

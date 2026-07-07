@@ -13,25 +13,54 @@ Class {
 }
 
 { #category : 'constructores' }
-Matricula class >> CrearMatriculaConNumMatricula: unNumMatricula colegioEmisor: unColegioEmisor fechaInscripcion: unaFechaInscripcion fechaLimite: unaFechaLimite tipo: unTipo [
-|m|
-m := self new.
-m 
-inicializarrMatriculaConNumMatricula: unNumMatricula 
-colegioEmisor: unColegioEmisor 
-fechaInscripcion: unaFechaInscripcion 
-fechaLimite: unaFechaLimite 
-tipo: unTipo.
-^m
+Matricula class >> crearMatriculaConNumero: unNumMatricula colegioEmisor: unColegioEmisor fechaInscripcion: unaFechaInscripcion fechaLimite: unaFechaLimite tipo: unTipo [
 
+	| m |
+	m := self new.
+	m
+		inicializarrMatriculaConNumero: unNumMatricula
+		colegioEmisor: unColegioEmisor
+		fechaInscripcion: unaFechaInscripcion
+		fechaLimite: unaFechaLimite
+		tipo: unTipo.
+	^ m
+]
 
+{ #category : 'visualizadores' }
+Matricula >> colegioEmisor [
+
+	^ colegioEmisor 
+]
+
+{ #category : 'visualizadores' }
+Matricula >> fechaInscripcion [ 
+
+	^ fechaInscripcion 
+]
+
+{ #category : 'visualizadores' }
+Matricula >> fechaLimite [ 
+
+	^ fechaLimite 
 ]
 
 { #category : 'inicializadores' }
-Matricula >> inicializarrMatriculaConNumMatricula: unNumMatricula colegioEmisor: unColegioEmisor fechaInscripcion: unaFechaInscripcion fechaLimite: unaFechaLimite tipo: unTipo [
-numMatricula := unNumMatricula.
-colegioEmisor := unColegioEmisor.
-fechaInscripcion := unaFechaInscripcion.
-fechaLimite := unaFechaLimite.
-tipo := unTipo.
+Matricula >> inicializarrMatriculaConNumero: unNumMatricula colegioEmisor: unColegioEmisor fechaInscripcion: unaFechaInscripcion fechaLimite: unaFechaLimite tipo: unTipo [
+
+	numMatricula := unNumMatricula.
+	colegioEmisor := unColegioEmisor.
+	fechaInscripcion := unaFechaInscripcion.
+	fechaLimite := unaFechaLimite.
+	tipo := unTipo
+]
+
+{ #category : 'visualizadores' }
+Matricula >> numMatricula [
+^numMatricula 
+]
+
+{ #category : 'visualizadores' }
+Matricula >> tipo [
+
+	^ tipo 
 ]
