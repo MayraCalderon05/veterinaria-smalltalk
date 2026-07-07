@@ -59,3 +59,15 @@ Farmacologico >> monodroga [
 Farmacologico >> monodroga: unMedicamento [
 monodroga := unMedicamento 
 ]
+
+{ #category : 'propios del tipo' }
+Farmacologico >> obtenerMonto [ 
+|monto|
+
+monto := (super obtenerMonto) + ((monodroga precioBase) * dosis).
+
+(monto > 40000) ifTrue: [ monto := monto - ((monto * 10)/10) ].
+
+^monto 
+
+]
