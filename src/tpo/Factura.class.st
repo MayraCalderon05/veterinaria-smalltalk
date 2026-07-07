@@ -98,6 +98,18 @@ montoRegistrado := colPagos inject: 0 into: [ :acum :unPago | acum + unPago mont
 ]
 
 { #category : 'propios del tipo' }
+Factura >> obtenerSaldoPendiente [
+
+	| saldoPendiente montoRegistrado |
+	saldoPendiente := 0.
+	montoRegistrado := self obtenerMontoAbonado.
+	(montoRegistrado < montoTotal) ifTrue: [
+		saldoPendiente := (montoTotal - montoRegistrado) ].
+	
+^saldoPendiente 
+]
+
+{ #category : 'propios del tipo' }
 Factura >> registrarPago: unPago [
 
 	| exito montoAbonado |

@@ -27,6 +27,20 @@ v
 ^v
 ]
 
+{ #category : 'propios del tipo' }
+Veterinaria >> armarResultado: colFacturasPendientes [
+| colResultado |
+
+colResultado := colFacturasPendientes collect: [:factura | | arreglo |
+									arreglo := Array new: 3.
+									arreglo at: 1 put: factura;
+											at: 2 put: (factura cliente);
+											at: 3 put: (factura obtenerSaldoPendiente).
+											arreglo ].
+
+^colResultado .
+]
+
 { #category : 'visualizadores' }
 Veterinaria >> clientes [
 
@@ -48,6 +62,18 @@ Veterinaria >> diagnosticos [
 Veterinaria >> facturas [
 
 	^ colFacturas 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> facturasPendientes [
+| colPendientes colFacturasPendientes |
+colFacturasPendientes := OrderedCollection new.
+
+colPendientes := self obtenerFacturasPendientes .
+
+( colPendientes ) ifNotEmpty: [ colFacturasPendientes := self armarResultado: colPendientes ].
+
+^colFacturasPendientes 
 ]
 
 { #category : 'propios del tipo' }
@@ -90,6 +116,15 @@ Veterinaria >> nombre [
 { #category : 'modificadores' }
 Veterinaria >> nombre: unNombre [
 nombre := unNombre.
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> obtenerFacturasPendientes [
+
+	| colPendientes |
+	colPendientes := colFacturas reject: [ :factura |
+		                 factura verificarPago ].
+	^ colPendientes
 ]
 
 { #category : 'visualizadores' }
