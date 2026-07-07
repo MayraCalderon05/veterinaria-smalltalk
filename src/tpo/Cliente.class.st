@@ -62,6 +62,11 @@ Cliente >> email: unEmail [
 email := unEmail 
 ]
 
+{ #category : 'visualizadores' }
+Cliente >> email [
+^email 
+]
+
 { #category : 'inicializadores' }
 Cliente >> inicializarClienteConTelefono: unTelefono email: unEmail tipo: unTipo mascota: unaMascota [
 
