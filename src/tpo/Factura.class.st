@@ -102,11 +102,13 @@ Factura >> obtenerSaldoPendiente [
 
 	| saldoPendiente montoRegistrado |
 	saldoPendiente := 0.
-	montoRegistrado := self obtenerMontoAbonado.
-	(montoRegistrado < montoTotal) ifTrue: [
-		saldoPendiente := (montoTotal - montoRegistrado) ].
 	
-^saldoPendiente 
+	montoRegistrado := self obtenerMontoAbonado.
+	
+	(montoRegistrado < montoTotal) ifTrue: [
+		saldoPendiente := montoTotal - montoRegistrado ].
+
+	^ saldoPendiente
 ]
 
 { #category : 'propios del tipo' }
@@ -115,7 +117,8 @@ Factura >> registrarPago: unPago [
 	| exito montoAbonado |
 	exito := false.
 	montoAbonado := unPago montoAbonado.
-	self verificarPago ifFalse: [
+	
+	(self verificarPago) ifFalse: [
 		(montoAbonado > 0 & (montoAbonado <= montoTotal)) ifTrue: [
 			colPagos add: unPago.
 			exito := true ] ].
@@ -125,8 +128,9 @@ Factura >> registrarPago: unPago [
 
 { #category : 'propios del tipo' }
 Factura >> verificarPago [
-| pagada |
-pagada := false .
-(( self obtenerMontoAbonado ) >= montoTotal ) ifTrue: [ pagada := true ].
-^pagada 
+
+	| pagada |
+	pagada := false.
+	(self obtenerMontoAbonado >= montoTotal) ifTrue: [ pagada := true ].
+	^ pagada
 ]

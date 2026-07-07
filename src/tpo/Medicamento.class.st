@@ -24,6 +24,11 @@ ventaLibre: unaVentaLibre.
 ]
 
 { #category : 'propios del tipo' }
+Medicamento >> equals: otroMedicamento [
+^nombre = otroMedicamento nombre .
+]
+
+{ #category : 'propios del tipo' }
 Medicamento >> esDeVentaLibre [
 
 	| libreVenta |
