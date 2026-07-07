@@ -47,11 +47,6 @@ Vacuna >> laboratorio [
 ^laboratorio 
 ]
 
-{ #category : 'modificadores' }
-Vacuna >> laboratorio: elLab [
-laboratorio := elLab .
-]
-
 { #category : 'visualizadores' }
 Vacuna >> mesesDeVigencia [
 ^cantMesesVigencia 
@@ -60,9 +55,4 @@ Vacuna >> mesesDeVigencia [
 { #category : 'visualizadores' }
 Vacuna >> nombreVacuna [
 ^nombre 
-]
-
-{ #category : 'modificadores' }
-Vacuna >> nombreVacuna: unNombre [
-nombre := unNombre .
 ]

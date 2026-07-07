@@ -6,8 +6,7 @@ Class {
 		'descripcion',
 		'veterinario',
 		'mascota',
-		'colTratamientos',
-		'colVacunaciones'
+		'colTratamientos'
 	],
 	#category : 'tpo',
 	#package : 'tpo'
@@ -25,11 +24,6 @@ d inicializarDiagnosticoConFecha: unaFecha descripcion: unaDescripcion veterinar
 { #category : 'propios del tipo' }
 Diagnostico >> agregarTratamiento: unTratamiento [
 colTratamientos add: unTratamiento 
-]
-
-{ #category : 'propios del tipo' }
-Diagnostico >> agregarVacunacion: unaVacunacion [
-colVacunaciones add: unaVacunacion 
 ]
 
 { #category : 'visualizadores' }
@@ -55,17 +49,11 @@ Diagnostico >> inicializarDiagnosticoConFecha: unaFecha descripcion: laDescripci
 	veterinario := unMedico.
 	mascota := unaMascota.
 	colTratamientos := OrderedCollection new.
-	colVacunaciones := OrderedCollection new
 ]
 
 { #category : 'visualizadores' }
 Diagnostico >> mascota [
 ^mascota 
-]
-
-{ #category : 'modificadores' }
-Diagnostico >> mascota: unaMascota [
-mascota := unaMascota 
 ]
 
 { #category : 'visualizadores' }
@@ -74,16 +62,6 @@ Diagnostico >> tratamientos [
 ]
 
 { #category : 'visualizadores' }
-Diagnostico >> vacunaciones [
-^colVacunaciones 
-]
-
-{ #category : 'visualizadores' }
 Diagnostico >> veterinario [
 ^veterinario 
-]
-
-{ #category : 'modificadores' }
-Diagnostico >> veterinario: unMedico [
-veterinario := unMedico 
 ]

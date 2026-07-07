@@ -32,10 +32,9 @@ Persona >> domicilio [
 ^domicilio
 ]
 
-{ #category : 'visualizadores' }
+{ #category : 'modificadores' }
 Persona >> domicilio: unDomicilio [
-
-domicilio := unDomicilio .
+domicilio := unDomicilio 
 ]
 
 { #category : 'inicializadores' }

@@ -13,7 +13,7 @@ Class {
 	#package : 'tpo'
 }
 
-{ #category : 'propios del tipo' }
+{ #category : 'visualizadores' }
 Tratamiento class >> costoBase [
 
 	^ costoBase ifNil: [ costoBase := 5000 ]
