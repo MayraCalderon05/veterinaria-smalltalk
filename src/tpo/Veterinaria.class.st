@@ -27,6 +27,14 @@ v
 ^v
 ]
 
+{ #category : 'propios del tipo' }
+Veterinaria >> buscarClienteConMascota: mascota [
+|cliente|
+cliente := colClientes detect: [ :cadaCliente | cadaCliente  tieneMascota: mascota ] ifNone: [ nil ].
+^cliente 
+
+]
+
 { #category : 'visualizadores' }
 Veterinaria >> clientes [
 

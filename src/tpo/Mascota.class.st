@@ -28,6 +28,17 @@ Mascota class >> crearMascotaConId: unIdMascota nombre: unNombre especie: unaEsp
 	^ m
 ]
 
+{ #category : 'propios del tipo' }
+Mascota >> equals: mascota [
+|esIgual elIdMascota|
+
+esIgual := false.
+
+elIdMascota := mascota idMascota.
+(idMascota = elIdMascota) ifTrue: [ esIgual:= true ].
+^esIgual 
+]
+
 { #category : 'visualizadores' }
 Mascota >> especie [ 
 
