@@ -36,6 +36,18 @@ Diagnostico >> descripcion: unaDescripcion [
 descripcion := unaDescripcion 
 ]
 
+{ #category : 'propios del tipo' }
+Diagnostico >> equals: otroDiagnostico [
+
+	| rta |
+	rta := false.
+	((fechaDiagnostico = otroDiagnostico fechaDiagnostico)
+	& (descripcion = otroDiagnostico descripcion)
+	& (veterinario equals: otroDiagnostico veterinario)
+	& (mascota equals: otroDiagnostico mascota)) ifTrue: [ rta := true ].
+	^ rta
+]
+
 { #category : 'visualizadores' }
 Diagnostico >> fechaDiagnostico [
 ^fechaDiagnostico 

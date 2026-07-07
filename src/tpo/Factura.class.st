@@ -27,6 +27,17 @@ Factura class >> crearFacturaConCliente: unCliente cuitVeterinaria: unCuitVeteri
 	^ f
 ]
 
+{ #category : 'propios del tipo' }
+Factura >> buscarFactura: unDiagnostico enDia: dia [
+
+	| encontrada |
+	encontrada := false.
+	(diagnostico equals: unDiagnostico & (fechaGeneracion = dia))
+		ifTrue: [ encontrada := true ] .
+		
+	^encontrada 
+]
+
 { #category : 'visualizadores' }
 Factura >> cliente [
 ^cliente 
@@ -76,4 +87,34 @@ Factura >> inicializarFacturaConCliente: unCliente cuitVeterinaria: unCuitVeteri
 Factura >> montoTotal [ 
 
 	^ montoTotal 
+]
+
+{ #category : 'propios del tipo' }
+Factura >> obtenerMontoAbonado [
+| montoRegistrado |
+
+montoRegistrado := colPagos inject: 0 into: [ :acum :unPago | acum + unPago montoAbonado ].
+^montoRegistrado 
+]
+
+{ #category : 'propios del tipo' }
+Factura >> registrarPago: unPago [
+
+	| exito montoAbonado |
+	exito := false.
+	montoAbonado := unPago montoAbonado.
+	self verificarPago ifFalse: [
+		(montoAbonado > 0 & (montoAbonado <= montoTotal)) ifTrue: [
+			colPagos add: unPago.
+			exito := true ] ].
+
+	^ exito
+]
+
+{ #category : 'propios del tipo' }
+Factura >> verificarPago [
+| pagada |
+pagada := false .
+(( self obtenerMontoAbonado ) >= montoTotal ) ifTrue: [ pagada := true ].
+^pagada 
 ]

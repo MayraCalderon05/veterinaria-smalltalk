@@ -16,7 +16,12 @@ Class {
 { #category : 'visualizadores' }
 Tratamiento class >> costoBase [
 
-	^ costoBase ifNil: [ costoBase := 5000 ]
+	^ costoBase.
+]
+
+{ #category : 'inicializadores' }
+Tratamiento class >> inicializarCostoBase [
+	costoBase ifNil: [ costoBase := 5000 ]
 ]
 
 { #category : 'propios del tipo' }

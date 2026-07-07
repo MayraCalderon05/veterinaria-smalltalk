@@ -50,6 +50,19 @@ Veterinaria >> facturas [
 	^ colFacturas 
 ]
 
+{ #category : 'propios del tipo' }
+Veterinaria >> generarFactura: unDiagnostico [
+
+	| facturaGenerada hoy mascotaDiagnostico elCliente montoAbonar |
+	hoy := Date today.
+
+	colFacturas
+		detect: [ :factura |
+		factura buscarFactura: unDiagnostico enDia: hoy ]
+		ifNone: [ mascotaDiagnostico := unDiagnostico mascota ]
+		"pendiente"
+]
+
 { #category : 'inicializadores' }
 Veterinaria >> inicializarVeterinariaConNombre: unNombre cuit: unCuit [
 nombre := unNombre.

@@ -14,6 +14,7 @@ Class {
 Farmacologico class >> crearTratFarmacologicoConFecha: unaFecha motivo: unMotivo monodroga: unMedicamento dosis: laDosis frecuencia: laFrecuencia [
 
 	| t |
+	self inicializarCostoBase .
 	t := self new.
 	t inicializarTratamientoConFecha: unaFecha motivo: unMotivo.
 	t
