@@ -17,13 +17,26 @@ Class {
 Pago class >> crearPagoConFecha: unaFechaPago montoAbonado: unMontoAbonado medioPago: unMedioPago [
 
 	| p |
+	self inicializarTablaPago.
 	p := self new.
+	
 	p
 		inicializarPagoConFecha: unaFechaPago
 		montoAbonado: unMontoAbonado
 		medioPago: unMedioPago.
 
 	^ p
+]
+
+{ #category : 'inicializadores' }
+Pago class >> inicializarTablaPago [
+tablaMedioPago ifNil: [ tablaMedioPago := Dictionary new. tablaMedioPago at: 'Credito' put: 10; at: 'Billetera virtual' put: 5 ]
+
+]
+
+{ #category : 'visualizadores' }
+Pago class >> tablaMedioPago [
+^tablaMedioPago 
 ]
 
 { #category : 'visualizadores' }
