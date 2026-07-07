@@ -39,6 +39,11 @@ colResultado := colFacturasPendientes collect: [:factura | | arreglo |
 											arreglo ].
 
 ^colResultado .
+Veterinaria >> buscarClienteConMascota: mascota [
+|cliente|
+cliente := colClientes detect: [ :cadaCliente | cadaCliente  tieneMascota: mascota ] ifNone: [ nil ].
+^cliente 
+
 ]
 
 { #category : 'visualizadores' }

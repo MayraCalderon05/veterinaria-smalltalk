@@ -26,6 +26,16 @@ Diagnostico >> agregarTratamiento: unTratamiento [
 colTratamientos add: unTratamiento 
 ]
 
+{ #category : 'propios del tipo' }
+Diagnostico >> calcularMontoFinal [
+
+|montoFinal|
+
+montoFinal := colTratamientos inject: 0 into: [ :monto :cadaTratamiento | monto + (cadaTratamiento obtenerMonto) ].
+
+^montoFinal 
+]
+
 { #category : 'visualizadores' }
 Diagnostico >> descripcion [
 ^descripcion 

@@ -106,6 +106,17 @@ Quirurgico >> nombreProcedimiento: elNombre [
 nombreProcedimiento := elNombre 
 ]
 
+{ #category : 'propios del tipo' }
+Quirurgico >> obtenerMonto [
+
+	| monto valor costo |
+	monto := super obtenerMonto.
+	valor:= (Quirurgico obtenerValorAumentoRiesgoConNivel: nivelRiesgo monto: monto).
+	costo:= (Quirurgico obtenerMontoAnestesiaConTipoAnestesia: tipoAnestesia ).
+
+	^ monto + valor + costo 
+]
+
 { #category : 'visualizadores' }
 Quirurgico >> tipoAnestesia [
 ^tipoAnestesia 

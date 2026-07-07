@@ -73,3 +73,12 @@ Tratamiento >> motivo [
 Tratamiento >> motivo: unMotivo [
 motivo := unMotivo 
 ]
+
+{ #category : 'propios del tipo' }
+Tratamiento >> obtenerMonto [
+
+	| monto |
+	monto := self class costoBase.
+
+	^ monto
+]
