@@ -2,6 +2,9 @@ Class {
 	#name : 'Vacunacion',
 	#superclass : 'Object',
 	#instVars : [
+		'fechaVacunacion',
+		'veterinario',
+		'mascota',
 		'vacuna'
 	],
 	#category : 'tpo',
@@ -9,19 +12,40 @@ Class {
 }
 
 { #category : 'constructores' }
-Vacunacion class >> crearVacunacionConVacuna: unaVacuna [
-| v |
-v := self new.
-v inicializarVacunacionConUnaVacuna: unaVacuna .
-^v 
+Vacunacion class >> crearVacunacionConFecha: unaFecha veterinario: unMedico mascota: unaMascota vacuna: unaVacuna [
+
+	| v |
+	v := self new.
+	v inicializarVacunacionConFecha: unaFecha veterinario: unMedico mascota: unaMascota unaVacuna: unaVacuna .
+	^ v
+]
+
+{ #category : 'visualizadores' }
+Vacunacion >> fechaVacunacion [
+^fechaVacunacion 
 ]
 
 { #category : 'inicializadores' }
-Vacunacion >> inicializarVacunacionConUnaVacuna: unaVacuna [
-vacuna := unaVacuna .
+Vacunacion >> inicializarVacunacionConFecha: unaFecha veterinario: unMedico mascota: unaMascota unaVacuna: unaVacuna [
+
+fechaVacunacion := unaFecha .
+veterinario := unMedico .
+mascota := unaMascota .
+	vacuna := unaVacuna
+]
+
+{ #category : 'visualizadores' }
+Vacunacion >> mascota [
+
+	^ mascota
 ]
 
 { #category : 'visualizadores' }
 Vacunacion >> vacuna [
 ^vacuna 
+]
+
+{ #category : 'visualizadores' }
+Vacunacion >> veterinario [ 
+^veterinario 
 ]

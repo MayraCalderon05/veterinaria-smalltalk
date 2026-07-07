@@ -16,33 +16,45 @@ Class {
 
 { #category : 'constructores' }
 Quirurgico class >> crearTratQuirurgicoConFecha: unaFecha motivo: unMotivo nombreProcedimiento: unNombre nivelRiesgo: unNivel tipoAnestesia: unTipo [
-| t |
-t := self new.
-t inicializarTratamientoConFecha: unaFecha motivo: unMotivo .
-t inicializarQuirurgicoConNombreProcedimiento: unNombre nivelRiesgo: unNivel tipoAnestesia: unTipo .
-^t
+
+	| t |
+	self inicializarTablas .
+	t := self new.
+	t inicializarTratamientoConFecha: unaFecha motivo: unMotivo.
+	t
+		inicializarQuirurgicoConNombreProcedimiento: unNombre
+		nivelRiesgo: unNivel
+		tipoAnestesia: unTipo.
+	^ t
 ]
 
-{ #category : 'propios del tipo' }
-Quirurgico class >> tablaAnestesia [
-	
-	tablaDeAnestesia ifNil: [ 
+{ #category : 'inicializadores' }
+Quirurgico class >> inicializarTablas [
+
+	tablaDeAnestesia ifNil: [
 		tablaDeAnestesia := Dictionary new.
-		tablaDeAnestesia at: 'Local' put: 30000; 
+		tablaDeAnestesia
+			at: 'Local' put: 30000;
 			at: 'Regional' put: 60000;
-			at: 'General' put: 100000. ].
-		^tablaDeAnestesia 
+			at: 'General' put: 100000 ].
+		
+	tablaDeRiesgo ifNil: [
+		tablaDeRiesgo := Dictionary new.
+		tablaDeRiesgo
+			at: 1 put: 10;
+			at: 2 put: 20 ]
 ]
 
-{ #category : 'propios del tipo' }
+{ #category : 'visualizadores' }
+Quirurgico class >> tablaDeAnestesia [
+
+	^ tablaDeAnestesia
+]
+
+{ #category : 'visualizadores' }
 Quirurgico class >> tablaDeRiesgo [
 
-tablaDeRiesgo ifNil: [ 
-	tablaDeRiesgo := Dictionary new.
-	tablaDeRiesgo 
-		at: 1 put: 10;
-		at: 2 put: 20.].
-	^tablaDeRiesgo 
+	^ tablaDeRiesgo
 ]
 
 { #category : 'inicializadores' }
