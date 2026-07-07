@@ -47,6 +47,17 @@ Quirurgico class >> inicializarTablas [
 ]
 
 { #category : 'propios del tipo' }
+Quirurgico class >> obtenerMontoAnestesiaDelTipoAnestesia: tipoAnestesia [
+	|costo|
+	
+costo := 0.
+
+tablaDeAnestesia at: tipoAnestesia ifPresent: [ :valor | costo := valor ].
+
+^costo 
+]
+
+{ #category : 'propios del tipo' }
 Quirurgico class >> obtenerValorAumentoRiesgoDeNivel: unNivel delMonto: unMonto [
 
 	| valor |
@@ -111,10 +122,12 @@ Quirurgico >> obtenerMonto [
 
 	| monto valor costo |
 	monto := super obtenerMonto.
-	valor:= (Quirurgico obtenerValorAumentoRiesgoConNivel: nivelRiesgo monto: monto).
-	costo:= (Quirurgico obtenerMontoAnestesiaConTipoAnestesia: tipoAnestesia ).
+	valor := self class
+		         obtenerValorAumentoRiesgoDeNivel: nivelRiesgo delMonto: monto.
+	costo := self class obtenerMontoAnestesiaDelTipoAnestesia:
+		         tipoAnestesia.
 
-	^ monto + valor + costo 
+	^ monto + valor + costo
 ]
 
 { #category : 'visualizadores' }
