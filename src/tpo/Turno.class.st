@@ -20,6 +20,17 @@ Turno >> cliente [
 	^ cliente 
 ]
 
+{ #category : 'propios del tipo' }
+Turno >> esElMismoDuenio: unCliente [
+
+	^ cliente equals: unCliente
+]
+
+{ #category : 'propios del tipo' }
+Turno >> esTurnoTratamiento [
+^false
+]
+
 { #category : 'visualizadores' }
 Turno >> estado [ 
 
@@ -82,6 +93,25 @@ Turno >> motivo [
 Turno >> motivo: unMotivo [
 
 	motivo := unMotivo 
+]
+
+{ #category : 'propios del tipo' }
+Turno >> validarDisponibilidad: unTurno [
+
+	| rta laFechaTurno laHoraTurno elVeterinario elEstado |
+	rta := true.
+
+	laFechaTurno := unTurno fechaTurno.
+	laHoraTurno := unTurno horaTurno.
+	elVeterinario := unTurno veterinario.
+	elEstado := unTurno estado.
+
+	(((self fechaTurno = laFechaTurno) 
+    and: [self horaTurno = laHoraTurno
+        and: [self veterinario = elVeterinario
+            and: [elEstado = 'confirmado']]]))
+                ifTrue: [rta := false].
+	^ rta
 ]
 
 { #category : 'visualizadores' }

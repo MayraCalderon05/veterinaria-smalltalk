@@ -28,6 +28,11 @@ Mascota class >> crearMascotaConId: unIdMascota nombre: unNombre especie: unaEsp
 	^ m
 ]
 
+{ #category : 'propios del tipo' }
+Mascota >> equals: otraMascota [
+^idMascota = otraMascota idMascota .
+]
+
 { #category : 'visualizadores' }
 Mascota >> especie [ 
 

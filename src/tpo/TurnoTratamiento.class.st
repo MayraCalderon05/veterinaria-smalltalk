@@ -24,6 +24,21 @@ TurnoTratamiento class >> crearTurnoTratamientoConFecha: unaFechaTurno hora: una
 	^ tt
 ]
 
+{ #category : 'propios del tipo' }
+TurnoTratamiento >> esTurnoTratamiento [ 
+^true
+]
+
+{ #category : 'propios del tipo' }
+TurnoTratamiento >> estaPendienteTratamiento [
+
+|rta elEstado|
+rta := false.
+elEstado := self estado.
+(elEstado = 'pendiente') ifTrue: [ rta := true ].
+^rta 
+]
+
 { #category : 'inicializadores' }
 TurnoTratamiento >> inicializarTurnoTratamiento: unTratamiento [
 tratamiento := unTratamiento.

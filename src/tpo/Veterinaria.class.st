@@ -27,6 +27,55 @@ v
 ^v
 ]
 
+{ #category : 'propios del tipo' }
+Veterinaria >> agendarTurno: unTurno [
+
+	| rta mascota cliente nuevoEstado |
+	rta := colTurnos
+		       detect: [ :cadaTurno |
+		       (cadaTurno validarDisponibilidad: unTurno) not ]
+		       ifNone: [ nil ].
+
+	rta ifNil: [
+			mascota := unTurno mascota.
+			cliente := self buscarClienteConMascota: mascota.
+			rta := unTurno esElMismoDuenio: cliente.
+			rta ifTrue: [
+				unTurno esTurnoTratamiento ifTrue: [
+					rta := unTurno estaPendienteTratamiento.
+					rta ifTrue: [ rta := unTurno esValido ] ] ] ]
+		ifNotNil: [ rta := false ].
+
+	rta ifTrue: [
+		nuevoEstado := 'confirmado'.
+		unTurno estado: nuevoEstado.
+		colTurnos add: unTurno ].
+
+	^ rta
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> armarResultado: colFacturasPendientes [
+| colResultado |
+
+colResultado := colFacturasPendientes collect: [:factura | | arreglo |
+									arreglo := Array new: 3.
+									arreglo at: 1 put: factura;
+											at: 2 put: (factura cliente);
+											at: 3 put: (factura obtenerSaldoPendiente).
+											arreglo ].
+
+^colResultado .
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> buscarClienteConMascota: mascota [
+|cliente|
+cliente := colClientes detect: [ :cadaCliente | cadaCliente  tieneMascota: mascota ] ifNone: [ nil ].
+^cliente 
+
+]
+
 { #category : 'visualizadores' }
 Veterinaria >> clientes [
 
@@ -48,6 +97,31 @@ Veterinaria >> diagnosticos [
 Veterinaria >> facturas [
 
 	^ colFacturas 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> facturasPendientes [
+| colPendientes colFacturasPendientes |
+colFacturasPendientes := OrderedCollection new.
+
+colPendientes := self obtenerFacturasPendientes .
+
+( colPendientes ) ifNotEmpty: [ colFacturasPendientes := self armarResultado: colPendientes ].
+
+^colFacturasPendientes 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> generarFactura: unDiagnostico [
+
+	| facturaGenerada hoy mascotaDiagnostico elCliente montoAbonar |
+	hoy := Date today.
+
+	colFacturas
+		detect: [ :factura |
+		factura buscarFactura: unDiagnostico enDia: hoy ]
+		ifNone: [ mascotaDiagnostico := unDiagnostico mascota ]
+		"pendiente"
 ]
 
 { #category : 'inicializadores' }
@@ -77,6 +151,15 @@ Veterinaria >> nombre [
 { #category : 'modificadores' }
 Veterinaria >> nombre: unNombre [
 nombre := unNombre.
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> obtenerFacturasPendientes [
+
+	| colPendientes |
+	colPendientes := colFacturas reject: [ :factura |
+		                 factura verificarPago ].
+	^ colPendientes
 ]
 
 { #category : 'visualizadores' }

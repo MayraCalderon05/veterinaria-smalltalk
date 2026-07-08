@@ -96,6 +96,16 @@ Cliente >> telefono: unTelefono [
 telefono := unTelefono 
 ]
 
+{ #category : 'propios del tipo' }
+Cliente >> tieneMascota: mascota [
+|rta esIgual|
+
+esIgual := colMascotas detect: [ :cadaMascota | cadaMascota equals: mascota ] ifNone: [ nil ].
+
+(esIgual )ifNotNil: [ rta := true ] ifNil: [ rta:= false ].
+^rta 
+]
+
 { #category : 'visualizadores' }
 Cliente >> tipo [
 ^tipo 

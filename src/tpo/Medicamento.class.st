@@ -23,6 +23,15 @@ ventaLibre: unaVentaLibre.
 
 ]
 
+{ #category : 'propios del tipo' }
+Medicamento >> esDeVentaLibre [
+
+	| libreVenta |
+	libreVenta := false.
+	(#('si' 'Si' 'SI' ) includes: ventaLibre) ifTrue: [ libreVenta := true ].
+	^ libreVenta
+]
+
 { #category : 'inicializadores' }
 Medicamento >> inicializarMedicamentoConNombre: unNombre precioBase: unPrecioBase ventaLibre: unaVentaLibre [
 nombre := unNombre.

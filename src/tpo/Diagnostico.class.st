@@ -26,6 +26,16 @@ Diagnostico >> agregarTratamiento: unTratamiento [
 colTratamientos add: unTratamiento 
 ]
 
+{ #category : 'propios del tipo' }
+Diagnostico >> calcularMontoFinal [
+
+|montoFinal|
+
+montoFinal := colTratamientos inject: 0 into: [ :monto :cadaTratamiento | monto + (cadaTratamiento obtenerMonto) ].
+
+^montoFinal 
+]
+
 { #category : 'visualizadores' }
 Diagnostico >> descripcion [
 ^descripcion 
@@ -34,6 +44,18 @@ Diagnostico >> descripcion [
 { #category : 'modificadores' }
 Diagnostico >> descripcion: unaDescripcion [
 descripcion := unaDescripcion 
+]
+
+{ #category : 'propios del tipo' }
+Diagnostico >> equals: otroDiagnostico [
+
+	| rta |
+	rta := false.
+	((fechaDiagnostico = otroDiagnostico fechaDiagnostico)
+	& (descripcion = otroDiagnostico descripcion)
+	& (veterinario equals: otroDiagnostico veterinario)
+	& (mascota equals: otroDiagnostico mascota)) ifTrue: [ rta := true ].
+	^ rta
 ]
 
 { #category : 'visualizadores' }
@@ -54,6 +76,17 @@ Diagnostico >> inicializarDiagnosticoConFecha: unaFecha descripcion: laDescripci
 { #category : 'visualizadores' }
 Diagnostico >> mascota [
 ^mascota 
+]
+
+{ #category : 'propios del tipo' }
+Diagnostico >> registrarNuevoTratamiento: unTratamiento [
+
+	| exito |
+	exito := false.
+	(unTratamiento esValido) ifTrue: [
+		colTratamientos add: unTratamiento.
+		exito := true ].
+	^ exito
 ]
 
 { #category : 'visualizadores' }
