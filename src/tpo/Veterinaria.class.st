@@ -28,6 +28,42 @@ v
 ]
 
 { #category : 'propios del tipo' }
+Veterinaria >> agregarCliente: unCliente [
+colClientes add: unCliente 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> agregarDiagnostico: unDiagnostico [
+colDiagnosticos add: unDiagnostico 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> agregarFactura: unaFactura [
+colFacturas add: unaFactura 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> agregarMedico: unMedico [
+colMedicos add: unMedico 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> agregarNuevoStock: unStock [
+
+	colStockMedicamentos add: unStock
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> agregarTurno: unTurno [
+colTurnos add: unTurno 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> agregarVacunacion: unaVacunacion [
+colVacunaciones add: unaVacunacion 
+]
+
+{ #category : 'propios del tipo' }
 Veterinaria >> agendarTurno: unTurno [
 
 	| rta mascota cliente nuevoEstado |
@@ -116,12 +152,19 @@ Veterinaria >> generarFactura: unDiagnostico [
 
 	| facturaGenerada hoy mascotaDiagnostico elCliente montoAbonar |
 	hoy := Date today.
-
-	colFacturas
+	facturaGenerada := colFacturas
 		detect: [ :factura |
 		factura buscarFactura: unDiagnostico enDia: hoy ]
-		ifNone: [ mascotaDiagnostico := unDiagnostico mascota ]
-		"pendiente"
+		ifNone: [ mascotaDiagnostico := unDiagnostico mascota .
+					elCliente := self buscarClienteConMascota:mascotaDiagnostico .
+					montoAbonar := unDiagnostico calcularMontoFinal .
+					facturaGenerada := Factura crearFacturaConCliente: elCliente 
+						cuitVeterinaria: cuit 
+						diagnostico: unDiagnostico 
+						montoTotal: montoAbonar 
+						fechaGeneracion: hoy.].
+					
+		^facturaGenerada 
 ]
 
 { #category : 'inicializadores' }
@@ -160,6 +203,19 @@ Veterinaria >> obtenerFacturasPendientes [
 	colPendientes := colFacturas reject: [ :factura |
 		                 factura verificarPago ].
 	^ colPendientes
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> realizarFacturacion: unDiagnostico [
+| exito unaFactura|
+
+exito := false .
+unaFactura := self generarFactura: unDiagnostico.
+
+unaFactura ifNotNil: [ self agregarFactura: unaFactura.
+								exito := true ].
+							
+^exito 
 ]
 
 { #category : 'visualizadores' }

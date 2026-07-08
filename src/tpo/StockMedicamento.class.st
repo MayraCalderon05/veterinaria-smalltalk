@@ -19,6 +19,11 @@ medicamento: unMedicamento.
 ^sm
 ]
 
+{ #category : 'propios del tipo' }
+StockMedicamento >> aumentarCantidad: unaCantidad [
+cantidad := cantidad + unaCantidad 
+]
+
 { #category : 'visualizadores' }
 StockMedicamento >> cantidad [
 ^cantidad 
@@ -27,6 +32,11 @@ StockMedicamento >> cantidad [
 { #category : 'modificadores' }
 StockMedicamento >> cantidad: unaCantidad [
 cantidad := unaCantidad 
+]
+
+{ #category : 'propios del tipo' }
+StockMedicamento >> encontrarMedicamento: unMedicamento [
+^medicamento equals: unMedicamento .
 ]
 
 { #category : 'inicializadores' }
