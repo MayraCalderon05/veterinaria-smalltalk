@@ -37,6 +37,12 @@ Persona >> domicilio: unDomicilio [
 domicilio := unDomicilio 
 ]
 
+{ #category : 'propios del tipo' }
+Persona >> equals: otraPersona [
+
+	^ dni = otraPersona dni
+]
+
 { #category : 'inicializadores' }
 Persona >> inicializarPersonaConDni: unDni nombre: unNombre apellido: unApellido domicilio: unDomicilio [
 dni := unDni .
