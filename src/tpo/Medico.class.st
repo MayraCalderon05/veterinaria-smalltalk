@@ -50,11 +50,6 @@ Medico >> cuil [
 ^cuil 
 ]
 
-{ #category : 'propios del tipo' }
-Medico >> equals: otroVeterinario [
-^ cuil = otroVeterinario cuil .
-]
-
 { #category : 'visualizadores' }
 Medico >> fechaNacimiento [
 ^fechaNacimiento 

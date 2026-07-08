@@ -28,6 +28,33 @@ v
 ]
 
 { #category : 'propios del tipo' }
+Veterinaria >> agendarTurno: unTurno [
+
+	| rta mascota cliente nuevoEstado |
+	rta := colTurnos
+		       detect: [ :cadaTurno |
+		       (cadaTurno validarDisponibilidad: unTurno) not ]
+		       ifNone: [ nil ].
+
+	rta ifNil: [
+			mascota := unTurno mascota.
+			cliente := self buscarClienteConMascota: mascota.
+			rta := unTurno esElMismoDuenio: cliente.
+			rta ifTrue: [
+				unTurno esTurnoTratamiento ifTrue: [
+					rta := unTurno estaPendienteTratamiento.
+					rta ifTrue: [ rta := unTurno esValido ] ] ] ]
+		ifNotNil: [ rta := false ].
+
+	rta ifTrue: [
+		nuevoEstado := 'confirmado'.
+		unTurno estado: nuevoEstado.
+		colTurnos add: unTurno ].
+
+	^ rta
+]
+
+{ #category : 'propios del tipo' }
 Veterinaria >> armarResultado: colFacturasPendientes [
 | colResultado |
 
