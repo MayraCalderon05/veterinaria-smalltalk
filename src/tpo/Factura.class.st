@@ -32,10 +32,10 @@ Factura >> buscarFactura: unDiagnostico enDia: dia [
 
 	| encontrada |
 	encontrada := false.
-	(diagnostico equals: unDiagnostico & (fechaGeneracion = dia))
-		ifTrue: [ encontrada := true ] .
-		
-	^encontrada 
+	((diagnostico equals: unDiagnostico) & (fechaGeneracion = dia))
+		ifTrue: [ encontrada := true ].
+
+	^ encontrada
 ]
 
 { #category : 'visualizadores' }
