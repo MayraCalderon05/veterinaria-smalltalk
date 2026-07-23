@@ -28,6 +28,14 @@ Factura class >> crearFacturaConCliente: unCliente cuitVeterinaria: unCuitVeteri
 ]
 
 { #category : 'propios del tipo' }
+Factura >> armarResultado [
+| arreglo |
+arreglo := Array new: 2.
+arreglo at: 1 put: cliente ; at: 2 put: (self obtenerSaldoPendiente ).
+^arreglo 
+]
+
+{ #category : 'propios del tipo' }
 Factura >> buscarFactura: unDiagnostico enDia: dia [
 
 	| encontrada |
@@ -117,11 +125,12 @@ Factura >> registrarPago: unPago [
 	| exito montoAbonado |
 	exito := false.
 	montoAbonado := unPago montoAbonado.
-	
+
 	(self verificarPago) ifFalse: [
-		(montoAbonado > 0 & (montoAbonado <= montoTotal)) ifTrue: [
-			colPagos add: unPago.
-			exito := true ] ].
+		(montoAbonado > 0) ifTrue: [ 
+			(montoAbonado <= self obtenerSaldoPendiente ) ifTrue: [ 
+				colPagos add: unPago.
+				exito := true ]]].
 
 	^ exito
 ]

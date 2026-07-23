@@ -46,6 +46,14 @@ Tratamiento >> estado: unEstado [
 estado := unEstado 
 ]
 
+{ #category : 'propios del tipo' }
+Tratamiento >> estadoPendiente [
+| rta |
+rta := false.
+rta := (#('pendiente' 'Pendiente') includes: estado ) ifTrue: [ true ].
+^rta 
+]
+
 { #category : 'visualizadores' }
 Tratamiento >> fechaTratamiento [
 ^fechaTratamiento .

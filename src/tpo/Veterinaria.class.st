@@ -92,16 +92,12 @@ colVacunaciones add: unaVacunacion
 
 { #category : 'propios del tipo' }
 Veterinaria >> armarResultado: colFacturasPendientes [
-| colResultado |
 
-colResultado := colFacturasPendientes collect: [:factura | | arreglo |
-									arreglo := Array new: 3.
-									arreglo at: 1 put: factura;
-											at: 2 put: (factura cliente);
-											at: 3 put: (factura obtenerSaldoPendiente).
-											arreglo ].
+	| colResultado |
+	colResultado := colFacturasPendientes collect: [ :factura |
+		                factura armarResultado ].
 
-^colResultado .
+	^ colResultado
 ]
 
 { #category : 'propios del tipo' }
