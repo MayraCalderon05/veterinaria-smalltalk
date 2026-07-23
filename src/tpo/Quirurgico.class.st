@@ -16,7 +16,7 @@ Class {
 
 { #category : 'constructores' }
 Quirurgico class >> crearTratQuirurgicoConFecha: unaFecha motivo: unMotivo nombreProcedimiento: unNombre nivelRiesgo: unNivel tipoAnestesia: unTipo [
-"hola"
+
 	| t |
 	self inicializarTablas.
 	self inicializarCostoBase.
