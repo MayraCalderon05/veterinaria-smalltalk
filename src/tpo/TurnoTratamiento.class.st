@@ -32,11 +32,10 @@ TurnoTratamiento >> esTurnoTratamiento [
 { #category : 'propios del tipo' }
 TurnoTratamiento >> estaPendienteTratamiento [
 
-|rta elEstado|
-rta := false.
-elEstado := self estado.
-(elEstado = 'pendiente') ifTrue: [ rta := true ].
-^rta 
+	| rta|
+	rta := false.
+	rta := (tratamiento estadoPendiente) ifTrue: [ true ].
+	^ rta
 ]
 
 { #category : 'inicializadores' }

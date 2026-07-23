@@ -55,17 +55,49 @@ Veterinaria >> agendarTurno: unTurno [
 ]
 
 { #category : 'propios del tipo' }
+Veterinaria >> agregarCliente: unCliente [
+colClientes add: unCliente 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> agregarDiagnostico: unDiagnostico [
+colDiagnosticos add: unDiagnostico 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> agregarFactura: unaFactura [
+colFacturas add: unaFactura 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> agregarMedico: unMedico [
+colMedicos add: unMedico 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> agregarNuevoStock: unStock [
+
+	colStockMedicamentos add: unStock
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> agregarTurno: unTurno [
+colTurnos add: unTurno 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> agregarVacunacion: unaVacunacion [
+colVacunaciones add: unaVacunacion 
+]
+
+{ #category : 'propios del tipo' }
 Veterinaria >> armarResultado: colFacturasPendientes [
-| colResultado |
 
-colResultado := colFacturasPendientes collect: [:factura | | arreglo |
-									arreglo := Array new: 3.
-									arreglo at: 1 put: factura;
-											at: 2 put: (factura cliente);
-											at: 3 put: (factura obtenerSaldoPendiente).
-											arreglo ].
+	| colResultado |
+	colResultado := colFacturasPendientes collect: [ :factura |
+		                factura armarResultado ].
 
-^colResultado .
+	^ colResultado
 ]
 
 { #category : 'propios del tipo' }
@@ -116,12 +148,23 @@ Veterinaria >> generarFactura: unDiagnostico [
 
 	| facturaGenerada hoy mascotaDiagnostico elCliente montoAbonar |
 	hoy := Date today.
+	facturaGenerada := colFacturas
+		                   detect: [ :factura |
+		                   factura buscarFactura: unDiagnostico enDia: hoy ]
+		                   ifNone: [
+			                   mascotaDiagnostico := unDiagnostico mascota.
+			                   elCliente := self buscarClienteConMascota:
+				                                mascotaDiagnostico.
+			                   montoAbonar := unDiagnostico calcularMontoFinal.
+			                   facturaGenerada := Factura
+				                                      crearFacturaConCliente:
+				                                      elCliente
+				                                      cuitVeterinaria: cuit
+				                                      diagnostico: unDiagnostico
+				                                      montoTotal: montoAbonar
+				                                      fechaGeneracion: hoy ].
 
-	colFacturas
-		detect: [ :factura |
-		factura buscarFactura: unDiagnostico enDia: hoy ]
-		ifNone: [ mascotaDiagnostico := unDiagnostico mascota ]
-		"pendiente"
+	^ facturaGenerada
 ]
 
 { #category : 'inicializadores' }
@@ -160,6 +203,19 @@ Veterinaria >> obtenerFacturasPendientes [
 	colPendientes := colFacturas reject: [ :factura |
 		                 factura verificarPago ].
 	^ colPendientes
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> realizarFacturacion: unDiagnostico [
+| exito unaFactura|
+
+exito := false .
+unaFactura := self generarFactura: unDiagnostico.
+
+unaFactura ifNotNil: [ self agregarFactura: unaFactura.
+								exito := true ].
+							
+^exito 
 ]
 
 { #category : 'visualizadores' }

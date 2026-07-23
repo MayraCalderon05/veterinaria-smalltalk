@@ -28,14 +28,22 @@ Factura class >> crearFacturaConCliente: unCliente cuitVeterinaria: unCuitVeteri
 ]
 
 { #category : 'propios del tipo' }
+Factura >> armarResultado [
+| arreglo |
+arreglo := Array new: 2.
+arreglo at: 1 put: cliente ; at: 2 put: (self obtenerSaldoPendiente ).
+^arreglo 
+]
+
+{ #category : 'propios del tipo' }
 Factura >> buscarFactura: unDiagnostico enDia: dia [
 
 	| encontrada |
 	encontrada := false.
-	(diagnostico equals: unDiagnostico & (fechaGeneracion = dia))
-		ifTrue: [ encontrada := true ] .
-		
-	^encontrada 
+	((diagnostico equals: unDiagnostico) & (fechaGeneracion = dia))
+		ifTrue: [ encontrada := true ].
+
+	^ encontrada
 ]
 
 { #category : 'visualizadores' }
@@ -102,11 +110,13 @@ Factura >> obtenerSaldoPendiente [
 
 	| saldoPendiente montoRegistrado |
 	saldoPendiente := 0.
-	montoRegistrado := self obtenerMontoAbonado.
-	(montoRegistrado < montoTotal) ifTrue: [
-		saldoPendiente := (montoTotal - montoRegistrado) ].
 	
-^saldoPendiente 
+	montoRegistrado := self obtenerMontoAbonado.
+	
+	(montoRegistrado < montoTotal) ifTrue: [
+		saldoPendiente := montoTotal - montoRegistrado ].
+
+	^ saldoPendiente
 ]
 
 { #category : 'propios del tipo' }
@@ -115,18 +125,21 @@ Factura >> registrarPago: unPago [
 	| exito montoAbonado |
 	exito := false.
 	montoAbonado := unPago montoAbonado.
-	self verificarPago ifFalse: [
-		(montoAbonado > 0 & (montoAbonado <= montoTotal)) ifTrue: [
-			colPagos add: unPago.
-			exito := true ] ].
+
+	(self verificarPago) ifFalse: [
+		(montoAbonado > 0) ifTrue: [ 
+			(montoAbonado <= self obtenerSaldoPendiente ) ifTrue: [ 
+				colPagos add: unPago.
+				exito := true ]]].
 
 	^ exito
 ]
 
 { #category : 'propios del tipo' }
 Factura >> verificarPago [
-| pagada |
-pagada := false .
-(( self obtenerMontoAbonado ) >= montoTotal ) ifTrue: [ pagada := true ].
-^pagada 
+
+	| pagada |
+	pagada := false.
+	(self obtenerMontoAbonado >= montoTotal) ifTrue: [ pagada := true ].
+	^ pagada
 ]
