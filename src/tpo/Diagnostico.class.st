@@ -79,6 +79,12 @@ Diagnostico >> mascota [
 ]
 
 { #category : 'propios del tipo' }
+Diagnostico >> perteneceA: unaMascota [
+
+	^ mascota equals: unaMascota
+]
+
+{ #category : 'propios del tipo' }
 Diagnostico >> registrarNuevoTratamiento: unTratamiento [
 
 	| exito |

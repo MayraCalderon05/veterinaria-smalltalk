@@ -40,6 +40,13 @@ Vacunacion >> mascota [
 	^ mascota
 ]
 
+{ #category : 'propios del tipo' }
+Vacunacion >> perteneceA: unaMascota [
+
+	^ mascota equals: unaMascota
+
+]
+
 { #category : 'visualizadores' }
 Vacunacion >> vacuna [
 ^vacuna 

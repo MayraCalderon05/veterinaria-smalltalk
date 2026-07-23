@@ -167,6 +167,20 @@ Veterinaria >> generarFactura: unDiagnostico [
 	^ facturaGenerada
 ]
 
+{ #category : 'propios del tipo' }
+Veterinaria >> historialClinicoDe: unaMascota [
+
+	| historialClinico diagnosticos vacunaciones|
+	diagnosticos := colDiagnosticos select: [ :unDiagnostico |
+		                    unDiagnostico perteneceA: unaMascota ].
+	
+	vacunaciones := colVacunaciones select: [ :unaVacunacion|
+		                    unaVacunacion perteneceA: unaMascota ].
+	historialClinico := diagnosticos , vacunaciones .
+
+	^ historialClinico
+]
+
 { #category : 'inicializadores' }
 Veterinaria >> inicializarVeterinariaConNombre: unNombre cuit: unCuit [
 
