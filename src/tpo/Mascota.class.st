@@ -7,8 +7,7 @@ Class {
 		'especie',
 		'raza',
 		'fechaNacim',
-		'peso',
-		'colVacunaciones'
+		'peso'
 	],
 	#category : 'tpo',
 	#package : 'tpo'
@@ -27,11 +26,6 @@ Mascota class >> crearMascotaConId: unIdMascota nombre: unNombre especie: unaEsp
 		fechaNacimiento: unaFechaNacim
 		peso: unPeso.
 	^ m
-]
-
-{ #category : 'propios del tipo' }
-Mascota >> agregarVacunacion: unaVacunacion [
-colVacunaciones add: unaVacunacion 
 ]
 
 { #category : 'propios del tipo' }
@@ -64,8 +58,7 @@ Mascota >> inicializarMascotaConId: unIdMascota nombre: unNombre especie: unaEsp
 	especie := unaEspecie.
 	raza := unaRaza.
 	fechaNacim := unaFechaNacim.
-	peso := unPeso.
-	colVacunaciones := OrderedCollection new
+	peso := unPeso
 ]
 
 { #category : 'visualizadores' }
@@ -90,10 +83,4 @@ peso := unPeso
 Mascota >> raza [
 
 	^ raza 
-]
-
-{ #category : 'visualizadores' }
-Mascota >> vacunaciones [
-
-	^ colVacunaciones 
 ]
