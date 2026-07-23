@@ -30,8 +30,15 @@ Pago class >> crearPagoConFecha: unaFechaPago montoAbonado: unMontoAbonado medio
 
 { #category : 'inicializadores' }
 Pago class >> inicializarTablaPago [
-tablaMedioPago ifNil: [ tablaMedioPago := Dictionary new. tablaMedioPago at: 'Credito' put: 10; at: 'Billetera virtual' put: 5 ]
 
+	tablaMedioPago ifNil: [
+		tablaMedioPago := Dictionary new.
+		tablaMedioPago
+			at: 'Credito' put: 10;
+			at: 'Billetera virtual' put: 5;
+			at: 'Efectivo' put: 0;
+			at: 'Transferencia bancaria' put: 0;
+			at: 'Tarjeta de debito' put: 0  ]
 ]
 
 { #category : 'visualizadores' }
