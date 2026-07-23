@@ -9,8 +9,7 @@ Class {
 		'colStockMedicamentos',
 		'colMedicos',
 		'colClientes',
-		'colFacturas',
-		'colVacunaciones'
+		'colFacturas'
 	],
 	#category : 'tpo',
 	#package : 'tpo'
@@ -83,11 +82,6 @@ Veterinaria >> agregarNuevoStock: unStock [
 { #category : 'propios del tipo' }
 Veterinaria >> agregarTurno: unTurno [
 colTurnos add: unTurno 
-]
-
-{ #category : 'propios del tipo' }
-Veterinaria >> agregarVacunacion: unaVacunacion [
-colVacunaciones add: unaVacunacion 
 ]
 
 { #category : 'propios del tipo' }
@@ -169,15 +163,15 @@ Veterinaria >> generarFactura: unDiagnostico [
 
 { #category : 'inicializadores' }
 Veterinaria >> inicializarVeterinariaConNombre: unNombre cuit: unCuit [
-nombre := unNombre.
-cuit := unCuit.
-colDiagnosticos := OrderedCollection new.
-colTurnos := OrderedCollection new.
-colStockMedicamentos := OrderedCollection new.
-colMedicos := OrderedCollection new.
-colClientes := OrderedCollection new.
-colFacturas := OrderedCollection new.
-colVacunaciones := OrderedCollection new.
+
+	nombre := unNombre.
+	cuit := unCuit.
+	colDiagnosticos := OrderedCollection new.
+	colTurnos := OrderedCollection new.
+	colStockMedicamentos := OrderedCollection new.
+	colMedicos := OrderedCollection new.
+	colClientes := OrderedCollection new.
+	colFacturas := OrderedCollection new.
 ]
 
 { #category : 'visualizadores' }
@@ -228,10 +222,4 @@ Veterinaria >> stockMedicamento [
 Veterinaria >> turnos [
 
 	^ colTurnos 
-]
-
-{ #category : 'visualizadores' }
-Veterinaria >> vacunaciones [
-
-	^ colVacunaciones 
 ]
