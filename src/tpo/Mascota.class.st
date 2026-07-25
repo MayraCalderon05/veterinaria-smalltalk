@@ -7,7 +7,8 @@ Class {
 		'especie',
 		'raza',
 		'fechaNacim',
-		'peso'
+		'peso',
+		'colVacunaciones'
 	],
 	#category : 'tpo',
 	#package : 'tpo'
@@ -29,6 +30,21 @@ Mascota class >> crearMascotaConId: unIdMascota nombre: unNombre especie: unaEsp
 ]
 
 { #category : 'propios del tipo' }
+Mascota >> agregarVacunacion: unaVacunacion [
+colVacunaciones add: unaVacunacion 
+]
+
+{ #category : 'propios del tipo' }
+Mascota >> buscarUltimaAplicacion: colVacunacionesDeVacuna [
+| vacunacionMasReciente |
+vacunacionMasReciente := nil.
+
+colVacunaciones do: [ :v | (v esMasRecienteQue: vacunacionMasReciente) ifTrue: [ vacunacionMasReciente := v ] ].
+
+^vacunacionMasReciente 
+]
+
+{ #category : 'propios del tipo' }
 Mascota >> equals: otraMascota [
 ^idMascota = otraMascota idMascota .
 ]
@@ -45,6 +61,13 @@ Mascota >> fechaNacim [
 	^fechaNacim 
 ]
 
+{ #category : 'propios del tipo' }
+Mascota >> filtrarVacunacionesPorVacuna: unaVacuna [
+| vacunacionesDeVacuna |
+vacunacionesDeVacuna := colVacunaciones select: [ :v | (v contieneVacuna: unaVacuna) ].
+^vacunacionesDeVacuna 
+]
+
 { #category : 'visualizadores' }
 Mascota >> idMascota [
 ^idMascota 
@@ -58,7 +81,8 @@ Mascota >> inicializarMascotaConId: unIdMascota nombre: unNombre especie: unaEsp
 	especie := unaEspecie.
 	raza := unaRaza.
 	fechaNacim := unaFechaNacim.
-	peso := unPeso
+	peso := unPeso.
+	colVacunaciones := OrderedCollection new.
 ]
 
 { #category : 'visualizadores' }
@@ -83,4 +107,22 @@ peso := unPeso
 Mascota >> raza [
 
 	^ raza 
+]
+
+{ #category : 'propios del tipo' }
+Mascota >> ultimaAplicacion: unaVacuna [
+| ultimaVacunacion colVacunacionesAux |
+ultimaVacunacion := nil.
+
+colVacunacionesAux := self filtrarVacunacionesPorVacuna: unaVacuna .
+colVacunacionesAux ifNotEmpty: [ 
+	ultimaVacunacion := self buscarUltimaAplicacion: colVacunacionesAux  ].
+
+^ultimaVacunacion 
+]
+
+{ #category : 'visualizadores' }
+Mascota >> vacunaciones [
+
+	^ colVacunaciones 
 ]

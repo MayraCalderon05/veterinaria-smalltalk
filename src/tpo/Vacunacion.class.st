@@ -20,6 +20,26 @@ Vacunacion class >> crearVacunacionConFecha: unaFecha veterinario: unMedico masc
 	^ v
 ]
 
+{ #category : 'propios del tipo' }
+Vacunacion >> contieneVacuna: unaVacuna [
+
+	^ (vacuna equals: unaVacuna)
+]
+
+{ #category : 'propios del tipo' }
+Vacunacion >> esMasRecienteQue: vacunacionMasReciente [
+| rta |
+rta := false.
+((vacunacionMasReciente fechaMasViejaQue: fechaVacunacion) | (vacunacionMasReciente isNil)) ifTrue: [ rta := true ].
+^rta 
+]
+
+{ #category : 'propios del tipo' }
+Vacunacion >> fechaMasViejaQue: otraFechaVacunacion [
+
+	^ (fechaVacunacion <= otraFechaVacunacion)
+]
+
 { #category : 'visualizadores' }
 Vacunacion >> fechaVacunacion [
 ^fechaVacunacion 
