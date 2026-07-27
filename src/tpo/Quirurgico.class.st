@@ -14,6 +14,25 @@ Class {
 	#package : 'tpo'
 }
 
+{ #category : 'propios del tipo' }
+Quirurgico class >> agregarNivelRiesgo: unNivel porcentajeAumento: unAumento [
+|exito|
+exito := false.
+( self existeNivelRiesgo: unNivel ) ifFalse: [ tablaDeRiesgo at: unNivel put: unAumento. exito:= true ].
+^exito 
+]
+
+{ #category : 'propios del tipo' }
+Quirurgico class >> agregarTipoAnestesia: unTipo conCosto: unPrecio [
+
+	| exito |
+	exito := false.
+	(self existeTipoAnestesia: unTipo) ifFalse: [
+		tablaDeAnestesia at: unTipo asString put: unPrecio.
+		exito := true ].
+	^ exito
+]
+
 { #category : 'constructores' }
 Quirurgico class >> crearTratQuirurgicoConFecha: unaFecha motivo: unMotivo nombreProcedimiento: unNombre nivelRiesgo: unNivel tipoAnestesia: unTipo [
 
@@ -27,6 +46,30 @@ Quirurgico class >> crearTratQuirurgicoConFecha: unaFecha motivo: unMotivo nombr
 		nivelRiesgo: unNivel
 		tipoAnestesia: unTipo.
 	^ t
+]
+
+{ #category : 'propios del tipo' }
+Quirurgico class >> eliminarNivelRiesgo: unNivel [
+
+	^ tablaDeRiesgo removeKey: unNivel
+]
+
+{ #category : 'propios del tipo' }
+Quirurgico class >> eliminarTipoAnestesia: unTipo [
+
+	^ tablaDeAnestesia removeKey: unTipo asString
+]
+
+{ #category : 'propios del tipo' }
+Quirurgico class >> existeNivelRiesgo: unNivel [
+
+	^ tablaDeRiesgo includesKey: unNivel.
+]
+
+{ #category : 'propios del tipo' }
+Quirurgico class >> existeTipoAnestesia: unTipo [
+
+	^ tablaDeAnestesia includesKey: unTipo asString
 ]
 
 { #category : 'inicializadores' }
@@ -44,6 +87,28 @@ Quirurgico class >> inicializarTablas [
 		tablaDeRiesgo
 			at: 1 put: 10;
 			at: 2 put: 20 ]
+]
+
+{ #category : 'propios del tipo' }
+Quirurgico class >> modificarNivelRiesgo: unNivel porcentajeAumento: unAumento [
+
+	| exito |
+	exito := false.
+	(self existeNivelRiesgo: unNivel) ifTrue: [
+		tablaDeRiesgo at: unNivel put: unAumento.
+		exito := true ].
+	^ exito
+]
+
+{ #category : 'propios del tipo' }
+Quirurgico class >> modificarUnTipoAntestesia: unTipo conCosto: unPrecio [
+
+	| exito |
+	exito := false.
+	(self existeTipoAnestesia: unTipo) ifTrue: [
+		tablaDeAnestesia at: unTipo asString put: unPrecio.
+		exito := true ].
+	^ exito
 ]
 
 { #category : 'propios del tipo' }
