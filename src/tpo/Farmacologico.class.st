@@ -35,6 +35,12 @@ dosis := laDosis
 ]
 
 { #category : 'propios del tipo' }
+Farmacologico >> esFarmacologico [
+
+	^ true
+]
+
+{ #category : 'propios del tipo' }
 Farmacologico >> esValido [
 
 	| validez |
@@ -62,13 +68,19 @@ frecuencia := laFrecuencia
 ]
 
 { #category : 'visualizadores' }
-Farmacologico >> monodroga [
-^monodroga 
+Farmacologico >> medicamento [
+
+	^ monodroga
 ]
 
 { #category : 'modificadores' }
 Farmacologico >> monodroga: unMedicamento [
 monodroga := unMedicamento 
+]
+
+{ #category : 'propios del tipo' }
+Farmacologico >> obtenerCantidadIndicada [
+^ dosis * frecuencia 
 ]
 
 { #category : 'propios del tipo' }

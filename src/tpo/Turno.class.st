@@ -14,6 +14,11 @@ Class {
 	#package : 'tpo'
 }
 
+{ #category : 'propios del tipo' }
+Turno >> atender [
+estado := 'realizado'
+]
+
 { #category : 'visualizadores' }
 Turno >> cliente [
 
@@ -41,6 +46,15 @@ Turno >> estado [
 Turno >> estado: unEstado [
 
 	estado := unEstado 
+]
+
+{ #category : 'propios del tipo' }
+Turno >> estadoConfirmado [
+	| rta |
+	rta := false.
+	rta := (#( 'confirmado' 'Confirmado' ) includes: estado) ifTrue: [
+		       true ].
+	^ rta
 ]
 
 { #category : 'visualizadores' }

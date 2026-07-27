@@ -95,11 +95,48 @@ Veterinaria >> armarResultado: colFacturasPendientes [
 ]
 
 { #category : 'propios del tipo' }
+Veterinaria >> asignarTratamiento: unTratamiento aDiagnostico: unDiagnostico [
+| exito |
+exito := false.
+( self esPosibleAsignarTratamientoADiagnostico: unTratamiento ) ifTrue: [ 
+	exito := unDiagnostico registrarNuevoTratamiento: unTratamiento 
+	].
+^exito 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> atenderTurno: unTurno [
+	| atendido hayStock unTratamiento unMedicamento cantidadIndicada |
+	atendido := false.
+	hayStock := true.
+	unTurno estadoConfirmado ifTrue: [
+		unTurno esTurnoTratamiento ifTrue: [
+			unTratamiento := unTurno tratamiento.
+			unTratamiento esFarmacologico ifTrue: [
+				unMedicamento := unTratamiento medicamento.
+				cantidadIndicada := unTratamiento obtenerCantidadIndicada.
+				hayStock := self
+					descontarStockDeMedicamento: unMedicamento
+					cantidad: cantidadIndicada ] ].
+		hayStock ifTrue: [
+			unTurno atender.
+			atendido := true ] ].
+	^ atendido
+]
+
+{ #category : 'propios del tipo' }
 Veterinaria >> buscarClienteConMascota: mascota [
 |cliente|
 cliente := colClientes detect: [ :cadaCliente | cadaCliente  tieneMascota: mascota ] ifNone: [ nil ].
 ^cliente 
 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> buscarStockDeMedicamento: unMedicamento [
+| encontrado |
+encontrado := colStockMedicamentos detect: [ :st | st esElMismoMedicamento: unMedicamento ] ifNone: [ nil ].
+^encontrado 
 ]
 
 { #category : 'visualizadores' }
@@ -113,10 +150,38 @@ Veterinaria >> cuit [
 ^cuit 
 ]
 
+{ #category : 'propios del tipo' }
+Veterinaria >> descontarStockDeMedicamento: unMedicamento cantidad: cantidadIndicada [
+
+	| stockEncontrado exito |
+	exito := false.
+	stockEncontrado := self buscarStockDeMedicamento: unMedicamento.
+
+	stockEncontrado ifNotNil: [
+		stockEncontrado descontarStock: cantidadIndicada.
+		exito := true ].
+	^exito 
+]
+
 { #category : 'visualizadores' }
 Veterinaria >> diagnosticos [
 
 	^ colDiagnosticos 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> esPosibleAsignarTratamientoADiagnostico: unTratamiento [
+
+	| verificado unMedicamento cantIndicada |
+	verificado := true.
+
+	unTratamiento esFarmacologico ifTrue: [
+		unMedicamento := unTratamiento medicamento.
+		cantIndicada := unTratamiento obtenerCantidadIndicada.
+		(self
+			 stockDeMedicamentoExistente: unMedicamento
+			 conCantidad: cantIndicada) ifFalse: [ verificado := false ] ].
+	^ verificado
 ]
 
 { #category : 'visualizadores' }
@@ -210,6 +275,15 @@ unaFactura ifNotNil: [ self agregarFactura: unaFactura.
 								exito := true ].
 							
 ^exito 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> stockDeMedicamentoExistente: unMedicamento conCantidad: cantidadIndicada [
+| existe stockEncontrado |
+existe := false.
+stockEncontrado := self buscarStockDeMedicamento: unMedicamento .
+( stockEncontrado ) ifNotNil: [ existe := stockEncontrado existeStock: cantidadIndicada ].
+^existe 
 ]
 
 { #category : 'visualizadores' }
