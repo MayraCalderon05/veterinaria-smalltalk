@@ -164,13 +164,12 @@ Veterinaria >> generarFactura: unDiagnostico [
 { #category : 'propios del tipo' }
 Veterinaria >> historialClinicoDe: unaMascota [
 
-	| historialClinico diagnosticos vacunaciones|
+	| historialClinico diagnosticos vacunaciones |
 	diagnosticos := colDiagnosticos select: [ :unDiagnostico |
-		                    unDiagnostico perteneceA: unaMascota ].
-	
-	vacunaciones := colVacunaciones select: [ :unaVacunacion|
-		                    unaVacunacion perteneceA: unaMascota ].
-	historialClinico := diagnosticos , vacunaciones .
+		                unDiagnostico perteneceA: unaMascota ].
+
+	vacunaciones := unaMascota vacunaciones.
+	historialClinico := diagnosticos , vacunaciones.
 
 	^ historialClinico
 ]
