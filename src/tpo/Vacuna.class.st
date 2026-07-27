@@ -24,6 +24,12 @@ Vacuna >> cantMesesVigencia: unaCant [
 cantMesesVigencia := unaCant 
 ]
 
+{ #category : 'propios del tipo' }
+Vacuna >> equals: unaVacuna [
+
+	^ (nombre = unaVacuna nombreVacuna)
+]
+
 { #category : 'visualizadores' }
 Vacuna >> especieDestino [
 ^especieDestino 
