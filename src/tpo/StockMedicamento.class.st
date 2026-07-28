@@ -35,8 +35,19 @@ cantidad := unaCantidad
 ]
 
 { #category : 'propios del tipo' }
-StockMedicamento >> encontrarMedicamento: unMedicamento [
-^medicamento equals: unMedicamento .
+StockMedicamento >> descontarStock: unaCantidad [
+cantidad := cantidad - unaCantidad 
+]
+
+{ #category : 'propios del tipo' }
+StockMedicamento >> esElMismoMedicamento: unMedicamento [
+
+	^ medicamento equals: unMedicamento
+]
+
+{ #category : 'propios del tipo' }
+StockMedicamento >> existeStock: unaCantidad [
+^unaCantidad <= cantidad 
 ]
 
 { #category : 'inicializadores' }

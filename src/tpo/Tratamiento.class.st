@@ -25,6 +25,21 @@ Tratamiento class >> inicializarCostoBase [
 ]
 
 { #category : 'propios del tipo' }
+Tratamiento class >> modificarCostoConValor: unValor [
+costoBase := unValor 
+]
+
+{ #category : 'propios del tipo' }
+Tratamiento >> atenderTratamiento [
+estado := 'realizado'
+]
+
+{ #category : 'propios del tipo' }
+Tratamiento >> esFarmacologico [
+^false
+]
+
+{ #category : 'propios del tipo' }
 Tratamiento >> esValido [
 
 	| dia valido |
