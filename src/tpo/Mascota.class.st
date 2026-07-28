@@ -63,9 +63,11 @@ Mascota >> fechaNacim [
 
 { #category : 'propios del tipo' }
 Mascota >> filtrarVacunacionesPorVacuna: unaVacuna [
-| vacunacionesDeVacuna |
-vacunacionesDeVacuna := colVacunaciones select: [ :v | (v contieneVacuna: unaVacuna) ].
-^vacunacionesDeVacuna 
+"m"
+	| vacunacionesDeVacuna |
+	vacunacionesDeVacuna := colVacunaciones select: [ :v |
+		                        v contieneVacuna: unaVacuna ].
+	^ vacunacionesDeVacuna
 ]
 
 { #category : 'visualizadores' }
