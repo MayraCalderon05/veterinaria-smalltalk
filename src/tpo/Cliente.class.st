@@ -86,6 +86,16 @@ Cliente >> mascotas [
 ^colMascotas 
 ]
 
+{ #category : 'propios del tipo' }
+Cliente >> mascotasConVacunasVencidas [
+
+|resultado|
+
+resultado := colMascotas select: [ :unaMascota | unaMascota tieneVacunaVencida ].
+
+^resultado 
+]
+
 { #category : 'visualizadores' }
 Cliente >> telefono [
 ^telefono 

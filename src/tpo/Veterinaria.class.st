@@ -187,6 +187,18 @@ Veterinaria >> inicializarVeterinariaConNombre: unNombre cuit: unCuit [
 	colFacturas := OrderedCollection new.
 ]
 
+{ #category : 'propios del tipo' }
+Veterinaria >> mascotasConVacunasVencidas [
+
+	| mascotas |
+	mascotas := OrderedCollection.
+
+	colClientes do: [ :unCliente |
+		mascotas addAll: unCliente mascotasConVacunasVencidas ].
+
+	^ mascotas
+]
+
 { #category : 'visualizadores' }
 Veterinaria >> medicos [
 
