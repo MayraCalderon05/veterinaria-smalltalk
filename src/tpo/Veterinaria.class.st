@@ -226,6 +226,19 @@ Veterinaria >> generarFactura: unDiagnostico [
 	^ facturaGenerada
 ]
 
+{ #category : 'propios del tipo' }
+Veterinaria >> historialClinicoDe: unaMascota [
+
+	| historialClinico diagnosticos vacunaciones |
+	diagnosticos := colDiagnosticos select: [ :unDiagnostico |
+		                unDiagnostico perteneceA: unaMascota ].
+
+	vacunaciones := unaMascota vacunaciones.
+	historialClinico := diagnosticos , vacunaciones.
+
+	^ historialClinico
+]
+
 { #category : 'inicializadores' }
 Veterinaria >> inicializarVeterinariaConNombre: unNombre cuit: unCuit [
 
@@ -237,6 +250,18 @@ Veterinaria >> inicializarVeterinariaConNombre: unNombre cuit: unCuit [
 	colMedicos := OrderedCollection new.
 	colClientes := OrderedCollection new.
 	colFacturas := OrderedCollection new.
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> mascotasConVacunasVencidas [
+
+	| mascotas |
+	mascotas := OrderedCollection.
+
+	colClientes do: [ :unCliente |
+		mascotas addAll: unCliente mascotasConVacunasVencidas ].
+
+	^ mascotas
 ]
 
 { #category : 'visualizadores' }

@@ -63,9 +63,11 @@ Mascota >> fechaNacim [
 
 { #category : 'propios del tipo' }
 Mascota >> filtrarVacunacionesPorVacuna: unaVacuna [
-| vacunacionesDeVacuna |
-vacunacionesDeVacuna := colVacunaciones select: [ :v | (v contieneVacuna: unaVacuna) ].
-^vacunacionesDeVacuna 
+"m"
+	| vacunacionesDeVacuna |
+	vacunacionesDeVacuna := colVacunaciones select: [ :v |
+		                        v contieneVacuna: unaVacuna ].
+	^ vacunacionesDeVacuna
 ]
 
 { #category : 'visualizadores' }
@@ -107,6 +109,31 @@ peso := unPeso
 Mascota >> raza [
 
 	^ raza 
+]
+
+{ #category : 'propios del tipo' }
+Mascota >> tieneVacunaVencida [
+
+	| vacunasYaVisitadas vacunaVencida |
+	vacunasYaVisitadas := OrderedCollection new.
+
+	vacunaVencida := colVacunaciones
+		                 detect: [ :unaVacunacion |
+			                 | unaVacuna yaVisitada ultimaVacunacion |
+			                 unaVacuna := unaVacunacion vacuna.
+			                 yaVisitada := vacunasYaVisitadas
+				                               detect: [ :cadaVacuna |
+				                               cadaVacuna equals: unaVacuna ]
+				                               ifNone: [ nil ] notNil.
+			                 yaVisitada 
+										ifTrue: [ false ]
+										ifFalse: [
+				                 vacunasYaVisitadas add: unaVacuna.
+				                 ultimaVacunacion := self ultimaAplicacion:
+					                                     unaVacuna.
+				                 ultimaVacunacion esVigente not ] ]
+		                 ifNone: [ nil ].
+	^ vacunaVencida notNil
 ]
 
 { #category : 'propios del tipo' }
