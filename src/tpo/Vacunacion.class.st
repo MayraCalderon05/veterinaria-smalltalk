@@ -35,6 +35,15 @@ rta := false.
 ]
 
 { #category : 'propios del tipo' }
+Vacunacion >> esVigente [
+|fechaLimite fechaHoy|
+
+fechaLimite := (vacuna mesesDeVigencia) + fechaVacunacion.
+fechaHoy := Date today.
+^ fechaHoy <= fechaLimite.
+]
+
+{ #category : 'propios del tipo' }
 Vacunacion >> fechaMasViejaQue: otraFechaVacunacion [
 
 	^ (fechaVacunacion <= otraFechaVacunacion)
@@ -58,6 +67,13 @@ mascota := unaMascota .
 Vacunacion >> mascota [
 
 	^ mascota
+]
+
+{ #category : 'propios del tipo' }
+Vacunacion >> perteneceA: unaMascota [
+
+	^ mascota equals: unaMascota
+
 ]
 
 { #category : 'visualizadores' }
