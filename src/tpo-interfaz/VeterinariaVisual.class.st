@@ -23,6 +23,16 @@ Class {
 	#package : 'tpo-interfaz'
 }
 
+{ #category : 'propios del tipo' }
+VeterinariaVisual class >> ingresarVet: unaVet [
+| ventana |
+ventana := self new.
+ventana veterinaria: unaVet .
+unaVet addDependent: ventana .
+ventana openInWorld .
+^ventana 
+]
+
 { #category : 'inicializadores' }
 VeterinariaVisual >> initialize [
 	"este método se ejecutará inmediatamente después del new"
@@ -127,4 +137,9 @@ VeterinariaVisual >> initialize [
 	botonConsultaTurnosDeFecha mouseAction: [self ejecutarConsultarTurnosDeFecha].
 	botonRegistrarAtencionCliente mouseAction: [self ejecutarRegistrarAtencionCliente].
 	botonVerHistorialDeTurnosDeCliente mouseAction: [self ejecutarVerHistorialTurnosCliente] "
+]
+
+{ #category : 'asignaciones' }
+VeterinariaVisual >> veterinaria: unaVet [
+veterinaria := unaVet 
 ]

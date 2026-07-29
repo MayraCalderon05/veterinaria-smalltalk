@@ -9,6 +9,12 @@ Class {
 	#package : 'tpo-interfaz'
 }
 
+{ #category : 'propios del tipo' }
+BotonAccion >> ancho: unAncho alto: unAlto [
+
+	self extent: unAncho @ unAlto 
+]
+
 { #category : 'inicializadores' }
 BotonAccion >> initialize [
 
