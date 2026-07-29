@@ -16,7 +16,15 @@ Class {
 
 { #category : 'propios del tipo' }
 Turno >> atender [
-estado := 'realizado'
+
+	estado := 'atendido'.
+	self changed.
+]
+
+{ #category : 'propios del tipo' }
+Turno >> cancelar [
+estado := 'cancelado'.
+self changed.
 ]
 
 { #category : 'visualizadores' }
@@ -89,6 +97,13 @@ Turno >> inicializarTurnoConFecha: unaFechaTurno hora: unaHoraTurno motivo: unMo
 	cliente := unCliente.
 	mascota := unaMascota.
 	veterinario := unMedico
+]
+
+{ #category : 'propios del tipo' }
+Turno >> marcarAusente [
+
+estado := 'ausente'.
+self changed.
 ]
 
 { #category : 'visualizadores' }
