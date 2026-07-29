@@ -584,6 +584,16 @@ Veterinaria >> historialClinicoDe: unaMascota [
 	^ historialClinico
 ]
 
+{ #category : 'propios del tipo' }
+Veterinaria >> historialDeTurnosDe: unCliente [
+
+|historial|
+
+historial := colTurnos select: [ :cadaTurno | cadaTurno cliente equals: unCliente ].
+
+^historial 
+]
+
 { #category : 'inicializadores' }
 Veterinaria >> inicializarVeterinariaConNombre: unNombre cuit: unCuit [
 
