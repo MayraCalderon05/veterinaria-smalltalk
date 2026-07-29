@@ -19,7 +19,20 @@ BotonAccion >> ancho: unAncho alto: unAlto [
 BotonAccion >> initialize [
 
 	super initialize.
-	self color: (Color fromHexString: '386641')
+	self color: (Color fromHexString: '386641').
+	self borderColor: Color white.
+	self borderWidth: 2.
+]
+
+{ #category : 'propios del tipo' }
+BotonAccion >> label: aString [
+    super label: aString.
+    
+    self submorphs ifNotEmpty: [ :submorphs | | textoMorph |
+        textoMorph := submorphs first.
+        textoMorph emphasis: 1. "1 es el código para Negrita"
+        textoMorph color: Color white ].
+
 ]
 
 { #category : 'propios del tipo' }

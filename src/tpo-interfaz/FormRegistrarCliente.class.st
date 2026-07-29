@@ -66,20 +66,20 @@ FormRegistrarCliente >> initialize [
 			tipoSeleccionado := opciones at: indice.
 			campoTipo label: 'Tipo: ' , tipoSeleccionado.
 			campoTipo ancho: self width - 100 alto: 40 ] ].
-	
+
 	botonCancelar := BotonAccion new.
 	botonCancelar label: 'Cancelar'.
 	botonCancelar color: (Color fromHexString: 'B08968').
-	botonCancelar position: campoTipo position + (0@80).	
+	botonCancelar position: campoTipo position + (0 @ 80).
 	botonCancelar ancho: 150 alto: 40.
-	
+
 	botonAceptar := BotonAccion new.
 	botonAceptar label: 'Aceptar'.
 	botonAceptar color: (Color fromHexString: '6A994E').
-	botonAceptar position: botonCancelar position + (350@0).	
+	botonAceptar position: botonCancelar position + (350 @ 0).
 	botonAceptar ancho: 150 alto: 40.
-		
-	
+
+
 
 	self addMorph: campoDni.
 	self addMorph: campoNombre.
@@ -88,7 +88,6 @@ FormRegistrarCliente >> initialize [
 	self addMorph: campoTelefono.
 	self addMorph: campoEmail.
 	self addMorph: campoTipo.
-	self addMorph: botonCancelar .
-	self addMorph: botonAceptar .
-
+	self addMorph: botonCancelar.
+	self addMorph: botonAceptar
 ]
