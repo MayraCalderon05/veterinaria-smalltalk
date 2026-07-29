@@ -28,7 +28,7 @@ Class {
 VeterinariaVisual >> ejecutarInicializar [
 
 	veterinaria ifNotNil: [
-		mensaje contents: 'El sistmema ya fue inicializado'.
+		mensaje contents: 'El sistema ya fue inicializado'.
 		^ self ].
 	veterinaria := Veterinaria crearVeterinariaConDatosDePrueba.
 	mensaje contents:
@@ -67,8 +67,8 @@ VeterinariaVisual >> initialize [
 	mensaje := TextMorph new.
 	mensaje contents: 'Sistema no inicializado'.
 	mensaje color: Color black.
-	mensaje backgroundColor: Color white.
-	mensaje margins: 5@5.
+	mensaje backgroundColor: Color lightGreen.
+	mensaje margins: 5 @ 5.
 
 	"Se agregan al contenedor"
 	self addMorph: botonIniciarSistema.
@@ -89,7 +89,9 @@ VeterinariaVisual >> initialize [
 	self addMorph: mensaje.
 
 	"Se posicionan, uno debajo del otro"
-	botonIniciarSistema position: origen + (25 @ 25).
+	mensaje position: origen + (25 @ 25).
+
+	botonIniciarSistema position: mensaje position + (0 @ 40).
 	botonRegistrarCli position: botonIniciarSistema position + (0 @ 30).
 	botonRegistrarMascota position: botonRegistrarCli position + (0 @ 30).
 	botonRegistrarDiagnostico position:
@@ -116,7 +118,6 @@ VeterinariaVisual >> initialize [
 		botonConsultaTurnosDeFecha position + (0 @ 30).
 	botonVerHistorialDeTurnosDeCliente position:
 		botonRegistrarAtencionCliente position + (0 @ 30).
-	mensaje position: botonVerHistorialDeTurnosDeCliente position + (0@35).
 
 	"Etiquetas"
 	botonIniciarSistema label: 'Inicializar Sistema'.

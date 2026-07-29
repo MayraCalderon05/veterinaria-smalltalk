@@ -460,6 +460,18 @@ encontrado := colStockMedicamentos detect: [ :st | st esElMismoMedicamento: unMe
 ^encontrado 
 ]
 
+{ #category : 'propios del tipo' }
+Veterinaria >> cancelarTurnoPendiente: unTurno [
+
+|rta|
+
+(unTurno estado = 'pendiente')
+		ifTrue: [ unTurno cancelar. rta := true ]
+		ifFalse: [ rta := false ].
+		
+^rta
+]
+
 { #category : 'visualizadores' }
 Veterinaria >> clientes [
 
@@ -521,6 +533,18 @@ colPendientes := self obtenerFacturasPendientes .
 ( colPendientes ) ifNotEmpty: [ colFacturasPendientes := self armarResultado: colPendientes ].
 
 ^colFacturasPendientes 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> facturasPendientesDe: unCliente [
+
+	| factPendientes factPendientesCliente |
+	factPendientes := self facturasPendientes.
+
+	factPendientesCliente := factPendientes select: [ :cadaFactura |
+		                         cadaFactura cliente equals: unCliente ].
+
+	^ factPendientesCliente 
 ]
 
 { #category : 'propios del tipo' }
@@ -638,8 +662,32 @@ Veterinaria >> stockMedicamento [
 	^ colStockMedicamentos 
 ]
 
+{ #category : 'propios del tipo' }
+Veterinaria >> tratamientosRealizadosPor: unVeterinario [
+
+	| diagnosticos tratamientos |
+	diagnosticos := colDiagnosticos select: [ :cadaDiagnostico |
+		                cadaDiagnostico veterinario equals: unVeterinario ].
+
+	tratamientos := OrderedCollection new.
+	diagnosticos do: [ :unDiagnostico |
+		tratamientos addAll: unDiagnostico tratamientos ].
+
+	^ tratamientos
+]
+
 { #category : 'visualizadores' }
 Veterinaria >> turnos [
 
 	^ colTurnos 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> turnosConFecha: unaFecha [
+
+|turnosConFecha|
+
+turnosConFecha := colTurnos select: [ :cadaTurno | cadaTurno fechaTurno equals: unaFecha ].
+
+^turnosConFecha 
 ]
