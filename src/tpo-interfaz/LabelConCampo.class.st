@@ -10,15 +10,6 @@ Class {
 }
 
 { #category : 'constructores' }
-LabelConCampo class >> campoConLabel: unTexto [
-
-	| c |
-	c := self new.
-	c label: unTexto.
-	^ c
-]
-
-{ #category : 'constructores' }
 LabelConCampo class >> label: unTexto [
 
 	| c |

@@ -72,6 +72,7 @@ FormRegistrarCliente >> initialize [
 	botonCancelar color: (Color fromHexString: 'B08968').
 	botonCancelar position: campoTipo position + (0 @ 80).
 	botonCancelar ancho: 150 alto: 40.
+	botonCancelar mouseAction: [ self delete ].
 
 	botonAceptar := BotonAccion new.
 	botonAceptar label: 'Aceptar'.
