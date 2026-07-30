@@ -35,6 +35,7 @@ unaVet addDependent: ventana .
 ventana openInWorld .
 ^ventana 
 ]
+
 { #category : 'acciones' }
 VeterinariaVisual >> actualizarListaClientes [
 
@@ -66,12 +67,12 @@ VeterinariaVisual >> actualizarListaClientes [
 VeterinariaVisual >> ejecutarInicializar [
 
 	veterinaria ifNotNil: [
-		mensaje contents: 'El sistema ya fue inicializado'.
+		mensaje contents: 'El sistema ya fue inicializado: ', veterinaria nombre.
 		^ self ].
 	veterinaria := Veterinaria crearVeterinariaConDatosDePrueba.
 	mensaje contents:
 		'Sistema inicializado con datos de prueba: ' , veterinaria nombre.
-	self actualizarListaClientes.
+	self actualizarListaClientes
 ]
 
 { #category : 'inicializadores' }
@@ -100,8 +101,9 @@ VeterinariaVisual >> initialize [
 	self addMorph: listaClientes.
 	self addMorph: cantidadMascotas.
 
-	listaClientes position: origen + (250 @ 25).
-	cantidadMascotas position: listaClientes position + (0 @ (listaClientes height + 10)).
+	listaClientes position: origen + (250 @ 60).
+	cantidadMascotas position:
+		listaClientes position + (0 @ (listaClientes height + 10)).
 
 	"Se crean los botones"
 	botonIniciarSistema := BotonAccion new.
