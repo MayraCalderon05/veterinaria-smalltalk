@@ -55,8 +55,15 @@ colVacunaciones do: [ :v | (v esMasRecienteQue: vacunacionMasReciente) ifTrue: [
 ]
 
 { #category : 'propios del tipo' }
-Mascota >> equals: otraMascota [
-^idMascota = otraMascota idMascota .
+Mascota >> equals: unaMascota [
+
+
+	| rta |
+	rta := false.
+	nombre = unaMascota nombre & (especie = unaMascota especie)
+	& (raza = unaMascota raza) & (fechaNacim = unaMascota fechaNacim)
+	& (peso = unaMascota peso) ifTrue: [ rta := true ].
+	^ rta
 ]
 
 { #category : 'visualizadores' }
