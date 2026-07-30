@@ -3,6 +3,9 @@ Class {
 	#superclass : 'BorderedMorph',
 	#instVars : [
 		'veterinaria',
+		'mensaje',
+		'listaClientes',
+		'cantidadMascotas',
 		'botonIniciarSistema',
 		'botonRegistrarCli',
 		'botonRegistrarMascota',
@@ -23,6 +26,54 @@ Class {
 	#package : 'tpo-interfaz'
 }
 
+{ #category : 'propios del tipo' }
+VeterinariaVisual class >> ingresarVet: unaVet [
+| ventana |
+ventana := self new.
+ventana veterinaria: unaVet .
+unaVet addDependent: ventana .
+ventana openInWorld .
+^ventana 
+]
+{ #category : 'acciones' }
+VeterinariaVisual >> actualizarListaClientes [
+
+	| texto totalMascotas |
+	texto := WriteStream on: String new.
+	texto
+		nextPutAll: 'CLIENTES:';
+		cr.
+
+	veterinaria clientes do: [ :cadaCliente |
+		texto
+			nextPutAll: cadaCliente nombre;
+			nextPutAll: ' ';
+			nextPutAll: cadaCliente mascotas size printString;
+			nextPutAll: ' mascota(s)';
+			cr ].
+	listaClientes contents: texto contents.
+	
+	cantidadMascotas position: listaClientes position + (0 @ (listaClientes height + 10)).
+
+	totalMascotas := veterinaria clientes
+		                 inject: 0
+		                 into: [ :acc :c | acc + c mascotas size ].
+	cantidadMascotas contents:
+		'Mascotas atendidas: ' , totalMascotas printString
+]
+
+{ #category : 'acciones' }
+VeterinariaVisual >> ejecutarInicializar [
+
+	veterinaria ifNotNil: [
+		mensaje contents: 'El sistema ya fue inicializado'.
+		^ self ].
+	veterinaria := Veterinaria crearVeterinariaConDatosDePrueba.
+	mensaje contents:
+		'Sistema inicializado con datos de prueba: ' , veterinaria nombre.
+	self actualizarListaClientes.
+]
+
 { #category : 'inicializadores' }
 VeterinariaVisual >> initialize [
 	"este método se ejecutará inmediatamente después del new"
@@ -33,7 +84,25 @@ VeterinariaVisual >> initialize [
 	self position: 45 @ 45.
 	self bounds: (self position extent: 600 @ 800).
 	origen := self innerBounds origin.
-	
+
+	listaClientes := TextMorph new.
+	listaClientes contents: 'Clientes: (sistema no inicializado)'.
+	listaClientes color: Color black.
+	listaClientes backgroundColor: Color lightGreen.
+	listaClientes margins: 5 @ 5.
+
+	cantidadMascotas := TextMorph new.
+	cantidadMascotas contents: 'Mascotas atendidas: 0'.
+	cantidadMascotas color: Color black.
+	cantidadMascotas backgroundColor: Color lightGreen.
+	cantidadMascotas margins: 5 @ 5.
+
+	self addMorph: listaClientes.
+	self addMorph: cantidadMascotas.
+
+	listaClientes position: origen + (250 @ 25).
+	cantidadMascotas position: listaClientes position + (0 @ (listaClientes height + 10)).
+
 	"Se crean los botones"
 	botonIniciarSistema := BotonAccion new.
 	botonRegistrarCli := BotonAccion new.
@@ -50,14 +119,14 @@ VeterinariaVisual >> initialize [
 	botonConsultaTurnosDeFecha := BotonAccion new.
 	botonRegistrarAtencionCliente := BotonAccion new.
 	botonVerHistorialDeTurnosDeCliente := BotonAccion new.
-	
-	"Se crea el elemento gráfico para mostrar mensajes de resultado
+
+	"Se crea el elemento gráfico para mostrar mensajes de resultado"
 	mensaje := TextMorph new.
 	mensaje contents: 'Sistema no inicializado'.
 	mensaje color: Color black.
-	mensaje backgroundColor: Color white.
-	mensaje margins: 5@5."
-	
+	mensaje backgroundColor: Color lightGreen.
+	mensaje margins: 5 @ 5.
+
 	"Se agregan al contenedor"
 	self addMorph: botonIniciarSistema.
 	self addMorph: botonRegistrarCli.
@@ -74,26 +143,39 @@ VeterinariaVisual >> initialize [
 	self addMorph: botonConsultaTurnosDeFecha.
 	self addMorph: botonRegistrarAtencionCliente.
 	self addMorph: botonVerHistorialDeTurnosDeCliente.
-	"self addMorph: mensaje."
-	
+	self addMorph: mensaje.
+
 	"Se posicionan, uno debajo del otro"
-	botonIniciarSistema position: origen + (25@25).
-	botonRegistrarCli position: botonIniciarSistema position + (0@30).
-	botonRegistrarMascota position: botonRegistrarCli position + (0@30).
-	botonRegistrarDiagnostico position: botonRegistrarMascota position + (0@30).
-	botonAsignarTratamiento position: botonRegistrarDiagnostico position + (0@30).
-	botonFacturarDiagnostico position: botonAsignarTratamiento position + (0@30).
-	botonRegistrarPago position: botonFacturarDiagnostico position + (0@30).
-	botonConsultaHistorialClinico position: botonRegistrarPago position + (0@30).
-	botonConsultaTratamientosDeVet position: botonConsultaHistorialClinico position + (0@30).
-	botonFacturasPendientesDeCliente position: botonConsultaTratamientosDeVet position + (0@30).
-	botonAtenderSolicitudDeTurnoDeCliente position: botonFacturasPendientesDeCliente position + (0@30).
-	botonCancelarTurnoPendiente position: botonAtenderSolicitudDeTurnoDeCliente position + (0@30).
-	botonConsultaTurnosDeFecha position: botonCancelarTurnoPendiente position + (0@30).
-	botonRegistrarAtencionCliente position: botonConsultaTurnosDeFecha position + (0@30).
-	botonVerHistorialDeTurnosDeCliente position: botonRegistrarAtencionCliente position + (0@30).
-	"mensaje position: botonVerHistorialDeTurnosDeCliente position + (0@35)."
-	
+	mensaje position: origen + (25 @ 25).
+
+	botonIniciarSistema position: mensaje position + (0 @ 40).
+	botonRegistrarCli position: botonIniciarSistema position + (0 @ 30).
+	botonRegistrarMascota position: botonRegistrarCli position + (0 @ 30).
+	botonRegistrarDiagnostico position:
+		botonRegistrarMascota position + (0 @ 30).
+	botonAsignarTratamiento position:
+		botonRegistrarDiagnostico position + (0 @ 30).
+	botonFacturarDiagnostico position:
+		botonAsignarTratamiento position + (0 @ 30).
+	botonRegistrarPago position:
+		botonFacturarDiagnostico position + (0 @ 30).
+	botonConsultaHistorialClinico position:
+		botonRegistrarPago position + (0 @ 30).
+	botonConsultaTratamientosDeVet position:
+		botonConsultaHistorialClinico position + (0 @ 30).
+	botonFacturasPendientesDeCliente position:
+		botonConsultaTratamientosDeVet position + (0 @ 30).
+	botonAtenderSolicitudDeTurnoDeCliente position:
+		botonFacturasPendientesDeCliente position + (0 @ 30).
+	botonCancelarTurnoPendiente position:
+		botonAtenderSolicitudDeTurnoDeCliente position + (0 @ 30).
+	botonConsultaTurnosDeFecha position:
+		botonCancelarTurnoPendiente position + (0 @ 30).
+	botonRegistrarAtencionCliente position:
+		botonConsultaTurnosDeFecha position + (0 @ 30).
+	botonVerHistorialDeTurnosDeCliente position:
+		botonRegistrarAtencionCliente position + (0 @ 30).
+
 	"Etiquetas"
 	botonIniciarSistema label: 'Inicializar Sistema'.
 	botonRegistrarCli label: 'Registrar Cliente'.
@@ -105,26 +187,44 @@ VeterinariaVisual >> initialize [
 	botonConsultaHistorialClinico label: 'Historial Clínico'.
 	botonConsultaTratamientosDeVet label: 'Tratamientos por Veterinario'.
 	botonFacturasPendientesDeCliente label: 'Facturas Pendientes'.
-	botonAtenderSolicitudDeTurnoDeCliente label: 'Atender Solicitud de Turno'.
+	botonAtenderSolicitudDeTurnoDeCliente label:
+		'Atender Solicitud de Turno'.
 	botonCancelarTurnoPendiente label: 'Cancelar Turno Pendiente'.
 	botonConsultaTurnosDeFecha label: 'Consultar Turnos de Fecha'.
 	botonRegistrarAtencionCliente label: 'Registrar Atención de Cliente'.
-	botonVerHistorialDeTurnosDeCliente label: 'Historial de Turnos de Cliente'.
-	
-	"Acciones de cada botón
-	botonIniciarSistema mouseAction: [self ejecutarInicializar].
-	botonRegistrarCli mouseAction: [self ejecutarRegistrarCliente].
-	botonRegistrarMascota mouseAction: [self ejecutarRegistrarMascota].
-	botonRegistrarDiagnostico mouseAction: [self ejecutarRegistrarDiagnostico].
-	botonAsignarTratamiento mouseAction: [self ejecutarAsignarTratamiento].
-	botonFacturarDiagnostico mouseAction: [self ejecutarFacturarDiagnostico].
-	botonRegistrarPago mouseAction: [self ejecutarRegistrarPago].
-	botonConsultaHistorialClinico mouseAction: [self ejecutarConsultarHistorial].
-	botonConsultaTratamientosDeVet mouseAction: [self ejecutarConsultarTratamientosVeterinario].
-	botonFacturasPendientesDeCliente mouseAction: [self ejecutarConsultarFacturasPendientes].
-	botonAtenderSolicitudDeTurnoDeCliente mouseAction: [self ejecutarAtenderSolicitudTurno].
-	botonCancelarTurnoPendiente mouseAction: [self ejecutarCancelarTurnoPendiente].
-	botonConsultaTurnosDeFecha mouseAction: [self ejecutarConsultarTurnosDeFecha].
-	botonRegistrarAtencionCliente mouseAction: [self ejecutarRegistrarAtencionCliente].
-	botonVerHistorialDeTurnosDeCliente mouseAction: [self ejecutarVerHistorialTurnosCliente] "
+	botonVerHistorialDeTurnosDeCliente label:
+		'Historial de Turnos de Cliente'.
+
+	"Acciones de cada botón"
+	botonIniciarSistema mouseAction: [ self ejecutarInicializar ].
+	botonRegistrarCli mouseAction: [ self ejecutarRegistrarCliente ].
+	botonRegistrarMascota mouseAction: [ self ejecutarRegistrarMascota ].
+	botonRegistrarDiagnostico mouseAction: [
+		self ejecutarRegistrarDiagnostico ].
+	botonAsignarTratamiento mouseAction: [
+		self ejecutarAsignarTratamiento ].
+	botonFacturarDiagnostico mouseAction: [
+		self ejecutarFacturarDiagnostico ].
+	botonRegistrarPago mouseAction: [ self ejecutarRegistrarPago ].
+	botonConsultaHistorialClinico mouseAction: [
+		self ejecutarConsultarHistorial ].
+	botonConsultaTratamientosDeVet mouseAction: [
+		self ejecutarConsultarTratamientosVeterinario ].
+	botonFacturasPendientesDeCliente mouseAction: [
+		self ejecutarConsultarFacturasPendientes ].
+	botonAtenderSolicitudDeTurnoDeCliente mouseAction: [
+		self ejecutarAtenderSolicitudTurno ].
+	botonCancelarTurnoPendiente mouseAction: [
+		self ejecutarCancelarTurnoPendiente ].
+	botonConsultaTurnosDeFecha mouseAction: [
+		self ejecutarConsultarTurnosDeFecha ].
+	botonRegistrarAtencionCliente mouseAction: [
+		self ejecutarRegistrarAtencionCliente ].
+	botonVerHistorialDeTurnosDeCliente mouseAction: [
+		self ejecutarVerHistorialTurnosCliente ]
+]
+
+{ #category : 'asignaciones' }
+VeterinariaVisual >> veterinaria: unaVet [
+veterinaria := unaVet 
 ]
