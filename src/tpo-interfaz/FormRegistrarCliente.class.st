@@ -2,6 +2,7 @@ Class {
 	#name : 'FormRegistrarCliente',
 	#superclass : 'BorderedMorph',
 	#instVars : [
+		'veterinaria',
 		'campoDni',
 		'campoNombre',
 		'campoApellido',
@@ -56,6 +57,7 @@ FormRegistrarCliente >> initialize [
 	campoTipo ancho: self width - 100 alto: 40.
 	campoTipo position: campoEmail position + (0 @ 100).
 
+	tipoSeleccionado := ''.
 	campoTipo mouseAction: [
 		| opciones indice |
 		opciones := #( 'Particular' 'Institucional' ).
@@ -72,14 +74,50 @@ FormRegistrarCliente >> initialize [
 	botonCancelar color: (Color fromHexString: 'B08968').
 	botonCancelar position: campoTipo position + (0 @ 80).
 	botonCancelar ancho: 150 alto: 40.
-	botonCancelar mouseAction: [ self delete ].
+	botonCancelar mouseAction: [
+		| adv |
+		adv := CuadroConMensaje conMensaje:
+			       '¿Está seguro de que desea cancelar el registro?'.
+		adv agregarBotonCancelar: [ adv delete ].
+		adv accionAceptar: [
+			adv delete.
+			self delete ].
+		adv openInWorld ].
 
 	botonAceptar := BotonAccion new.
 	botonAceptar label: 'Aceptar'.
 	botonAceptar color: (Color fromHexString: '6A994E').
 	botonAceptar position: botonCancelar position + (350 @ 0).
 	botonAceptar ancho: 150 alto: 40.
-
+	botonAceptar mouseAction: [
+		self validarFormulario
+			ifFalse: [
+				(CuadroConMensaje conMensaje: 'Complete todos los campos')
+					openInWorld ]
+			ifTrue: [
+				| form |
+				form := FormRegistrarMascota new.
+				form accionAceptar: [ :unaMascota |
+					| unCliente registrado |
+					unCliente := Cliente
+						             crearClienteConDni: campoDni texto
+						             nombre: campoNombre texto
+						             apellido: campoApellido texto
+						             domicilio: campoDomicilio texto
+						             telefono: campoTelefono texto
+						             email: campoEmail texto
+						             tipo: tipoSeleccionado
+						             mascota: unaMascota.
+					registrado := veterinaria agregarCliente: unCliente.
+					registrado
+						ifTrue: [
+							(CuadroConMensaje conMensaje:
+								 'Cliente registrado correctamente') openInWorld ]
+						ifFalse: [
+							(CuadroConMensaje conMensaje:
+								 'Ya existe un cliente con ese DNI') openInWorld ] ].
+				form openInWorld.
+				self delete ] ].
 
 
 	self addMorph: campoDni.
@@ -91,4 +129,28 @@ FormRegistrarCliente >> initialize [
 	self addMorph: campoTipo.
 	self addMorph: botonCancelar.
 	self addMorph: botonAceptar
+]
+
+{ #category : 'propios del tipo' }
+FormRegistrarCliente >> validarFormulario [
+
+	| valores completo |
+	completo := true.
+	valores := OrderedCollection new.
+	valores add: campoDni texto.
+	valores add: campoNombre texto.
+	valores add: campoApellido texto.
+	valores add: campoDomicilio texto.
+	valores add: campoTelefono texto.
+	valores add: campoEmail texto.
+	valores add: tipoSeleccionado.
+
+	(valores detect: [:c | (c isEmpty )] ifNone: [nil]) ifNotNil: [ completo:= false ].
+	^ completo
+]
+
+{ #category : 'propios del tipo' }
+FormRegistrarCliente >> veterinaria: unaVet [
+
+	veterinaria := unaVet
 ]

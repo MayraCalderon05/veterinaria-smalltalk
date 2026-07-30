@@ -55,7 +55,10 @@ Veterinaria >> agendarTurno: unTurno [
 
 { #category : 'propios del tipo' }
 Veterinaria >> agregarCliente: unCliente [
-colClientes add: unCliente 
+| exito |
+exito := false.
+( self existeCliente: unCliente ) ifFalse: [ colClientes add: unCliente. exito := true ].
+	^exito 
 ]
 
 { #category : 'propios del tipo' }
@@ -182,6 +185,11 @@ Veterinaria >> esPosibleAsignarTratamientoADiagnostico: unTratamiento [
 			 stockDeMedicamentoExistente: unMedicamento
 			 conCantidad: cantIndicada) ifFalse: [ verificado := false ] ].
 	^ verificado
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> existeCliente: unCliente [
+^ (colClientes detect: [ :c | c equals: unCliente ] ifNone: [ nil ]) isNotNil 
 ]
 
 { #category : 'visualizadores' }

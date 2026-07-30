@@ -10,23 +10,33 @@ Class {
 		'peso',
 		'colVacunaciones'
 	],
+	#classInstVars : [
+		'contadorId'
+	],
 	#category : 'tpo',
 	#package : 'tpo'
 }
 
 { #category : 'constructores' }
-Mascota class >> crearMascotaConId: unIdMascota nombre: unNombre especie: unaEspecie raza: unaRaza fechaNacimiento: unaFechaNacim peso: unPeso [
+Mascota class >> crearMascotaConNombre: unNombre especie: unaEspecie raza: unaRaza fechaNacimiento: unaFechaNacim peso: unPeso [
 
 	| m |
 	m := self new.
 	m
-		inicializarMascotaConId: unIdMascota
+		inicializarMascotaConId: self generarId 
 		nombre: unNombre
 		especie: unaEspecie
 		raza: unaRaza
 		fechaNacimiento: unaFechaNacim
 		peso: unPeso.
 	^ m
+]
+
+{ #category : 'propios del tipo' }
+Mascota class >> generarId [
+
+	contadorId := (contadorId ifNil: [ 0 ]) + 1.
+	^ contadorId
 ]
 
 { #category : 'propios del tipo' }
