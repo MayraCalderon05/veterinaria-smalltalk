@@ -26,6 +26,15 @@ Class {
 	#package : 'tpo-interfaz'
 }
 
+{ #category : 'propios del tipo' }
+VeterinariaVisual class >> ingresarVet: unaVet [
+| ventana |
+ventana := self new.
+ventana veterinaria: unaVet .
+unaVet addDependent: ventana .
+ventana openInWorld .
+^ventana 
+]
 { #category : 'acciones' }
 VeterinariaVisual >> actualizarListaClientes [
 
@@ -213,4 +222,9 @@ VeterinariaVisual >> initialize [
 		self ejecutarRegistrarAtencionCliente ].
 	botonVerHistorialDeTurnosDeCliente mouseAction: [
 		self ejecutarVerHistorialTurnosCliente ]
+]
+
+{ #category : 'asignaciones' }
+VeterinariaVisual >> veterinaria: unaVet [
+veterinaria := unaVet 
 ]
