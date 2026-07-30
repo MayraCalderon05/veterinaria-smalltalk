@@ -36,6 +36,11 @@ TurnoTratamiento >> esTurnoTratamiento [
 ]
 
 { #category : 'propios del tipo' }
+TurnoTratamiento >> esValidoTratamiento [
+^ tratamiento esValido 
+]
+
+{ #category : 'propios del tipo' }
 TurnoTratamiento >> estaPendienteTratamiento [
 
 	| rta|
