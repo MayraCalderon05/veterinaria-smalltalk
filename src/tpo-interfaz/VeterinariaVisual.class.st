@@ -4,6 +4,8 @@ Class {
 	#instVars : [
 		'veterinaria',
 		'mensaje',
+		'listaClientes',
+		'cantidadMascotas',
 		'botonIniciarSistema',
 		'botonRegistrarCli',
 		'botonRegistrarMascota',
@@ -25,6 +27,33 @@ Class {
 }
 
 { #category : 'acciones' }
+VeterinariaVisual >> actualizarListaClientes [
+
+	| texto totalMascotas |
+	texto := WriteStream on: String new.
+	texto
+		nextPutAll: 'CLIENTES:';
+		cr.
+
+	veterinaria clientes do: [ :cadaCliente |
+		texto
+			nextPutAll: cadaCliente nombre;
+			nextPutAll: ' ';
+			nextPutAll: cadaCliente mascotas size printString;
+			nextPutAll: ' mascota(s)';
+			cr ].
+	listaClientes contents: texto contents.
+	
+	cantidadMascotas position: listaClientes position + (0 @ (listaClientes height + 10)).
+
+	totalMascotas := veterinaria clientes
+		                 inject: 0
+		                 into: [ :acc :c | acc + c mascotas size ].
+	cantidadMascotas contents:
+		'Mascotas atendidas: ' , totalMascotas printString
+]
+
+{ #category : 'acciones' }
 VeterinariaVisual >> ejecutarInicializar [
 
 	veterinaria ifNotNil: [
@@ -32,7 +61,8 @@ VeterinariaVisual >> ejecutarInicializar [
 		^ self ].
 	veterinaria := Veterinaria crearVeterinariaConDatosDePrueba.
 	mensaje contents:
-		'Sistema inicializado con datos de prueba: ' , veterinaria nombre
+		'Sistema inicializado con datos de prueba: ' , veterinaria nombre.
+	self actualizarListaClientes.
 ]
 
 { #category : 'inicializadores' }
@@ -45,6 +75,24 @@ VeterinariaVisual >> initialize [
 	self position: 45 @ 45.
 	self bounds: (self position extent: 600 @ 800).
 	origen := self innerBounds origin.
+
+	listaClientes := TextMorph new.
+	listaClientes contents: 'Clientes: (sistema no inicializado)'.
+	listaClientes color: Color black.
+	listaClientes backgroundColor: Color lightGreen.
+	listaClientes margins: 5 @ 5.
+
+	cantidadMascotas := TextMorph new.
+	cantidadMascotas contents: 'Mascotas atendidas: 0'.
+	cantidadMascotas color: Color black.
+	cantidadMascotas backgroundColor: Color lightGreen.
+	cantidadMascotas margins: 5 @ 5.
+
+	self addMorph: listaClientes.
+	self addMorph: cantidadMascotas.
+
+	listaClientes position: origen + (250 @ 25).
+	cantidadMascotas position: listaClientes position + (0 @ (listaClientes height + 10)).
 
 	"Se crean los botones"
 	botonIniciarSistema := BotonAccion new.

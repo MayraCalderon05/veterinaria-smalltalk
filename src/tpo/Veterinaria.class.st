@@ -46,8 +46,7 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 
 	"2. 3 clientes con sus mascotas"
 	mascota11 := Mascota
-		             crearMascotaConId: 1
-		             nombre: 'Leo'
+		             crearMascotaConNombre:'Leo'
 		             especie: 'Perro'
 		             raza: 'Caniche'
 		             fechaNacimiento: (Date newDay: 18 month: 11 year: 2015)
@@ -63,15 +62,13 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		            mascota: mascota11.
 
 	mascota21 := Mascota
-		             crearMascotaConId: 2
-		             nombre: 'Canela'
+		             crearMascotaConNombre:'Canela'
 		             especie: 'Gato'
 		             raza: '-'
 		             fechaNacimiento: (Date newDay: 15 month: 6 year: 2019)
 		             peso: 4.
 	mascota22 := Mascota
-		             crearMascotaConId: 3
-		             nombre: 'Toby'
+		             crearMascotaConNombre: 'Toby'
 		             especie: 'Perro'
 		             raza: 'Golden'
 		             fechaNacimiento: (Date newDay: 20 month: 9 year: 2021)
@@ -88,8 +85,7 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		            (OrderedCollection with: mascota21 with: mascota22).
 
 	mascota31 := Mascota
-		             crearMascotaConId: 4
-		             nombre: 'Luna'
+		             crearMascotaConNombre: 'Luna'
 		             especie: 'Perro'
 		             raza: 'Caniche'
 		             fechaNacimiento: (Date newDay: 3 month: 2 year: 2016)
@@ -166,7 +162,7 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		         veterinario: medico1
 		         mascota: mascota11.
 	veterinaria agregarDiagnostico: diag1.
-	tratQ1 := Quirurgico 
+	tratQ1 := Quirurgico
 		          crearTratQuirurgicoConFecha: Date today
 		          motivo: 'Obstruccion de hueso'
 		          nombreProcedimiento: 'enema'
@@ -186,13 +182,13 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		         veterinario: medico2
 		         mascota: mascota21.
 	veterinaria agregarDiagnostico: diag2.
-	tratF1 := Farmacologico 
+	tratF1 := Farmacologico
 		          crearTratFarmacologicoConFecha: Date today
 		          motivo: 'Antibiótico'
 		          monodroga: medicamento1
 		          dosis: 10
 		          frecuencia: 12.
-	tratF2 := Farmacologico 
+	tratF2 := Farmacologico
 		          crearTratFarmacologicoConFecha: Date today
 		          motivo: 'Antiinflamatorio'
 		          monodroga: medicamento2
@@ -220,13 +216,13 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		         veterinario: medico1
 		         mascota: mascota22.
 	veterinaria agregarDiagnostico: diag3.
-	tratF3 := Farmacologico 
+	tratF3 := Farmacologico
 		          crearTratFarmacologicoConFecha: Date today
 		          motivo: 'Analgésico postoperatorio'
 		          monodroga: medicamento2
 		          dosis: 2
 		          frecuencia: 8.
-	tratQ2 := Quirurgico 
+	tratQ2 := Quirurgico
 		          crearTratQuirurgicoConFecha: Date today
 		          motivo: 'Extracción de quiste'
 		          nombreProcedimiento: 'Extirpación'
@@ -260,7 +256,7 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		         descripcion: 'Tumor mamario'
 		         veterinario: medico2
 		         mascota: mascota31.
-	tratQ3 := Quirurgico 
+	tratQ3 := Quirurgico
 		          crearTratQuirurgicoConFecha: Date today
 		          motivo: 'Extirpación de tumor'
 		          nombreProcedimiento: 'Mastectomía parcial'
@@ -273,13 +269,13 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		         veterinario: medico1
 		         mascota: mascota31.
 	veterinaria agregarDiagnostico: diag5.
-	tratF4 := Farmacologico 
+	tratF4 := Farmacologico
 		          crearTratFarmacologicoConFecha: Date today
 		          motivo: 'Antihistamínico'
 		          monodroga: medicamento5
 		          dosis: 1
 		          frecuencia: 12.
-	tratF5 := Farmacologico 
+	tratF5 := Farmacologico
 		          crearTratFarmacologicoConFecha: Date today
 		          motivo: 'Antibiótico tópico'
 		          monodroga: medicamento3
