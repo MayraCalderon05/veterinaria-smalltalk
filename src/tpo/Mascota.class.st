@@ -2,7 +2,6 @@ Class {
 	#name : 'Mascota',
 	#superclass : 'Object',
 	#instVars : [
-		'idMascota',
 		'nombre',
 		'especie',
 		'raza',
@@ -23,20 +22,12 @@ Mascota class >> crearMascotaConNombre: unNombre especie: unaEspecie raza: unaRa
 	| m |
 	m := self new.
 	m
-		inicializarMascotaConId: self generarId 
-		nombre: unNombre
+		inicializarMascotaConNombre: unNombre
 		especie: unaEspecie
 		raza: unaRaza
 		fechaNacimiento: unaFechaNacim
 		peso: unPeso.
 	^ m
-]
-
-{ #category : 'propios del tipo' }
-Mascota class >> generarId [
-
-	contadorId := (contadorId ifNil: [ 0 ]) + 1.
-	^ contadorId
 ]
 
 { #category : 'propios del tipo' }
@@ -87,11 +78,6 @@ Mascota >> filtrarVacunacionesPorVacuna: unaVacuna [
 	^ vacunacionesDeVacuna
 ]
 
-{ #category : 'visualizadores' }
-Mascota >> idMascota [
-^idMascota 
-]
-
 { #category : 'inicializadores' }
 Mascota >> inicializarMascotaConId: unIdMascota nombre: unNombre especie: unaEspecie raza: unaRaza fechaNacimiento: unaFechaNacim peso: unPeso [
 
@@ -102,6 +88,17 @@ Mascota >> inicializarMascotaConId: unIdMascota nombre: unNombre especie: unaEsp
 	fechaNacim := unaFechaNacim.
 	peso := unPeso.
 	colVacunaciones := OrderedCollection new.
+]
+
+{ #category : 'inicializadores' }
+Mascota >> inicializarMascotaConNombre: unNombre especie: unaEspecie raza: unaRaza fechaNacimiento: unaFechaNacim peso: unPeso [
+
+	nombre := unNombre.
+	especie := unaEspecie.
+	raza := unaRaza.
+	fechaNacim := unaFechaNacim.
+	peso := unPeso.
+	colVacunaciones := OrderedCollection new
 ]
 
 { #category : 'visualizadores' }
