@@ -62,6 +62,23 @@ VeterinariaVisual >> actualizarListaClientes [
 		'Mascotas atendidas: ' , totalMascotas printString
 ]
 
+{ #category : 'acciones' }
+VeterinariaVisual >> ejecutarRegistrarCliente [
+
+	| form registrado |
+	form := FormRegistrarCliente new.
+	form openInWorld.
+	form accionAceptar: [ :unCliente |
+		registrado := veterinaria agregarCliente: unCliente.
+		registrado
+			ifTrue: [
+				(CuadroConMensaje conMensaje: 'Cliente registrado correctamente')
+					openInWorld ]
+			ifFalse: [
+				(CuadroConMensaje conMensaje:
+					 'Ha ocurrido un error al registrar el cliente') openInWorld ] ].
+]
+
 { #category : 'inicializadores' }
 VeterinariaVisual >> initialize [
 	"este método se ejecutará inmediatamente después del new"
@@ -182,8 +199,9 @@ VeterinariaVisual >> initialize [
 	botonVerHistorialDeTurnosDeCliente label:
 		'Historial de Turnos de Cliente'.
 
-	"Acciones de cada botón
+	"Acciones de cada botón"
 	botonRegistrarCli mouseAction: [ self ejecutarRegistrarCliente ].
+	"
 	botonRegistrarMascota mouseAction: [ self ejecutarRegistrarMascota ].
 	botonRegistrarDiagnostico mouseAction: [
 		self ejecutarRegistrarDiagnostico ].
@@ -216,7 +234,7 @@ veterinaria := Veterinaria crearVeterinariaConDatosDePrueba.
 	self actualizarListaClientes.
 ]
 
-{ #category : 'asignaciones' }
-VeterinariaVisual >> veterinaria: unaVet [
-veterinaria := unaVet 
+{ #category : 'acciones' }
+VeterinariaVisual >> update: unObjeto [
+self actualizarListaClientes .
 ]

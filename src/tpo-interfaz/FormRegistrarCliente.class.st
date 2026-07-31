@@ -2,7 +2,6 @@ Class {
 	#name : 'FormRegistrarCliente',
 	#superclass : 'BorderedMorph',
 	#instVars : [
-		'veterinaria',
 		'campoDni',
 		'campoNombre',
 		'campoApellido',
@@ -12,11 +11,17 @@ Class {
 		'campoTipo',
 		'tipoSeleccionado',
 		'botonAceptar',
+		'accionAceptar',
 		'botonCancelar'
 	],
 	#category : 'tpo-interfaz',
 	#package : 'tpo-interfaz'
 }
+
+{ #category : 'accessing' }
+FormRegistrarCliente >> accionAceptar: unBloque [
+accionAceptar := unBloque .
+]
 
 { #category : 'inicializadores' }
 FormRegistrarCliente >> initialize [
@@ -89,6 +94,7 @@ FormRegistrarCliente >> initialize [
 	botonAceptar color: (Color fromHexString: '6A994E').
 	botonAceptar position: botonCancelar position + (350 @ 0).
 	botonAceptar ancho: 150 alto: 40.
+
 	botonAceptar mouseAction: [
 		self validarFormulario
 			ifFalse: [
@@ -97,8 +103,9 @@ FormRegistrarCliente >> initialize [
 			ifTrue: [
 				| form |
 				form := FormRegistrarMascota new.
+				form openInWorld.
 				form accionAceptar: [ :unaMascota |
-					| unCliente registrado |
+					| unCliente |
 					unCliente := Cliente
 						             crearClienteConDni: campoDni texto
 						             nombre: campoNombre texto
@@ -108,15 +115,7 @@ FormRegistrarCliente >> initialize [
 						             email: campoEmail texto
 						             tipo: tipoSeleccionado
 						             mascota: unaMascota.
-					registrado := veterinaria agregarCliente: unCliente.
-					registrado
-						ifTrue: [
-							(CuadroConMensaje conMensaje:
-								 'Cliente registrado correctamente') openInWorld ]
-						ifFalse: [
-							(CuadroConMensaje conMensaje:
-								 'Ha ocurrido un error al registrar el cliente') openInWorld ] ].
-				form openInWorld.
+					accionAceptar value: unCliente. ].
 				self delete ] ].
 
 
@@ -147,10 +146,4 @@ FormRegistrarCliente >> validarFormulario [
 
 	(valores detect: [:c | (c isEmpty )] ifNone: [nil]) ifNotNil: [ completo:= false ].
 	^ completo
-]
-
-{ #category : 'propios del tipo' }
-FormRegistrarCliente >> veterinaria: unaVet [
-
-	veterinaria := unaVet
 ]
