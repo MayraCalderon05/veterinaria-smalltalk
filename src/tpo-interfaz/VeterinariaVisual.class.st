@@ -6,7 +6,6 @@ Class {
 		'mensaje',
 		'listaClientes',
 		'cantidadMascotas',
-		'botonIniciarSistema',
 		'botonRegistrarCli',
 		'botonRegistrarMascota',
 		'botonRegistrarDiagnostico',
@@ -63,18 +62,6 @@ VeterinariaVisual >> actualizarListaClientes [
 		'Mascotas atendidas: ' , totalMascotas printString
 ]
 
-{ #category : 'acciones' }
-VeterinariaVisual >> ejecutarInicializar [
-
-	veterinaria ifNotNil: [
-		mensaje contents: 'El sistema ya fue inicializado: ', veterinaria nombre.
-		^ self ].
-	veterinaria := Veterinaria crearVeterinariaConDatosDePrueba.
-	mensaje contents:
-		'Sistema inicializado con datos de prueba: ' , veterinaria nombre.
-	self actualizarListaClientes
-]
-
 { #category : 'inicializadores' }
 VeterinariaVisual >> initialize [
 	"este método se ejecutará inmediatamente después del new"
@@ -85,6 +72,15 @@ VeterinariaVisual >> initialize [
 	self position: 45 @ 45.
 	self bounds: (self position extent: 600 @ 800).
 	origen := self innerBounds origin.
+	
+	"Se crea el elemento gráfico para mostrar mensajes de resultado"
+	mensaje := TextMorph new.
+	mensaje color: Color black.
+	mensaje backgroundColor: Color lightGreen.
+	mensaje margins: 5 @ 5.
+	"Se posicionan, uno debajo del otro"
+	mensaje position: origen + (25 @ 25).
+
 
 	listaClientes := TextMorph new.
 	listaClientes contents: 'Clientes: (sistema no inicializado)'.
@@ -101,12 +97,12 @@ VeterinariaVisual >> initialize [
 	self addMorph: listaClientes.
 	self addMorph: cantidadMascotas.
 
-	listaClientes position: origen + (250 @ 60).
+	listaClientes position: mensaje position + (300 @ 0).
 	cantidadMascotas position:
 		listaClientes position + (0 @ (listaClientes height + 10)).
 
 	"Se crean los botones"
-	botonIniciarSistema := BotonAccion new.
+
 	botonRegistrarCli := BotonAccion new.
 	botonRegistrarMascota := BotonAccion new.
 	botonRegistrarDiagnostico := BotonAccion new.
@@ -122,15 +118,9 @@ VeterinariaVisual >> initialize [
 	botonRegistrarAtencionCliente := BotonAccion new.
 	botonVerHistorialDeTurnosDeCliente := BotonAccion new.
 
-	"Se crea el elemento gráfico para mostrar mensajes de resultado"
-	mensaje := TextMorph new.
-	mensaje contents: 'Sistema no inicializado'.
-	mensaje color: Color black.
-	mensaje backgroundColor: Color lightGreen.
-	mensaje margins: 5 @ 5.
+	
 
 	"Se agregan al contenedor"
-	self addMorph: botonIniciarSistema.
 	self addMorph: botonRegistrarCli.
 	self addMorph: botonRegistrarMascota.
 	self addMorph: botonRegistrarDiagnostico.
@@ -147,11 +137,7 @@ VeterinariaVisual >> initialize [
 	self addMorph: botonVerHistorialDeTurnosDeCliente.
 	self addMorph: mensaje.
 
-	"Se posicionan, uno debajo del otro"
-	mensaje position: origen + (25 @ 25).
-
-	botonIniciarSistema position: mensaje position + (0 @ 40).
-	botonRegistrarCli position: botonIniciarSistema position + (0 @ 30).
+	botonRegistrarCli position: mensaje position + (0 @ 30).
 	botonRegistrarMascota position: botonRegistrarCli position + (0 @ 30).
 	botonRegistrarDiagnostico position:
 		botonRegistrarMascota position + (0 @ 30).
@@ -179,7 +165,6 @@ VeterinariaVisual >> initialize [
 		botonRegistrarAtencionCliente position + (0 @ 30).
 
 	"Etiquetas"
-	botonIniciarSistema label: 'Inicializar Sistema'.
 	botonRegistrarCli label: 'Registrar Cliente'.
 	botonRegistrarMascota label: 'Registrar Mascota'.
 	botonRegistrarDiagnostico label: 'Registrar Diagnóstico'.
@@ -197,8 +182,7 @@ VeterinariaVisual >> initialize [
 	botonVerHistorialDeTurnosDeCliente label:
 		'Historial de Turnos de Cliente'.
 
-	"Acciones de cada botón"
-	botonIniciarSistema mouseAction: [ self ejecutarInicializar ].
+	"Acciones de cada botón
 	botonRegistrarCli mouseAction: [ self ejecutarRegistrarCliente ].
 	botonRegistrarMascota mouseAction: [ self ejecutarRegistrarMascota ].
 	botonRegistrarDiagnostico mouseAction: [
@@ -223,7 +207,13 @@ VeterinariaVisual >> initialize [
 	botonRegistrarAtencionCliente mouseAction: [
 		self ejecutarRegistrarAtencionCliente ].
 	botonVerHistorialDeTurnosDeCliente mouseAction: [
-		self ejecutarVerHistorialTurnosCliente ]
+		self ejecutarVerHistorialTurnosCliente ]"
+	
+veterinaria := Veterinaria crearVeterinariaConDatosDePrueba.
+	veterinaria addDependent: self.
+	veterinaria clientes do: [ :c | c addDependent: self ].
+	mensaje contents: veterinaria nombre.
+	self actualizarListaClientes.
 ]
 
 { #category : 'asignaciones' }

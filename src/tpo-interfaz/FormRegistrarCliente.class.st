@@ -115,7 +115,7 @@ FormRegistrarCliente >> initialize [
 								 'Cliente registrado correctamente') openInWorld ]
 						ifFalse: [
 							(CuadroConMensaje conMensaje:
-								 'Ya existe un cliente con ese DNI') openInWorld ] ].
+								 'Ha ocurrido un error al registrar el cliente') openInWorld ] ].
 				form openInWorld.
 				self delete ] ].
 

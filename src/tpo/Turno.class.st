@@ -53,7 +53,8 @@ Turno >> estado [
 { #category : 'modificadores' }
 Turno >> estado: unEstado [
 
-	estado := unEstado 
+	estado := unEstado.
+	self changed .
 ]
 
 { #category : 'propios del tipo' }
@@ -72,7 +73,9 @@ Turno >> fechaTurno [
 
 { #category : 'modificadores' }
 Turno >> fechaTurno: unaFechaTurno [
-fechaTurno := unaFechaTurno 
+
+	fechaTurno := unaFechaTurno.
+
 ]
 
 { #category : 'visualizadores' }
@@ -84,7 +87,8 @@ Turno >> horaTurno [
 { #category : 'modificadores' }
 Turno >> horaTurno: unaHoraTurno [
 
-	horaTurno := unaHoraTurno 
+	horaTurno := unaHoraTurno.
+
 ]
 
 { #category : 'inicializadores' }
@@ -121,7 +125,8 @@ Turno >> motivo [
 { #category : 'modificadores' }
 Turno >> motivo: unMotivo [
 
-	motivo := unMotivo 
+	motivo := unMotivo.
+
 ]
 
 { #category : 'propios del tipo' }

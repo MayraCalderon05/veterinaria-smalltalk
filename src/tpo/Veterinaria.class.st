@@ -20,7 +20,8 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 
 	| veterinaria medico1 medico2 cliente1 cliente2 cliente3 mascota11 mascota21 mascota22 mascota31 vacuna1 vacuna2 medicamento1 medicamento2 medicamento3 medicamento4 medicamento5 diag1 tratQ1 vacunacion1 diag2 tratF1 tratF2 diag3 vacunacion2 vacunacion3 tratF3 tratQ2 vacunacion4 vacunacion5 vacunacion6 diag4 tratQ3 diag5 tratF4 tratF5 factura31 pago31 turno1cancelado turno2confirmado turno3atendido |
 	veterinaria := self
-		               crearVeterinariaConNombre: 'Veterinaria Fai'
+		               crearVeterinariaConNombre:
+		               'Los animales no son objetos'
 		               cuit: '20-12345678-9'.
 
 	"1. 2 médicos veterinarios, con sus datos completos (con al menos 1 matrícula cada 1)"
@@ -46,7 +47,7 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 
 	"2. 3 clientes con sus mascotas"
 	mascota11 := Mascota
-		             crearMascotaConNombre:'Leo'
+		             crearMascotaConNombre: 'Leo'
 		             especie: 'Perro'
 		             raza: 'Caniche'
 		             fechaNacimiento: (Date newDay: 18 month: 11 year: 2015)
@@ -62,7 +63,7 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		            mascota: mascota11.
 
 	mascota21 := Mascota
-		             crearMascotaConNombre:'Canela'
+		             crearMascotaConNombre: 'Canela'
 		             especie: 'Gato'
 		             raza: '-'
 		             fechaNacimiento: (Date newDay: 15 month: 6 year: 2019)
@@ -383,33 +384,36 @@ Veterinaria >> agregarCliente: unCliente [
 	(self buscarCliente: unCliente) ifNil: [
 		colClientes add: unCliente.
 		exito := true ].
+	self changed .
 	^ exito
 ]
 
 { #category : 'propios del tipo' }
 Veterinaria >> agregarDiagnostico: unDiagnostico [
-colDiagnosticos add: unDiagnostico 
+
+	colDiagnosticos add: unDiagnostico.
+
 ]
 
 { #category : 'propios del tipo' }
 Veterinaria >> agregarFactura: unaFactura [
-colFacturas add: unaFactura 
-]
 
-{ #category : 'propios del tipo' }
-Veterinaria >> agregarMascota: unaMascota aClienteExistenteDni: unDni [
+	colFacturas add: unaFactura.
 
 ]
 
 { #category : 'propios del tipo' }
 Veterinaria >> agregarMedico: unMedico [
-colMedicos add: unMedico 
+
+	colMedicos add: unMedico.
+
 ]
 
 { #category : 'propios del tipo' }
 Veterinaria >> agregarNuevoStock: unStock [
 
-	colStockMedicamentos add: unStock
+	colStockMedicamentos add: unStock.
+
 ]
 
 { #category : 'propios del tipo' }
@@ -424,16 +428,19 @@ Veterinaria >> armarResultado: colFacturasPendientes [
 
 { #category : 'propios del tipo' }
 Veterinaria >> asignarTratamiento: unTratamiento aDiagnostico: unDiagnostico [
-| exito |
-exito := false.
-( self esPosibleAsignarTratamientoADiagnostico: unTratamiento ) ifTrue: [ 
-	exito := unDiagnostico registrarNuevoTratamiento: unTratamiento 
-	].
-^exito 
+
+	| exito |
+	exito := false.
+	(self esPosibleAsignarTratamientoADiagnostico: unTratamiento)
+		ifTrue: [
+		exito := unDiagnostico registrarNuevoTratamiento: unTratamiento ].
+	
+	^ exito
 ]
 
 { #category : 'propios del tipo' }
 Veterinaria >> atenderTurno: unTurno [
+
 	| atendido hayStock unTratamiento unMedicamento cantidadIndicada |
 	atendido := false.
 	hayStock := true.
@@ -444,16 +451,17 @@ Veterinaria >> atenderTurno: unTurno [
 				unMedicamento := unTratamiento medicamento.
 				cantidadIndicada := unTratamiento obtenerCantidadIndicada.
 				hayStock := self
-					descontarStockDeMedicamento: unMedicamento
-					cantidad: cantidadIndicada ] ].
+					            descontarStockDeMedicamento: unMedicamento
+					            cantidad: cantidadIndicada ] ].
 		hayStock ifTrue: [
 			unTurno atender.
 			atendido := true ] ].
+	self changed .
 	^ atendido
 ]
 
 { #category : 'propios del tipo' }
-Veterinaria >> buscarCliente: unCliente [
+Veterinaria >> buscarCliente: unCliente [ 
 
 	^ colClientes detect: [ :c | c equals: unCliente ] ifNone: [ nil ]
 ]
@@ -476,13 +484,15 @@ encontrado := colStockMedicamentos detect: [ :st | st esElMismoMedicamento: unMe
 { #category : 'propios del tipo' }
 Veterinaria >> cancelarTurnoPendiente: unTurno [
 
-|rta|
-
-(unTurno estado = 'pendiente')
-		ifTrue: [ unTurno cancelar. rta := true ]
+	| rta |
+	unTurno estado = 'pendiente'
+		ifTrue: [
+			unTurno cancelar.
+			rta := true ]
 		ifFalse: [ rta := false ].
-		
-^rta
+		self changed .
+
+	^ rta
 ]
 
 { #category : 'visualizadores' }
@@ -506,7 +516,8 @@ Veterinaria >> descontarStockDeMedicamento: unMedicamento cantidad: cantidadIndi
 	stockEncontrado ifNotNil: [
 		stockEncontrado descontarStock: cantidadIndicada.
 		exito := true ].
-	^exito 
+
+	^ exito
 ]
 
 { #category : 'visualizadores' }

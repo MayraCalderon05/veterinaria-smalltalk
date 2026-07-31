@@ -21,7 +21,9 @@ v inicializarVacunaConNombre: unNombre laboratorio: elLaboratorio especieDestino
 
 { #category : 'modificadores' }
 Vacuna >> cantMesesVigencia: unaCant [
-cantMesesVigencia := unaCant 
+
+	cantMesesVigencia := unaCant.
+
 ]
 
 { #category : 'propios del tipo' }
@@ -37,7 +39,9 @@ Vacuna >> especieDestino [
 
 { #category : 'modificadores' }
 Vacuna >> especieDestino: laEspecie [
-especieDestino := laEspecie 
+
+	especieDestino := laEspecie.
+
 ]
 
 { #category : 'inicializadores' }
