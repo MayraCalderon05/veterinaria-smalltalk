@@ -100,6 +100,7 @@ FormRegistrarMascota >> initialize [
 	botonAceptar color: (Color fromHexString: '6A994E').
 	botonAceptar position: botonCancelar position + (350 @ 0).
 	botonAceptar ancho: 150 alto: 40.
+	
 	botonAceptar mouseAction: [
 		self validarFormulario
 			ifTrue: [

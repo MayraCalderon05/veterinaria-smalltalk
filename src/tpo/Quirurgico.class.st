@@ -169,7 +169,9 @@ Quirurgico >> nivelRiesgo [
 
 { #category : 'modificadores' }
 Quirurgico >> nivelRiesgo: elNivel [
-nivelRiesgo := elNivel .
+
+	nivelRiesgo := elNivel.
+
 ]
 
 { #category : 'visualizadores' }
