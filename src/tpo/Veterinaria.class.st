@@ -384,7 +384,7 @@ Veterinaria >> agregarCliente: unCliente [
 	(self buscarCliente: unCliente) ifNil: [
 		colClientes add: unCliente.
 		exito := true ].
-	self changed .
+	self changed: #clientes .
 	^ exito
 ]
 
@@ -472,6 +472,12 @@ Veterinaria >> buscarClienteConMascota: mascota [
 cliente := colClientes detect: [ :cadaCliente | cadaCliente  tieneMascota: mascota ] ifNone: [ nil ].
 ^cliente 
 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> buscarClientePorDni: unDni [
+
+	^ colClientes detect: [ :c | c mismoDni: unDni ] ifNone: [ nil ]
 ]
 
 { #category : 'propios del tipo' }
