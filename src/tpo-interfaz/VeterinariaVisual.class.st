@@ -63,6 +63,15 @@ VeterinariaVisual >> actualizarListaClientes [
 ]
 
 { #category : 'acciones' }
+VeterinariaVisual >> ejecutarBuscarCliente [
+
+	| buscador |
+	buscador := BuscadorCliente new.
+	buscador acceso: veterinaria .
+	buscador openInWorld
+]
+
+{ #category : 'acciones' }
 VeterinariaVisual >> ejecutarRegistrarCliente [
 
 	| form registrado |
@@ -89,7 +98,7 @@ VeterinariaVisual >> initialize [
 	self position: 45 @ 45.
 	self bounds: (self position extent: 600 @ 800).
 	origen := self innerBounds origin.
-	
+
 	"Se crea el elemento gráfico para mostrar mensajes de resultado"
 	mensaje := TextMorph new.
 	mensaje color: Color black.
@@ -135,7 +144,7 @@ VeterinariaVisual >> initialize [
 	botonRegistrarAtencionCliente := BotonAccion new.
 	botonVerHistorialDeTurnosDeCliente := BotonAccion new.
 
-	
+
 
 	"Se agregan al contenedor"
 	self addMorph: botonRegistrarCli.
@@ -183,7 +192,7 @@ VeterinariaVisual >> initialize [
 
 	"Etiquetas"
 	botonRegistrarCli label: 'Registrar Cliente'.
-	botonRegistrarMascota label: 'Registrar Mascota'.
+	botonRegistrarMascota label: 'Buscar Cliente'.
 	botonRegistrarDiagnostico label: 'Registrar Diagnóstico'.
 	botonAsignarTratamiento label: 'Asignar Tratamiento'.
 	botonFacturarDiagnostico label: 'Facturar Diagnóstico'.
@@ -201,8 +210,9 @@ VeterinariaVisual >> initialize [
 
 	"Acciones de cada botón"
 	botonRegistrarCli mouseAction: [ self ejecutarRegistrarCliente ].
+	
+	botonRegistrarMascota mouseAction: [ self ejecutarBuscarCliente ].
 	"
-	botonRegistrarMascota mouseAction: [ self ejecutarRegistrarMascota ].
 	botonRegistrarDiagnostico mouseAction: [
 		self ejecutarRegistrarDiagnostico ].
 	botonAsignarTratamiento mouseAction: [
@@ -226,15 +236,16 @@ VeterinariaVisual >> initialize [
 		self ejecutarRegistrarAtencionCliente ].
 	botonVerHistorialDeTurnosDeCliente mouseAction: [
 		self ejecutarVerHistorialTurnosCliente ]"
-	
-veterinaria := Veterinaria crearVeterinariaConDatosDePrueba.
+
+	veterinaria := Veterinaria crearVeterinariaConDatosDePrueba.
 	veterinaria addDependent: self.
 	veterinaria clientes do: [ :c | c addDependent: self ].
 	mensaje contents: veterinaria nombre.
-	self actualizarListaClientes.
+	self actualizarListaClientes
 ]
 
 { #category : 'acciones' }
 VeterinariaVisual >> update: unObjeto [
-self actualizarListaClientes .
+    unObjeto = #clientes
+        ifTrue: [ self actualizarListaClientes ]
 ]

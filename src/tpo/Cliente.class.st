@@ -50,7 +50,30 @@ Cliente class >> crearClienteConDni: unDni nombre: unNombre apellido: unApellido
 
 { #category : 'propios del tipo' }
 Cliente >> agregarMascota: unaMascota [
-colMascotas add: unaMascota 
+
+| exito |
+	exito := false.
+	(self buscarMascota: unaMascota ) ifNil: [
+		colMascotas add: unaMascota .
+		exito := true ].
+	self changed.
+	^ exito
+]
+
+{ #category : 'propios del tipo' }
+Cliente >> buscarMascota: unaMascota [
+^(colMascotas detect: [:m | m equals: unaMascota ] ifNone: [nil])
+]
+
+{ #category : 'propios del tipo' }
+Cliente >> descripcionTextual [
+
+	^ 'DNI: ' , dni , String lf , 
+		'Nombre completo: ' , nombre , ' ', apellido , String lf , 
+			'Domicilio: ' , domicilio , String lf, 
+				'Telefono: ' , telefono , String lf , 
+					'Email: ' , email, String lf , 
+						'Tipo: ' , tipo , String lf
 ]
 
 { #category : 'visualizadores' }
