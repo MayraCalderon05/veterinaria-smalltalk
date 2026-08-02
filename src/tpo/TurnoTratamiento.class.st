@@ -31,6 +31,16 @@ tratamiento atenderTratamiento .
 ]
 
 { #category : 'propios del tipo' }
+TurnoTratamiento >> descripcionTextual [
+
+	| tipo |
+	tipo := tratamiento esFarmacologico
+		        ifTrue: [ 'Farmacológico' ]
+		        ifFalse: [ 'Quirúgico' ].
+	^ super descripcionTextual , 'Tratamiento: ' , tipo asString, String lf
+]
+
+{ #category : 'propios del tipo' }
 TurnoTratamiento >> esTurnoTratamiento [ 
 ^true
 ]
