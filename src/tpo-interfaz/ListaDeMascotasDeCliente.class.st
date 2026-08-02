@@ -42,7 +42,7 @@ ListaDeMascotasDeCliente >> cliente: unCliente [
 { #category : 'propios del tipo' }
 ListaDeMascotasDeCliente >> imprimirMascotas [
 
-	| contenedor contenido botonVacunar botonVerVacunas botonVerHistorial mascotas y fuente |
+	| contenedor contenido botonVacunar botonVerVacunas mascotas y fuente |
 	mascotas := cliente mascotas.
 	y := lista position y.
 
@@ -50,7 +50,7 @@ ListaDeMascotasDeCliente >> imprimirMascotas [
 		contenedor := BorderedMorph new.
 		contenedor color: Color white.
 		contenedor position: lista position x @ y.
-		contenedor extent: lista width @ 180.
+		contenedor extent: lista width @ 160.
 
 		"armo lo que va a tener adentro"
 		contenido := TextMorph new.
@@ -66,23 +66,18 @@ ListaDeMascotasDeCliente >> imprimirMascotas [
 		botonVacunar label: 'Vacunar'.
 		botonVacunar extent: 120 @ 40.
 		botonVacunar position:
-			contenedor position + (contenedor width - 140 @ 10).
+			contenedor position + (contenedor width - 140 @ 30).
 
 		botonVerVacunas := BotonAccion new.
 		botonVerVacunas label: 'Vacunaciones'.
 		botonVerVacunas extent: 120 @ 40.
 		botonVerVacunas position: botonVacunar position + (0 @ 60).
 
-		botonVerHistorial := BotonAccion new.
-		botonVerHistorial label: 'Historial'.
-		botonVerHistorial extent: 120 @ 40.
-		botonVerHistorial position: botonVerVacunas position + (0 @ 60).
 
 		"armo el contenedor con los componentes"
 		contenedor addMorph: contenido.
 		contenedor addMorph: botonVacunar.
 		contenedor addMorph: botonVerVacunas.
-		contenedor addMorph: botonVerHistorial.
 
 		"lo agrego al contenedor principal"
 
