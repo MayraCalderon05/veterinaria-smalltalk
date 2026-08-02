@@ -19,7 +19,8 @@ Class {
 		'botonCancelarTurnoPendiente',
 		'botonConsultaTurnosDeFecha',
 		'botonRegistrarAtencionCliente',
-		'botonVerHistorialDeTurnosDeCliente'
+		'botonVerHistorialDeTurnosDeCliente',
+		'botonCerrar'
 	],
 	#category : 'tpo-interfaz',
 	#package : 'tpo-interfaz'
@@ -88,6 +89,23 @@ VeterinariaVisual >> ejecutarRegistrarCliente [
 					 'Ha ocurrido un error al registrar el cliente') openInWorld ] ].
 ]
 
+{ #category : 'acciones' }
+VeterinariaVisual >> ejecutarRegistrarDiagnostico [
+
+	| form |
+	"crea una instancia de FormRegistrarDiagnostico"
+	form := FormRegistrarDiagnostico new.
+	"le manda la coleccion de medicos y cliente al formulario"
+	form medicosDisponibles: veterinaria medicos.
+	form clientesDisponibles: veterinaria clientes.
+	"cuando temga creado el diagnostico lo agrega a la coleccion de diagnosticos"
+	form accionAceptar: [ :unDiagnostico |
+		veterinaria agregarDiagnostico: unDiagnostico.
+		(CuadroConMensaje conMensaje: 'Diagnóstico registrado correctamente')
+			openInWorld ].
+	form openInWorld
+]
+
 { #category : 'inicializadores' }
 VeterinariaVisual >> initialize [
 	"este método se ejecutará inmediatamente después del new"
@@ -143,6 +161,7 @@ VeterinariaVisual >> initialize [
 	botonConsultaTurnosDeFecha := BotonAccion new.
 	botonRegistrarAtencionCliente := BotonAccion new.
 	botonVerHistorialDeTurnosDeCliente := BotonAccion new.
+	botonCerrar := BotonAccion new.
 
 
 
@@ -162,6 +181,7 @@ VeterinariaVisual >> initialize [
 	self addMorph: botonRegistrarAtencionCliente.
 	self addMorph: botonVerHistorialDeTurnosDeCliente.
 	self addMorph: mensaje.
+	self addMorph: botonCerrar.
 
 	botonRegistrarCli position: mensaje position + (0 @ 30).
 	botonRegistrarMascota position: botonRegistrarCli position + (0 @ 30).
@@ -189,7 +209,7 @@ VeterinariaVisual >> initialize [
 		botonConsultaTurnosDeFecha position + (0 @ 30).
 	botonVerHistorialDeTurnosDeCliente position:
 		botonRegistrarAtencionCliente position + (0 @ 30).
-
+	botonCerrar position: botonVerHistorialDeTurnosDeCliente position + (0 @ 40).
 	"Etiquetas"
 	botonRegistrarCli label: 'Registrar Cliente'.
 	botonRegistrarMascota label: 'Buscar Cliente'.
@@ -207,14 +227,18 @@ VeterinariaVisual >> initialize [
 	botonRegistrarAtencionCliente label: 'Registrar Atención de Cliente'.
 	botonVerHistorialDeTurnosDeCliente label:
 		'Historial de Turnos de Cliente'.
-
+	botonCerrar label: 'Minimizar'.
+	
+	"color distinto del boton cerrar"
+	botonCerrar color: (Color fromHexString: 'B08968').
+	botonCerrar extent: 120 @ 30.
 	"Acciones de cada botón"
 	botonRegistrarCli mouseAction: [ self ejecutarRegistrarCliente ].
-	
+
 	botonRegistrarMascota mouseAction: [ self ejecutarBuscarCliente ].
-	"
 	botonRegistrarDiagnostico mouseAction: [
 		self ejecutarRegistrarDiagnostico ].
+	"
 	botonAsignarTratamiento mouseAction: [
 		self ejecutarAsignarTratamiento ].
 	botonFacturarDiagnostico mouseAction: [
@@ -236,6 +260,7 @@ VeterinariaVisual >> initialize [
 		self ejecutarRegistrarAtencionCliente ].
 	botonVerHistorialDeTurnosDeCliente mouseAction: [
 		self ejecutarVerHistorialTurnosCliente ]"
+	botonCerrar mouseAction: [self collapse].
 
 	veterinaria := Veterinaria crearVeterinariaConDatosDePrueba.
 	veterinaria addDependent: self.
