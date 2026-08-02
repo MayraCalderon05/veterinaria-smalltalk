@@ -51,12 +51,12 @@ Cliente class >> crearClienteConDni: unDni nombre: unNombre apellido: unApellido
 { #category : 'propios del tipo' }
 Cliente >> agregarMascota: unaMascota [
 
-| exito |
+	| exito |
 	exito := false.
-	(self buscarMascota: unaMascota ) ifNil: [
-		colMascotas add: unaMascota .
+	(self buscarMascota: unaMascota) ifNil: [
+		colMascotas add: unaMascota.
 		exito := true ].
-	self changed.
+	self changed: #clientes .
 	^ exito
 ]
 

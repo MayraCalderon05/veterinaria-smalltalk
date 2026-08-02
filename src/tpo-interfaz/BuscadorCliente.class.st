@@ -102,19 +102,18 @@ BuscadorCliente >> initialize [
 		| form registrada |
 		form := FormRegistrarMascota new.
 		form openInWorld.
-		form accionAceptar: [ :unaMascota |  
-			registrada := clienteEncontrado agregarMascota: unaMascota .
-			registrada 
-			ifTrue: [ 
-				(CuadroConMensaje conMensaje: 'Mascota registrada correctamente')
-					openInWorld ]
-			ifFalse: [ 
-				(CuadroConMensaje conMensaje:
-					 'Ha ocurrido un error al registrar el cliente') openInWorld ]
-			] ].
-	
-	botonVerMascotas mouseAction: [ 
-		 ].
+		form accionAceptar: [ :unaMascota |
+			registrada := clienteEncontrado agregarMascota: unaMascota.
+			registrada
+				ifTrue: [
+					(CuadroConMensaje conMensaje: 'Mascota registrada correctamente')
+						openInWorld ]
+				ifFalse: [
+					(CuadroConMensaje conMensaje:
+						 'Ha ocurrido un error al registrar el cliente') openInWorld ] ] ].
+
+	botonVerMascotas mouseAction: [
+		ListaDeMascotasDeCliente deCliente: clienteEncontrado ].
 
 	self addMorph: labelBuscador.
 	self addMorph: inputBuscador.
