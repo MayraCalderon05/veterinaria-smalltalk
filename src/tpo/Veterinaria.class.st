@@ -456,7 +456,7 @@ Veterinaria >> atenderTurno: unTurno [
 		hayStock ifTrue: [
 			unTurno atender.
 			atendido := true ] ].
-	self changed .
+	self changed: #turnos.
 	^ atendido
 ]
 

@@ -121,11 +121,10 @@ BuscadorCliente >> initialize [
 
 	botonVerMascotas mouseAction: [
 		ListaDeMascotasDeCliente deCliente: clienteEncontrado ].
-	
-	botonHistorialTurnos mouseAction: [ 
-		(ListaHistorialTurnosDeCliente new) 
-		turnos: (veterinaria historialDeTurnosDe: clienteEncontrado ) de: clienteEncontrado. 
-		 ].
+
+	botonHistorialTurnos mouseAction: [
+		ListaHistorialTurnosDeCliente new
+			turnosDe: clienteEncontrado desde: veterinaria ].
 
 	self addMorph: labelBuscador.
 	self addMorph: inputBuscador.

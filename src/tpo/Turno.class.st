@@ -18,7 +18,7 @@ Class {
 Turno >> atender [
 
 	estado := 'atendido'.
-	self changed.
+
 ]
 
 { #category : 'propios del tipo' }
@@ -71,11 +71,8 @@ Turno >> estado: unEstado [
 
 { #category : 'propios del tipo' }
 Turno >> estadoConfirmado [
-	| rta |
-	rta := false.
-	rta := (#( 'confirmado' 'Confirmado' ) includes: estado) ifTrue: [
-		       true ].
-	^ rta
+^(#( 'confirmado' 'Confirmado' ) includes: estado)
+	
 ]
 
 { #category : 'visualizadores' }

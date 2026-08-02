@@ -25,9 +25,10 @@ TurnoTratamiento class >> crearTurnoTratamientoConFecha: unaFechaTurno hora: una
 ]
 
 { #category : 'propios del tipo' }
-TurnoTratamiento >> atender [ 
-super atender .
-tratamiento atenderTratamiento .
+TurnoTratamiento >> atender [
+
+	super atender.
+	tratamiento atenderTratamiento.
 ]
 
 { #category : 'propios del tipo' }

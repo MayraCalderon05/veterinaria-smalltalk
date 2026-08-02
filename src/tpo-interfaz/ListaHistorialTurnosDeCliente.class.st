@@ -2,6 +2,7 @@ Class {
 	#name : 'ListaHistorialTurnosDeCliente',
 	#superclass : 'BorderedMorph',
 	#instVars : [
+		'veterinaria',
 		'cliente',
 		'tituloNombreCli',
 		'colTurnos',
@@ -10,8 +11,7 @@ Class {
 		'contenedorScrolleable',
 		'contenidoScroll',
 		'lista',
-		'botonAgendarTurno',
-		'botonAtenderTurno'
+		'botonAgendarTurno'
 	],
 	#category : 'tpo-interfaz',
 	#package : 'tpo-interfaz'
@@ -20,7 +20,8 @@ Class {
 { #category : 'acciones' }
 ListaHistorialTurnosDeCliente >> imprirHistorial [
 
-	| contenedor contenido y fuente |
+	| contenedor contenido y fuente botonAtenderTurno |
+	lista removeAllMorphs.
 	y := lista position y.
 
 	colTurnos do: [ :turno |
@@ -41,6 +42,25 @@ ListaHistorialTurnosDeCliente >> imprirHistorial [
 
 		"armo el contenedor con los componentes"
 		contenedor addMorph: contenido.
+
+		turno estadoConfirmado ifTrue: [
+			botonAtenderTurno := BotonAccion new.
+			botonAtenderTurno label: 'Atender'.
+			botonAtenderTurno extent: 70 @ 40.
+			botonAtenderTurno position:
+				contenido position + (contenido width + 115 @ 0).
+
+			botonAtenderTurno mouseAction: [
+				(veterinaria atenderTurno: turno)
+					ifTrue: [
+						(CuadroConMensaje conMensaje: 'Turno atendido exitosamente')
+							openInWorld ]
+					ifFalse: [
+						(CuadroConMensaje conMensaje: 'No se ha podido atender el turno')
+							openInWorld ] ].
+
+			contenedor addMorph: botonAtenderTurno ].
+
 
 		"lo agrego al contenedor principal"
 
@@ -76,7 +96,7 @@ ListaHistorialTurnosDeCliente >> initialize [
 	contenedorScrolleable := ScrollPane new.
 	contenedorScrolleable position: contenedorDeTurnos position + (5 @ 5).
 	contenedorScrolleable extent:
-		contenedorDeTurnos width - 240 @ (contenedorDeTurnos height - 10).
+		contenedorDeTurnos width - 180 @ (contenedorDeTurnos height - 10).
 
 	contenidoScroll := contenedorScrolleable scroller.
 
@@ -88,14 +108,11 @@ ListaHistorialTurnosDeCliente >> initialize [
 
 	botonAgendarTurno := BotonAccion new.
 	botonAgendarTurno label: 'Agendar nuevo turno'.
-	botonAgendarTurno extent: 200 @ 40.
+	botonAgendarTurno extent: 140 @ 40.
 	botonAgendarTurno position: contenedorScrolleable position
 		+ (contenedorScrolleable width + 20 @ 0).
 
-	botonAtenderTurno := BotonAccion new.
-	botonAtenderTurno label: 'Atender un turno'.
-	botonAtenderTurno extent: 200 @ 40.
-	botonAtenderTurno position: botonAgendarTurno position + (0 @ 60).
+
 
 	botonAtras := BotonAccion new.
 	botonAtras label: 'Volver'.
@@ -109,22 +126,28 @@ ListaHistorialTurnosDeCliente >> initialize [
 	self addMorph: contenedorDeTurnos.
 	contenedorDeTurnos addMorph: contenedorScrolleable.
 	self addMorph: botonAtras.
-	self addMorph: botonAgendarTurno.
-	self addMorph: botonAtenderTurno
+	self addMorph: botonAgendarTurno
 ]
 
 { #category : 'asignaciones' }
-ListaHistorialTurnosDeCliente >> turnos: historial de: unCliente [
+ListaHistorialTurnosDeCliente >> turnosDe: unCliente desde: unaVeterinaria [
 
 	| fuente |
+	veterinaria := unaVeterinaria.
 	cliente := unCliente.
-	colTurnos := historial.
+	colTurnos := veterinaria historialDeTurnosDe: cliente.
 
 	fuente := LogicalFont familyName: 'Source Sans Pro' pointSize: 12.
 	tituloNombreCli contents:
-		((' Cliente: ' , cliente nombre asString ,' ', cliente apellido asString
-		  , ' ') asText addAttribute: (TextFontReference toFont: fuente)).
+		((' Cliente: ' , cliente nombre asString , ' '
+		  , cliente apellido asString , ' ') asText addAttribute:
+			 (TextFontReference toFont: fuente)).
 	self imprirHistorial.
-
+	veterinaria addDependent: self. 
 	self openInWorld
+]
+
+{ #category : 'acciones' }
+ListaHistorialTurnosDeCliente >> update: unObjeto [
+	unObjeto = #turnos ifTrue: [ self imprirHistorial ]
 ]
