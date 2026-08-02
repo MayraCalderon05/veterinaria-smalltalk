@@ -47,6 +47,14 @@ descripcion := unaDescripcion
 ]
 
 { #category : 'propios del tipo' }
+Diagnostico >> descripcionTextual [ 
+^'Fecha del diagnostico: ', fechaDiagnostico printString , String lf,
+	'Descripcion: ', descripcion asString, String lf,
+		'Veterinario: ', veterinario nombre asString, String lf,
+			'Mascora: ', mascota nombre asString, String lf.
+]
+
+{ #category : 'propios del tipo' }
 Diagnostico >> equals: otroDiagnostico [
 
 	| rta |

@@ -27,6 +27,14 @@ Vacunacion >> contieneVacuna: unaVacuna [
 ]
 
 { #category : 'propios del tipo' }
+Vacunacion >> descripcionTextual [
+
+	^ 'Fecha de vacunacion: ' , fechaVacunacion printString , String lf
+	  , 'Veterinario: ' , veterinario nombre asString , String lf
+	  , 'Vacuna: ' , vacuna nombreVacuna asString , String lf
+]
+
+{ #category : 'propios del tipo' }
 Vacunacion >> esMasRecienteQue: vacunacionMasReciente [
 | rta |
 rta := false.

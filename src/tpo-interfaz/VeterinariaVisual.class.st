@@ -20,7 +20,8 @@ Class {
 		'botonConsultaTurnosDeFecha',
 		'botonRegistrarAtencionCliente',
 		'botonVerHistorialDeTurnosDeCliente',
-		'botonCerrar'
+		'botonCerrar',
+		'mascotaEncontrada'
 	],
 	#category : 'tpo-interfaz',
 	#package : 'tpo-interfaz'
@@ -104,6 +105,20 @@ VeterinariaVisual >> ejecutarRegistrarDiagnostico [
 		(CuadroConMensaje conMensaje: 'Diagnóstico registrado correctamente')
 			openInWorld ].
 	form openInWorld
+]
+
+{ #category : 'acciones' }
+VeterinariaVisual >> ejecutarVerHistorialClinico [
+
+	| buscadorMasc listaHistorial |
+	buscadorMasc := BuscadorMascota new.
+	buscadorMasc clientesDisponibles: veterinaria clientes.
+	buscadorMasc accionAceptar: [ :unaMascota |
+		listaHistorial := ListaHistorialDeMascota new.
+		listaHistorial deMascota: unaMascota conHistorial: (veterinaria historialClinicoDe: unaMascota ) .
+		listaHistorial openInWorld.
+		] .
+	buscadorMasc openInWorld
 ]
 
 { #category : 'inicializadores' }
@@ -209,7 +224,8 @@ VeterinariaVisual >> initialize [
 		botonConsultaTurnosDeFecha position + (0 @ 30).
 	botonVerHistorialDeTurnosDeCliente position:
 		botonRegistrarAtencionCliente position + (0 @ 30).
-	botonCerrar position: botonVerHistorialDeTurnosDeCliente position + (0 @ 40).
+	botonCerrar position:
+		botonVerHistorialDeTurnosDeCliente position + (0 @ 40).
 	"Etiquetas"
 	botonRegistrarCli label: 'Registrar Cliente'.
 	botonRegistrarMascota label: 'Buscar Cliente'.
@@ -228,7 +244,7 @@ VeterinariaVisual >> initialize [
 	botonVerHistorialDeTurnosDeCliente label:
 		'Historial de Turnos de Cliente'.
 	botonCerrar label: 'Minimizar'.
-	
+
 	"color distinto del boton cerrar"
 	botonCerrar color: (Color fromHexString: 'B08968').
 	botonCerrar extent: 120 @ 30.
@@ -244,8 +260,10 @@ VeterinariaVisual >> initialize [
 	botonFacturarDiagnostico mouseAction: [
 		self ejecutarFacturarDiagnostico ].
 	botonRegistrarPago mouseAction: [ self ejecutarRegistrarPago ].
+	"
 	botonConsultaHistorialClinico mouseAction: [
-		self ejecutarConsultarHistorial ].
+		self ejecutarVerHistorialClinico ].
+	"
 	botonConsultaTratamientosDeVet mouseAction: [
 		self ejecutarConsultarTratamientosVeterinario ].
 	botonFacturasPendientesDeCliente mouseAction: [
@@ -260,7 +278,7 @@ VeterinariaVisual >> initialize [
 		self ejecutarRegistrarAtencionCliente ].
 	botonVerHistorialDeTurnosDeCliente mouseAction: [
 		self ejecutarVerHistorialTurnosCliente ]"
-	botonCerrar mouseAction: [self collapse].
+	botonCerrar mouseAction: [ self collapse ].
 
 	veterinaria := Veterinaria crearVeterinariaConDatosDePrueba.
 	veterinaria addDependent: self.
