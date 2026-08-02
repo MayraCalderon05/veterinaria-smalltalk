@@ -42,7 +42,7 @@ ListaHistorialDeMascota >> imprirHistorial [
 		contenedor := BorderedMorph new.
 		contenedor color: Color white.
 		contenedor position: lista position x @ y.
-		contenedor extent: lista width @ 120.
+		contenedor extent: lista width @ 150.
 
 		"armo lo que va a tener adentro"
 		contenido := TextMorph new.
