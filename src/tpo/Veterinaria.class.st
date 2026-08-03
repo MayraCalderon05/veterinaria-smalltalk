@@ -372,7 +372,8 @@ Veterinaria >> agendarTurno: unTurno [
 		nuevoEstado := 'confirmado'.
 		unTurno estado: nuevoEstado.
 		colTurnos add: unTurno ].
-
+		
+		self changed: #turnos.
 	^ rta
 ]
 
@@ -485,6 +486,29 @@ Veterinaria >> buscarStockDeMedicamento: unMedicamento [
 | encontrado |
 encontrado := colStockMedicamentos detect: [ :st | st esElMismoMedicamento: unMedicamento ] ifNone: [ nil ].
 ^encontrado 
+]
+
+{ #category : 'propios del tipo' }
+Veterinaria >> buscarTratamientosPendientesParaMascota: unaMascota [
+
+	| tratDisponibles diagnosticosMascota |
+	diagnosticosMascota := colDiagnosticos select: [ :d |
+		                       d tieneMascota: unaMascota ].
+	tratDisponibles := OrderedCollection new.
+	diagnosticosMascota do: [:d | 
+		d tratamientos do: [: t |
+			t estadoPendiente ifTrue: [
+				| aux |
+       	 	aux := Array new: 2.
+       	 	aux at: 1 put: d descripcion.
+        		aux at: 2 put: t.
+        		tratDisponibles add: aux.
+				] 
+			].
+ 
+	].
+	"devuelvo solo los pendientes"
+	^ tratDisponibles
 ]
 
 { #category : 'propios del tipo' }

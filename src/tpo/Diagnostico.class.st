@@ -104,6 +104,11 @@ Diagnostico >> registrarNuevoTratamiento: unTratamiento [
 	^ exito
 ]
 
+{ #category : 'propios del tipo' }
+Diagnostico >> tieneMascota: unaMascota [
+^mascota equals: unaMascota .
+]
+
 { #category : 'visualizadores' }
 Diagnostico >> tratamientos [
 ^colTratamientos 

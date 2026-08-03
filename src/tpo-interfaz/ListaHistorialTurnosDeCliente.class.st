@@ -67,7 +67,8 @@ ListaHistorialTurnosDeCliente >> imprirHistorial [
 		lista addMorph: contenedor.
 		y := y + (contenedor height + 20) ].
 
-	contenidoScroll addMorph: lista
+	contenidoScroll addMorph: lista.
+
 ]
 
 { #category : 'inicializadores' }
@@ -112,6 +113,22 @@ ListaHistorialTurnosDeCliente >> initialize [
 	botonAgendarTurno position: contenedorScrolleable position
 		+ (contenedorScrolleable width + 20 @ 0).
 
+	botonAgendarTurno mouseAction: [
+		| form |
+		form := FormAgendarTurno new.
+		form deCliente: cliente deVet: veterinaria.
+		form accionAceptar: [ :unTurno |
+			(veterinaria agendarTurno: unTurno)
+				ifTrue: [
+					(CuadroConMensaje conMensaje: 'Turno agendado correctamente')
+						openInWorld.
+					 ]
+				ifFalse: [
+					(CuadroConMensaje conMensaje:
+						 'Ha ocurrido un error al agendar el turno') openInWorld ] ].
+
+		form openInWorld ].
+
 
 
 	botonAtras := BotonAccion new.
@@ -143,11 +160,14 @@ ListaHistorialTurnosDeCliente >> turnosDe: unCliente desde: unaVeterinaria [
 		  , cliente apellido asString , ' ') asText addAttribute:
 			 (TextFontReference toFont: fuente)).
 	self imprirHistorial.
-	veterinaria addDependent: self. 
+	veterinaria addDependent: self.
 	self openInWorld
 ]
 
 { #category : 'acciones' }
 ListaHistorialTurnosDeCliente >> update: unObjeto [
-	unObjeto = #turnos ifTrue: [ self imprirHistorial ]
+
+	unObjeto = #turnos ifTrue: [ 
+		colTurnos := veterinaria historialDeTurnosDe: cliente.
+		self imprirHistorial ] ifFalse: [  ]
 ]
