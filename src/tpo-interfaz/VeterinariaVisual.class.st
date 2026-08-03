@@ -89,6 +89,9 @@ VeterinariaVisual >> ejecutarConsultarTurnosDeFecha [
 	buscador := BuscadorTurnosPorFecha new.
 	buscador acceso: veterinaria.
 	buscador openInWorld.
+]
+
+{ #category : 'acciones' }
 VeterinariaVisual >> ejecutarBuscarDiagnostico [
 
 	| buscador |
