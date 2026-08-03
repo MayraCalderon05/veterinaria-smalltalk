@@ -24,6 +24,7 @@ MenuAccionesDiagnostico >> acceso: unaVeterinaria paraDiagnostico: unDiagnostico
 
 { #category : 'inicializadores' }
 MenuAccionesDiagnostico >> initialize [
+
 	| origen |
 	super initialize.
 	self color: (Color fromHexString: 'DCE8B4').
@@ -42,14 +43,17 @@ MenuAccionesDiagnostico >> initialize [
 	botonTratamientoQuirurgico position: labelTitulo position + (0 @ 40).
 
 	botonTratamientoFarmacologico := BotonAccion new.
-	botonTratamientoFarmacologico label: 'Registrar tratamiento farmacológico'.
+	botonTratamientoFarmacologico label:
+		'Registrar tratamiento farmacológico'.
 	botonTratamientoFarmacologico extent: self width - 50 @ 40.
-	botonTratamientoFarmacologico position: botonTratamientoQuirurgico position + (0 @ 50).
+	botonTratamientoFarmacologico position:
+		botonTratamientoQuirurgico position + (0 @ 50).
 
 	botonFacturar := BotonAccion new.
 	botonFacturar label: 'Facturar'.
 	botonFacturar extent: self width - 50 @ 40.
-	botonFacturar position: botonTratamientoFarmacologico position + (0 @ 50).
+	botonFacturar position:
+		botonTratamientoFarmacologico position + (0 @ 50).
 
 	botonCancelar := BotonAccion new.
 	botonCancelar label: 'Cancelar'.
@@ -60,28 +64,47 @@ MenuAccionesDiagnostico >> initialize [
 	botonTratamientoQuirurgico mouseAction: [
 		| form |
 		form := FormTratamientoQuirurgico new.
-		form accionAceptar: [:unTratamiento |
+		form accionAceptar: [ :unTratamiento |
 			| exito |
-			exito := veterinaria asignarTratamiento: unTratamiento aDiagnostico: diagnostico.
+			exito := veterinaria
+				         asignarTratamiento: unTratamiento
+				         aDiagnostico: diagnostico.
 			exito
-				ifTrue: [ (CuadroConMensaje conMensaje: 'Tratamiento quirúrgico asignado correctamente') openInWorld ]
-				ifFalse: [ (CuadroConMensaje conMensaje: 'No se pudo asignar el tratamiento') openInWorld ] ].
+				ifTrue: [
+					(CuadroConMensaje conMensaje:
+						 'Tratamiento quirúrgico asignado correctamente') openInWorld ]
+				ifFalse: [
+					(CuadroConMensaje conMensaje: 'No se pudo asignar el tratamiento')
+						openInWorld ] ].
 		form openInWorld.
 		self delete ].
 
 	botonTratamientoFarmacologico mouseAction: [
 		| form |
 		form := FormTratamientoFarmacologico new.
-		form accionAceptar: [:unTratamiento |
+		form accionAceptar: [ :unTratamiento |
 			| exito |
-			exito := veterinaria asignarTratamiento: unTratamiento aDiagnostico: diagnostico.
+			exito := veterinaria
+				         asignarTratamiento: unTratamiento
+				         aDiagnostico: diagnostico.
 			exito
-				ifTrue: [ (CuadroConMensaje conMensaje: 'Tratamiento farmacológico asignado correctamente') openInWorld ]
-				ifFalse: [ (CuadroConMensaje conMensaje: 'No se pudo asignar el tratamiento (revise el stock disponible)') openInWorld ] ].
+				ifTrue: [
+					(CuadroConMensaje conMensaje:
+						 'Tratamiento farmacológico asignado correctamente') openInWorld ]
+				ifFalse: [
+					(CuadroConMensaje conMensaje:
+						 'No se pudo asignar el tratamiento (revise el stock disponible)')
+						openInWorld ] ].
 		form acceso: veterinaria.
 		self delete ].
 
-	botonFacturar mouseAction: [ "todavía no implementado" ].
+	botonFacturar mouseAction: [
+	| exito |
+	exito := veterinaria realizarFacturacion: diagnostico.
+	exito
+		ifTrue: [ (CuadroConMensaje conMensaje: 'Diagnóstico facturado correctamente') openInWorld ]
+		ifFalse: [ (CuadroConMensaje conMensaje: 'No se pudo facturar el diagnóstico') openInWorld ].
+	self delete ].
 
 	botonCancelar mouseAction: [ self delete ].
 

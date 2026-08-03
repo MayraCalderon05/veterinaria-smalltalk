@@ -10,7 +10,6 @@ Class {
 		'botonRegistrarMascota',
 		'botonRegistrarDiagnostico',
 		'botonBuscarDiagnostico',
-		'botonFacturarDiagnostico',
 		'botonRegistrarPago',
 		'botonConsultaHistorialClinico',
 		'botonConsultaTratamientosDeVet',
@@ -179,7 +178,6 @@ VeterinariaVisual >> initialize [
 	botonRegistrarMascota := BotonAccion new.
 	botonRegistrarDiagnostico := BotonAccion new.
 	botonBuscarDiagnostico := BotonAccion new.
-	botonFacturarDiagnostico := BotonAccion new.
 	botonRegistrarPago := BotonAccion new.
 	botonConsultaHistorialClinico := BotonAccion new.
 	botonConsultaTratamientosDeVet := BotonAccion new.
@@ -197,8 +195,7 @@ VeterinariaVisual >> initialize [
 	self addMorph: botonRegistrarCli.
 	self addMorph: botonRegistrarMascota.
 	self addMorph: botonRegistrarDiagnostico.
-	self addMorph: botonBuscarDiagnostico .
-	self addMorph: botonFacturarDiagnostico.
+	self addMorph: botonBuscarDiagnostico.
 	self addMorph: botonRegistrarPago.
 	self addMorph: botonConsultaHistorialClinico.
 	self addMorph: botonConsultaTratamientosDeVet.
@@ -212,39 +209,38 @@ VeterinariaVisual >> initialize [
 	self addMorph: botonCerrar.
 
 	botonRegistrarCli position: mensaje position + (0 @ 30).
-	botonRegistrarMascota position: botonRegistrarCli position + (0 @ 30).
-	botonRegistrarDiagnostico position:
-		botonRegistrarMascota position + (0 @ 30).
-	botonBuscarDiagnostico position:
-		botonRegistrarDiagnostico position + (0 @ 30).
-	botonFacturarDiagnostico position:
-		botonBuscarDiagnostico position + (0 @ 30).
-	botonRegistrarPago position:
-		botonFacturarDiagnostico position + (0 @ 30).
-	botonConsultaHistorialClinico position:
-		botonRegistrarPago position + (0 @ 30).
-	botonConsultaTratamientosDeVet position:
-		botonConsultaHistorialClinico position + (0 @ 30).
-	botonFacturasPendientesDeCliente position:
-		botonConsultaTratamientosDeVet position + (0 @ 30).
-	botonAtenderSolicitudDeTurnoDeCliente position:
-		botonFacturasPendientesDeCliente position + (0 @ 30).
-	botonCancelarTurnoPendiente position:
-		botonAtenderSolicitudDeTurnoDeCliente position + (0 @ 30).
-	botonConsultaTurnosDeFecha position:
-		botonCancelarTurnoPendiente position + (0 @ 30).
-	botonRegistrarAtencionCliente position:
-		botonConsultaTurnosDeFecha position + (0 @ 30).
-	botonVerHistorialDeTurnosDeCliente position:
-		botonRegistrarAtencionCliente position + (0 @ 30).
-	botonCerrar position:
-		botonVerHistorialDeTurnosDeCliente position + (0 @ 40).
+botonRegistrarMascota position: botonRegistrarCli position + (0 @ 30).
+botonRegistrarDiagnostico position:
+	botonRegistrarMascota position + (0 @ 30).
+botonBuscarDiagnostico position:
+	botonRegistrarDiagnostico position + (0 @ 30).
+botonRegistrarPago position:
+	botonBuscarDiagnostico position + (0 @ 30).
+botonConsultaHistorialClinico position:
+	botonRegistrarPago position + (0 @ 30).
+botonConsultaTratamientosDeVet position:
+	botonConsultaHistorialClinico position + (0 @ 30).
+botonFacturasPendientesDeCliente position:
+	botonConsultaTratamientosDeVet position + (0 @ 30).
+botonAtenderSolicitudDeTurnoDeCliente position:
+	botonFacturasPendientesDeCliente position + (0 @ 30).
+botonCancelarTurnoPendiente position:
+	botonAtenderSolicitudDeTurnoDeCliente position + (0 @ 30).
+botonConsultaTurnosDeFecha position:
+	botonCancelarTurnoPendiente position + (0 @ 30).
+botonRegistrarAtencionCliente position:
+	botonConsultaTurnosDeFecha position + (0 @ 30).
+botonVerHistorialDeTurnosDeCliente position:
+	botonRegistrarAtencionCliente position + (0 @ 30).
+botonCerrar position:
+	botonVerHistorialDeTurnosDeCliente position + (0 @ 40).
+		
+		
 	"Etiquetas"
 	botonRegistrarCli label: 'Registrar Cliente'.
 	botonRegistrarMascota label: 'Buscar Cliente'.
 	botonRegistrarDiagnostico label: 'Registrar Diagnóstico'.
 	botonBuscarDiagnostico label: 'Buscar Diagnostico'.
-	botonFacturarDiagnostico label: 'Facturar Diagnóstico'.
 	botonRegistrarPago label: 'Registrar Pago'.
 	botonConsultaHistorialClinico label: 'Historial Clínico'.
 	botonConsultaTratamientosDeVet label: 'Tratamientos por Veterinario'.
@@ -267,8 +263,7 @@ VeterinariaVisual >> initialize [
 	botonRegistrarMascota mouseAction: [ self ejecutarBuscarCliente ].
 	botonRegistrarDiagnostico mouseAction: [
 		self ejecutarRegistrarDiagnostico ].
-	botonBuscarDiagnostico mouseAction: [
-		self ejecutarBuscarDiagnostico ].
+	botonBuscarDiagnostico mouseAction: [ self ejecutarBuscarDiagnostico ].
 	"
 	botonFacturarDiagnostico mouseAction: [
 		self ejecutarFacturarDiagnostico ].
