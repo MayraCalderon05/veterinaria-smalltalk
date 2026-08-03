@@ -146,6 +146,15 @@ Quirurgico class >> tablaDeRiesgo [
 ]
 
 { #category : 'propios del tipo' }
+Quirurgico >> descripcionTextual [
+
+	^ super descripcionTextual , String lf ,
+	'Nombre del procedimiento: ', nombreProcedimiento asString , String lf,
+	'Nivel de riesgo: ', nivelRiesgo asString , String lf,
+	'Tipo de anestesia: ', tipoAnestesia asString , String lf
+]
+
+{ #category : 'propios del tipo' }
 Quirurgico >> esValido [
 
 	| validez |

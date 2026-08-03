@@ -35,6 +35,13 @@ estado := 'realizado'
 ]
 
 { #category : 'propios del tipo' }
+Tratamiento >> descripcionTextual [ 
+^ 'Fecha: ', fechaTratamiento printString , String lf,
+	'Motivo: ', motivo asString, String lf,
+		'Estado: ', estado asString, String lf.
+]
+
+{ #category : 'propios del tipo' }
 Tratamiento >> esFarmacologico [
 ^false
 ]
@@ -63,10 +70,8 @@ estado := unEstado
 
 { #category : 'propios del tipo' }
 Tratamiento >> estadoPendiente [
-| rta |
-rta := false.
-rta := (#('pendiente' 'Pendiente') includes: estado ) ifTrue: [ true ].
-^rta 
+
+^ (#( 'pendiente' 'Pendiente' ) includes: estado)
 ]
 
 { #category : 'visualizadores' }
