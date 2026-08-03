@@ -51,6 +51,12 @@ apellido := unApellido .
 domicilio := unDomicilio .
 ]
 
+{ #category : 'propios del tipo' }
+Persona >> mismoDni: unDni [
+
+	^ dni = unDni 
+]
+
 { #category : 'visualizadores' }
 Persona >> nombre [
 ^nombre 

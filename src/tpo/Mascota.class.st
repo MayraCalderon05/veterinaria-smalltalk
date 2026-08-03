@@ -46,6 +46,16 @@ colVacunaciones do: [ :v | (v esMasRecienteQue: vacunacionMasReciente) ifTrue: [
 ]
 
 { #category : 'propios del tipo' }
+Mascota >> descripcionTextual [
+
+	^ 'Nombre: ' , nombre , String lf , 
+		'Especie: ' , especie , String lf , 
+			'Raza: ' , raza , String lf , 
+				'Fecha de nacimiento: ', fechaNacim printString , String lf , 
+					'Peso: ' , peso asString, String lf.
+]
+
+{ #category : 'propios del tipo' }
 Mascota >> equals: unaMascota [
 
 
@@ -76,18 +86,6 @@ Mascota >> filtrarVacunacionesPorVacuna: unaVacuna [
 	vacunacionesDeVacuna := colVacunaciones select: [ :v |
 		                        v contieneVacuna: unaVacuna ].
 	^ vacunacionesDeVacuna
-]
-
-{ #category : 'inicializadores' }
-Mascota >> inicializarMascotaConId: unIdMascota nombre: unNombre especie: unaEspecie raza: unaRaza fechaNacimiento: unaFechaNacim peso: unPeso [
-
-	idMascota := unIdMascota.
-	nombre := unNombre.
-	especie := unaEspecie.
-	raza := unaRaza.
-	fechaNacim := unaFechaNacim.
-	peso := unPeso.
-	colVacunaciones := OrderedCollection new.
 ]
 
 { #category : 'inicializadores' }
