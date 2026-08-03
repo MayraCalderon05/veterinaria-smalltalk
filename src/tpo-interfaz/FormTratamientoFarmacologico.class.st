@@ -48,13 +48,13 @@ FormTratamientoFarmacologico >> initialize [
 	botonMedicamento label: 'Elegir medicamento'.
 	botonMedicamento extent: self width - 100 @ 40.
 	botonMedicamento position: campoMotivo position + (0 @ 90).
-	medicamentoSeleccionado := nil.
-
+	
 	campoDosis := LabelConCampo label: 'Dosis (numero, ej: 5): '.
 	campoDosis position: botonMedicamento position + (0 @ 90).
 	campoDosis ancho: self width - 100.
 
-	campoFrecuencia := LabelConCampo label: 'Frecuencia (numero, ej: 12): '.
+	campoFrecuencia := LabelConCampo label:
+		                   'Frecuencia (numero, ej: 12): '.
 	campoFrecuencia position: campoDosis position + (0 @ 90).
 	campoFrecuencia ancho: self width - 100.
 
@@ -108,30 +108,32 @@ FormTratamientoFarmacologico >> initialize [
 		adv openInWorld ].
 
 	botonAceptar mouseAction: [
-	(campoMotivo texto isEmpty or: [
-		medicamentoSeleccionado isNil or: [
-		campoDosis texto isEmpty or: [
-		campoFrecuencia texto isEmpty ] ] ])
-		ifTrue: [
-			(CuadroConMensaje conMensaje: 'Complete todos los campos') openInWorld ]
-		ifFalse: [
-			(campoDosis texto asInteger isNil or: [ campoFrecuencia texto asInteger isNil ])
-				ifTrue: [
-					(CuadroConMensaje conMensaje: 'Dosis y frecuencia deben ser números') openInWorld ]
-				ifFalse: [
-					| unaFecha unTratamiento |
-					unaFecha := Date
-						newDay: campoDia texto asInteger
-						month: campoMes texto asInteger
-						year: campoAnio texto asInteger.
-					unTratamiento := Farmacologico
-						crearTratFarmacologicoConFecha: unaFecha
-						motivo: campoMotivo texto
-						monodroga: medicamentoSeleccionado
-						dosis: campoDosis texto asInteger
-						frecuencia: campoFrecuencia texto asInteger.
-					accionAceptar value: unTratamiento.
-					self delete ] ] ].
+		(campoMotivo texto isEmpty or: [
+			 medicamentoSeleccionado isNil or: [
+				 campoDosis texto isEmpty or: [ campoFrecuencia texto isEmpty ] ] ])
+			ifTrue: [
+				(CuadroConMensaje conMensaje: 'Complete todos los campos')
+					openInWorld ]
+			ifFalse: [
+				(campoDosis texto asInteger isNil or: [
+					 campoFrecuencia texto asInteger isNil ])
+					ifTrue: [
+						(CuadroConMensaje conMensaje:
+							 'Dosis y frecuencia deben ser números') openInWorld ]
+					ifFalse: [
+						| unaFecha unTratamiento |
+						unaFecha := Date
+							            newDay: campoDia texto asInteger
+							            month: campoMes texto asInteger
+							            year: campoAnio texto asInteger.
+						unTratamiento := Farmacologico
+							                 crearTratFarmacologicoConFecha: unaFecha
+							                 motivo: campoMotivo texto
+							                 monodroga: medicamentoSeleccionado
+							                 dosis: campoDosis texto asInteger
+							                 frecuencia: campoFrecuencia texto asInteger.
+						accionAceptar value: unTratamiento.
+						self delete ] ] ].
 
 	self addMorph: campoMotivo.
 	self addMorph: botonMedicamento.

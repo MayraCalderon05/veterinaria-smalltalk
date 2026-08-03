@@ -8,7 +8,6 @@ Class {
 		'inputDia',
 		'inputMes',
 		'inputAnio',
-		'fechaIngresada',
 		'botonBuscar',
 		'contenedorResultado',
 		'contenedorScrolleable',
@@ -28,7 +27,7 @@ BuscadorTurnosPorFecha >> acceso: unaVeterinaria [
 	self openInWorld
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'acciones' }
 BuscadorTurnosPorFecha >> generarFecha [
 
 	| f |
@@ -39,7 +38,7 @@ BuscadorTurnosPorFecha >> generarFecha [
 	^ f
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'acciones' }
 BuscadorTurnosPorFecha >> imprimirTurnos [
 
 	| contenedor contenido y fuente botonAtenderTurno botonCancelarTurno |
@@ -205,7 +204,7 @@ BuscadorTurnosPorFecha >> initialize [
 	self addMorph: botonMenuPrincipal
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'acciones' }
 BuscadorTurnosPorFecha >> update: unObjeto [
 
 	unObjeto = #turnos

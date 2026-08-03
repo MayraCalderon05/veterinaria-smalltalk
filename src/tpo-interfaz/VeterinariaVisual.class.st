@@ -75,23 +75,6 @@ VeterinariaVisual >> ejecutarBuscarCliente [
 ]
 
 { #category : 'acciones' }
-VeterinariaVisual >> ejecutarConsultarTratamientosVeterinario [
-| buscador |
-buscador := BuscadorTratPorVeterinario new.
-buscador acceso: veterinaria .
-buscador openInWorld
-]
-
-{ #category : 'acciones' }
-VeterinariaVisual >> ejecutarConsultarTurnosDeFecha [
-
-	| buscador |
-	buscador := BuscadorTurnosPorFecha new.
-	buscador acceso: veterinaria.
-	buscador openInWorld.
-]
-
-{ #category : 'acciones' }
 VeterinariaVisual >> ejecutarBuscarDiagnostico [
 
 	| buscador |
@@ -109,6 +92,23 @@ VeterinariaVisual >> ejecutarConsultarFacturasPendientes [
 	| buscador |
 	buscador := BuscadorFactura new.
 	buscador acceso: veterinaria.
+]
+
+{ #category : 'acciones' }
+VeterinariaVisual >> ejecutarConsultarTratamientosVeterinario [
+| buscador |
+buscador := BuscadorTratPorVeterinario new.
+buscador acceso: veterinaria .
+buscador openInWorld
+]
+
+{ #category : 'acciones' }
+VeterinariaVisual >> ejecutarConsultarTurnosDeFecha [
+
+	| buscador |
+	buscador := BuscadorTurnosPorFecha new.
+	buscador acceso: veterinaria.
+	buscador openInWorld.
 ]
 
 { #category : 'acciones' }
@@ -276,7 +276,7 @@ VeterinariaVisual >> initialize [
 	"color distinto del boton cerrar"
 	botonCerrar color: (Color fromHexString: 'B08968').
 	botonCerrar extent: 120 @ 30.
-	
+
 	"Acciones de cada botón"
 	botonRegistrarCli mouseAction: [ self ejecutarRegistrarCliente ].
 
@@ -286,26 +286,21 @@ VeterinariaVisual >> initialize [
 	botonBuscarDiagnostico mouseAction: [ self ejecutarBuscarDiagnostico ].
 	botonConsultaHistorialClinico mouseAction: [
 		self ejecutarVerHistorialClinico ].
-	
+
 	botonConsultaTratamientosDeVet mouseAction: [
 		self ejecutarConsultarTratamientosVeterinario ].
 	"
 	botonFacturasPendientesDeCliente mouseAction: [
 		self ejecutarConsultarFacturasPendientes ].
 	"
-	botonAtenderSolicitudDeTurnoDeCliente mouseAction: [
-		self ejecutarAtenderSolicitudTurno ].
-	botonCancelarTurnoPendiente mouseAction: [
-		self ejecutarCancelarTurnoPendiente ].
+	
 	"
 	botonConsultaTurnosDeFecha mouseAction: [
 		self ejecutarConsultarTurnosDeFecha ].
 	"
-	botonRegistrarAtencionCliente mouseAction: [
-		self ejecutarRegistrarAtencionCliente ].
-	botonVerHistorialDeTurnosDeCliente mouseAction: [
-		self ejecutarVerHistorialTurnosCliente ]
-	botonCerrar mouseAction: [ self collapse ].
+	
+		botonCerrar
+		mouseAction: [ self collapse ].
 
 	veterinaria := Veterinaria crearVeterinariaConDatosDePrueba.
 	veterinaria addDependent: self.
