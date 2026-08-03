@@ -304,7 +304,7 @@ VeterinariaVisual >> initialize [
 	botonRegistrarAtencionCliente mouseAction: [
 		self ejecutarRegistrarAtencionCliente ].
 	botonVerHistorialDeTurnosDeCliente mouseAction: [
-		self ejecutarVerHistorialTurnosCliente ]"
+		self ejecutarVerHistorialTurnosCliente ]
 	botonCerrar mouseAction: [ self collapse ].
 
 	veterinaria := Veterinaria crearVeterinariaConDatosDePrueba.
