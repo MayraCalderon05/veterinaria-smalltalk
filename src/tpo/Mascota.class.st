@@ -58,11 +58,13 @@ Mascota >> descripcionTextual [
 { #category : 'propios del tipo' }
 Mascota >> equals: unaMascota [
 
-	 ^ (nombre = unaMascota nombre)
-        and: [ (especie = unaMascota especie)
-        and: [ (raza = unaMascota raza)
-        and: [ (fechaNacim = unaMascota fechaNacim)
-        and: [ peso = unaMascota peso ] ] ] ]
+
+	| rta |
+	rta := false.
+	nombre = unaMascota nombre & (especie = unaMascota especie)
+	& (raza = unaMascota raza) & (fechaNacim = unaMascota fechaNacim)
+	& (peso = unaMascota peso) ifTrue: [ rta := true ].
+	^ rta
 ]
 
 { #category : 'visualizadores' }

@@ -18,7 +18,7 @@ Class {
 Turno >> atender [
 
 	estado := 'atendido'.
-
+	self changed.
 ]
 
 { #category : 'propios del tipo' }
@@ -31,18 +31,6 @@ self changed.
 Turno >> cliente [
 
 	^ cliente 
-]
-
-{ #category : 'propios del tipo' }
-Turno >> descripcionTextual [ 
-^ 'TURNO: ', String lf,
-	'Fecha: ', fechaTurno printString , String lf,
-		'Horia: ', horaTurno printString , String lf,
-			'Estado: ', estado asString, String  lf,
-				'Motivo: ', motivo asString, String lf,
-					'Cliente: ', cliente nombre asString, String lf,
-						'Mascota: ', mascota nombre asString, String lf,
-							'Veterinario: ', veterinario nombre asString, String lf.
 ]
 
 { #category : 'propios del tipo' }
@@ -71,8 +59,11 @@ Turno >> estado: unEstado [
 
 { #category : 'propios del tipo' }
 Turno >> estadoConfirmado [
-^(#( 'confirmado' 'Confirmado' ) includes: estado)
-	
+	| rta |
+	rta := false.
+	rta := (#( 'confirmado' 'Confirmado' ) includes: estado) ifTrue: [
+		       true ].
+	^ rta
 ]
 
 { #category : 'visualizadores' }

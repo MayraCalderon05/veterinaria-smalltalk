@@ -24,14 +24,6 @@ Farmacologico class >> crearTratFarmacologicoConFecha: unaFecha motivo: unMotivo
 	^ t
 ]
 
-{ #category : 'propios del tipo' }
-Farmacologico >> descripcionTextual [ 
-^ super descripcionTextual, String lf,
-	'Monodroga: ', monodroga nombre asString, String lf,
-	'Dosis: ', dosis asString, String lf,
-	'Frecuencia: ', frecuencia asString, String lf.
-]
-
 { #category : 'visualizadores' }
 Farmacologico >> dosis [
 ^dosis 

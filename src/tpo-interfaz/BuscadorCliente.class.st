@@ -10,7 +10,6 @@ Class {
 		'labelResultado',
 		'botonAgregarMascota',
 		'botonVerMascotas',
-		'botonHistorialTurnos',
 		'clienteEncontrado',
 		'botonMenuPrincipal'
 	],
@@ -77,11 +76,6 @@ BuscadorCliente >> initialize [
 	botonVerMascotas extent: 120 @ 40.
 	botonVerMascotas position: botonAgregarMascota position + (0 @ 60).
 
-	botonHistorialTurnos := BotonAccion new.
-	botonHistorialTurnos label: 'Historial Turnos'.
-	botonHistorialTurnos extent: 120 @ 40.
-	botonHistorialTurnos position: botonVerMascotas position + (0 @ 60).
-
 	botonMenuPrincipal := BotonAccion new.
 	botonMenuPrincipal label: 'Volver'.
 	botonMenuPrincipal extent: 120 @ 40.
@@ -90,7 +84,6 @@ BuscadorCliente >> initialize [
 	contenedorResultado addMorph: labelResultado.
 	contenedorResultado addMorph: botonAgregarMascota.
 	contenedorResultado addMorph: botonVerMascotas.
-	contenedorResultado addMorph: botonHistorialTurnos.
 
 	botonMenuPrincipal mouseAction: [ self delete ].
 
@@ -121,10 +114,6 @@ BuscadorCliente >> initialize [
 
 	botonVerMascotas mouseAction: [
 		ListaDeMascotasDeCliente deCliente: clienteEncontrado ].
-
-	botonHistorialTurnos mouseAction: [
-		ListaHistorialTurnosDeCliente new
-			turnosDe: clienteEncontrado desde: veterinaria ].
 
 	self addMorph: labelBuscador.
 	self addMorph: inputBuscador.
