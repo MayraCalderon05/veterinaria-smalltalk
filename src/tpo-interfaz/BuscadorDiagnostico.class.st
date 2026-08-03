@@ -1,5 +1,5 @@
 Class {
-	#name : 'BuscadorMascota',
+	#name : 'BuscadorDiagnostico',
 	#superclass : 'BorderedMorph',
 	#instVars : [
 		'veterinaria',
@@ -8,8 +8,10 @@ Class {
 		'inputBuscador',
 		'botonBuscar',
 		'clienteEncontrado',
+		'mascotaSeleccionada',
 		'labelResultado',
 		'botonElegirMascota',
+		'botonElegirDiagnostico',
 		'botonCancelar'
 	],
 	#category : 'tpo-interfaz',
@@ -17,24 +19,24 @@ Class {
 }
 
 { #category : 'propios del tipo' }
-BuscadorMascota >> acceso: unaVeterinaria [
+BuscadorDiagnostico >> acceso: unaVeterinaria [
 	veterinaria := unaVeterinaria.
 	self openInWorld
 ]
 
 { #category : 'propios del tipo' }
-BuscadorMascota >> accionAceptar: unBloque [
+BuscadorDiagnostico >> accionAceptar: unBloque [
 	accionAceptar := unBloque
 ]
 
 { #category : 'inicializadores' }
-BuscadorMascota >> initialize [
+BuscadorDiagnostico >> initialize [
 
 	| origen |
 	super initialize.
 	self color: (Color fromHexString: 'DCE8B4').
 	self position: 45 @ 45.
-	self bounds: (self position extent: 500 @ 250).
+	self bounds: (self position extent: 500 @ 300).
 	origen := self innerBounds origin.
 
 	labelBuscador := TextMorph new.
@@ -63,19 +65,29 @@ BuscadorMascota >> initialize [
 	botonElegirMascota extent: 150 @ 30.
 	botonElegirMascota position: labelResultado position + (0 @ 40).
 
-	botonBuscar mouseAction: [
-		"busca que cliente tiene ese dni"
-		clienteEncontrado := veterinaria buscarClientePorDni: inputBuscador text asString.
+	botonElegirDiagnostico := BotonAccion new.
+	botonElegirDiagnostico label: 'Elegir diagnóstico'.
+	botonElegirDiagnostico extent: 150 @ 30.
+	botonElegirDiagnostico position:
+		botonElegirMascota position + (0 @ 40).
 
+	botonCancelar := BotonAccion new.
+	botonCancelar label: 'Cancelar'.
+	botonCancelar color: (Color fromHexString: 'B08968').
+	botonCancelar extent: 150 @ 30.
+	botonCancelar position: botonElegirDiagnostico position + (0 @ 40).
+
+	botonBuscar mouseAction: [
+		clienteEncontrado := veterinaria buscarClientePorDni: inputBuscador text asString.
 		clienteEncontrado
-			ifNil: [ "si encontro el cliente, muestra al cliente"
+			ifNil: [
 				labelResultado contents: ''.
 				(CuadroConMensaje conMensaje: 'Cliente no encontrado') openInWorld ]
-			ifNotNil: [ "si no encontro el cliente le avisa"
+			ifNotNil: [
 				labelResultado contents:
 					'Cliente: ' , clienteEncontrado nombre , ' - '
 					, clienteEncontrado mascotas size printString , ' mascota(s)' ] ].
-	"aca aparecen las masoctas de ese cliente para poder seleccionar alguna"
+
 	botonElegirMascota mouseAction: [
 		clienteEncontrado
 			ifNil: [
@@ -89,15 +101,32 @@ BuscadorMascota >> initialize [
 					           values: clienteEncontrado mascotas
 					           title: 'Seleccione una mascota'.
 				elegida ifNotNil: [
-					accionAceptar value: elegida.
-					self delete ] ] ].
+					mascotaSeleccionada := elegida.
+					botonElegirMascota label: 'Mascota: ' , elegida nombre.
+					botonElegirMascota extent: 150 @ 30 ] ] ].
 
-
-	botonCancelar := BotonAccion new.
-	botonCancelar label: 'Cancelar'.
-	botonCancelar color: (Color fromHexString: 'B08968').
-	botonCancelar extent: 150 @ 30.
-	botonCancelar position: botonElegirMascota position + (170 @ 0).
+	botonElegirDiagnostico mouseAction: [
+		mascotaSeleccionada
+			ifNil: [
+				(CuadroConMensaje conMensaje: 'Primero elija una mascota')
+					openInWorld ]
+			ifNotNil: [
+				| diagnosticosDeLaMascota textos elegido |
+				diagnosticosDeLaMascota := veterinaria diagnosticos
+				select: [:d | d mascota equals: mascotaSeleccionada].
+				diagnosticosDeLaMascota isEmpty
+					ifTrue: [
+						(CuadroConMensaje conMensaje:
+							 'Esa mascota no tiene diagnósticos') openInWorld ]
+					ifFalse: [
+						textos := diagnosticosDeLaMascota collect: [:d | d 					fechaDiagnostico printString, ' - ', d descripcion].
+						elegido := UIManager default
+							           chooseFrom: textos
+							           values: diagnosticosDeLaMascota
+							           title: 'Seleccione un diagnóstico'.
+						elegido ifNotNil: [
+							accionAceptar value: elegido.
+							self delete ] ] ] ].
 
 	botonCancelar mouseAction: [
 		| adv |
@@ -114,5 +143,6 @@ BuscadorMascota >> initialize [
 	self addMorph: botonBuscar.
 	self addMorph: labelResultado.
 	self addMorph: botonElegirMascota.
+	self addMorph: botonElegirDiagnostico.
 	self addMorph: botonCancelar
 ]

@@ -662,34 +662,26 @@ Veterinaria >> facturasPendientesDe: unCliente [
 
 	| factPendientes factPendientesCliente |
 	factPendientes := self facturasPendientes.
-
-	factPendientesCliente := factPendientes select: [ :cadaFactura |
-		                         cadaFactura cliente equals: unCliente ].
-
-	^ factPendientesCliente 
+	factPendientesCliente := factPendientes select: [ :cadaResultado |
+		(cadaResultado at: 1) equals: unCliente ].
+	^ factPendientesCliente
 ]
 
 { #category : 'propios del tipo' }
 Veterinaria >> generarFactura: unDiagnostico [
 
-	| facturaGenerada hoy mascotaDiagnostico elCliente montoAbonar |
-	hoy := Date today.
-	facturaGenerada := colFacturas
-		                   detect: [ :factura |
-		                   factura buscarFactura: unDiagnostico enDia: hoy ]
-		                   ifNone: [
-			                   mascotaDiagnostico := unDiagnostico mascota.
-			                   elCliente := self buscarClienteConMascota:
-				                                mascotaDiagnostico.
-			                   montoAbonar := unDiagnostico calcularMontoFinal.
-			                   facturaGenerada := Factura
-				                                      crearFacturaConCliente:
-				                                      elCliente
-				                                      cuitVeterinaria: cuit
-				                                      diagnostico: unDiagnostico
-				                                      montoTotal: montoAbonar
-				                                      fechaGeneracion: hoy ].
-
+	| facturaGenerada mascotaDiagnostico elCliente montoAbonar |
+	
+	mascotaDiagnostico := unDiagnostico mascota.
+	elCliente := self buscarClienteConMascota: mascotaDiagnostico.
+	montoAbonar := unDiagnostico calcularMontoFinal.
+	facturaGenerada := Factura
+				 crearFacturaConCliente: elCliente
+				 cuitVeterinaria: cuit
+				 diagnostico: unDiagnostico
+				 montoTotal: montoAbonar
+				 fechaGeneracion: Date today.
+	self changed.
 	^ facturaGenerada
 ]
 
@@ -768,15 +760,19 @@ Veterinaria >> obtenerFacturasPendientes [
 
 { #category : 'propios del tipo' }
 Veterinaria >> realizarFacturacion: unDiagnostico [
-| exito unaFactura|
 
-exito := false .
-unaFactura := self generarFactura: unDiagnostico.
+	| exito unaFactura yaExistia |
+	exito := false.
+	yaExistia := colFacturas
+		detect: [:f | f buscarFactura: unDiagnostico enDia: Date today]
+		ifNone: [nil].
+		
+	yaExistia 
+		ifNil: [ unaFactura := self generarFactura: unDiagnostico.
+			self agregarFactura: unaFactura.
+			exito := true  ].
 
-unaFactura ifNotNil: [ self agregarFactura: unaFactura.
-								exito := true ].
-							
-^exito 
+	^ exito
 ]
 
 { #category : 'propios del tipo' }

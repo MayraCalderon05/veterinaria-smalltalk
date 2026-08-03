@@ -2,6 +2,7 @@ Class {
 	#name : 'FormRegistrarDiagnostico',
 	#superclass : 'BorderedMorph',
 	#instVars : [
+		'veterinaria',
 		'medicosDisponibles',
 		'clientesDisponibles',
 		'accionAceptar',
@@ -21,13 +22,14 @@ Class {
 }
 
 { #category : 'propios del tipo' }
-FormRegistrarDiagnostico >> accionAceptar: unBloque [
-	accionAceptar := unBloque
+FormRegistrarDiagnostico >> acceso: unaVeterinaria [
+	veterinaria := unaVeterinaria.
+	self openInWorld
 ]
 
-{ #category : 'modificadores' }
-FormRegistrarDiagnostico >> clientesDisponibles: unaColeccion [
-	clientesDisponibles := unaColeccion
+{ #category : 'propios del tipo' }
+FormRegistrarDiagnostico >> accionAceptar: unBloque [
+	accionAceptar := unBloque
 ]
 
 { #category : 'propios del tipo' }
@@ -84,14 +86,14 @@ FormRegistrarDiagnostico >> initialize [
 		| buscador |
 		"llama al buscador de mascota"
 		buscador := BuscadorMascota new.
-		"le manda los clientes que tiene la veterinaria"
-		buscador clientesDisponibles: clientesDisponibles.
+		"le manda los clientes que tiene la veterinaria y abre el mundo"
+		buscador acceso: veterinaria.
 		"si el cliente selecciona una mascota, se guarda en mascotaSeleccionada"
 		buscador accionAceptar: [ :unaMascota |
 			mascotaSeleccionada := unaMascota.
 			botonMascota label: 'Mascota: ' , unaMascota nombre.
-			botonMascota ancho: self width - 100 alto: 40].
-		buscador openInWorld ].
+			botonMascota extent: self width - 100 @ 40 ] ].
+
 
 	botonMedico := BotonAccion new.
 	botonMedico label: 'elegir Medico: '.
@@ -101,32 +103,32 @@ FormRegistrarDiagnostico >> initialize [
 	medicoSeleccionado := ''.
 	botonMedico mouseAction: [
 		| textos elegido |
-		textos := medicosDisponibles collect: [ :m |
+		textos := veterinaria medicos collect: [ :m |
 			          m dni , ' - ' , m nombre , ' ' , m apellido ].
 		"UIManager es un objeto propio de pharo, en este caso usamos chooseFrom para seleccionar un medico de la coleccion de medicos"
 		elegido := UIManager default
 			           chooseFrom: textos
-			           values: medicosDisponibles
+			           values: veterinaria medicos
 			           title: 'Seleccione un médico'.
 		elegido ifNotNil: [
 			medicoSeleccionado := elegido.
-			botonMedico label: 'Médico: ' , elegido nombre.
-			botonMedico ancho: self width - 100 alto: 40 ] ].
-
+			botonMedico label: 'Médico: ' , elegido dni.
+			botonMedico extent: self width - 100 @ 40 ] ].
+	
 	botonCancelar := BotonAccion new.
 	botonCancelar label: 'Cancelar'.
 	botonCancelar color: (Color fromHexString: 'B08968').
-	botonCancelar position: botonMedico position + (0 @ 80).
+	botonCancelar position: botonMedico position + (0 @ 100).
 	botonCancelar ancho: 150 alto: 40.
 	botonCancelar mouseAction: [
 		| adv |
-		adv := CuadroConMensaje conMensaje:
-			       '¿Está seguro de que desea cancelar el registro?'.
+		adv := CuadroConMensaje conMensaje: '¿Está seguro de que desea cancelar 	el registro?'.
 		adv agregarBotonCancelar: [ adv delete ].
 		adv accionAceptar: [
 			adv delete.
 			self delete ].
 		adv openInWorld ].
+
 
 	botonAceptar := BotonAccion new.
 	botonAceptar label: 'Aceptar'.
@@ -159,11 +161,6 @@ FormRegistrarDiagnostico >> initialize [
 	self addMorph: botonMedico.
 	self addMorph: botonCancelar.
 	self addMorph: botonAceptar
-]
-
-{ #category : 'modificadores' }
-FormRegistrarDiagnostico >> medicosDisponibles: unaColeccion [
-	medicosDisponibles := unaColeccion
 ]
 
 { #category : 'propios del tipo' }

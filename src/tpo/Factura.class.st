@@ -29,10 +29,14 @@ Factura class >> crearFacturaConCliente: unCliente cuitVeterinaria: unCuitVeteri
 
 { #category : 'propios del tipo' }
 Factura >> armarResultado [
-| arreglo |
-arreglo := Array new: 2.
-arreglo at: 1 put: cliente ; at: 2 put: (self obtenerSaldoPendiente ).
-^arreglo 
+
+	| arreglo |
+	arreglo := Array new: 3.
+	arreglo
+		at: 1 put: cliente;
+		at: 2 put: self obtenerSaldoPendiente;
+		at: 3 put: self.
+	^ arreglo
 ]
 
 { #category : 'propios del tipo' }

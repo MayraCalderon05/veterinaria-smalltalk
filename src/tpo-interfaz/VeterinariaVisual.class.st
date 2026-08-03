@@ -9,9 +9,7 @@ Class {
 		'botonRegistrarCli',
 		'botonRegistrarMascota',
 		'botonRegistrarDiagnostico',
-		'botonAsignarTratamiento',
-		'botonFacturarDiagnostico',
-		'botonRegistrarPago',
+		'botonBuscarDiagnostico',
 		'botonConsultaHistorialClinico',
 		'botonConsultaTratamientosDeVet',
 		'botonFacturasPendientesDeCliente',
@@ -49,13 +47,16 @@ VeterinariaVisual >> actualizarListaClientes [
 	veterinaria clientes do: [ :cadaCliente |
 		texto
 			nextPutAll: cadaCliente nombre;
-			nextPutAll: ' ';
+			nextPutAll: ' dni: ';
+			nextPutAll: cadaCliente dni;
+			nextPutAll: ' - ';
 			nextPutAll: cadaCliente mascotas size printString;
 			nextPutAll: ' mascota(s)';
 			cr ].
 	listaClientes contents: texto contents.
-	
-	cantidadMascotas position: listaClientes position + (0 @ (listaClientes height + 10)).
+
+	cantidadMascotas position:
+		listaClientes position + (0 @ (listaClientes height + 10)).
 
 	totalMascotas := veterinaria clientes
 		                 inject: 0
@@ -88,6 +89,23 @@ VeterinariaVisual >> ejecutarConsultarTurnosDeFecha [
 	buscador := BuscadorTurnosPorFecha new.
 	buscador acceso: veterinaria.
 	buscador openInWorld.
+VeterinariaVisual >> ejecutarBuscarDiagnostico [
+
+	| buscador |
+	buscador := BuscadorDiagnostico new.
+	buscador accionAceptar: [ :unDiagnostico |
+		MenuAccionesDiagnostico new
+			acceso: veterinaria
+			paraDiagnostico: unDiagnostico ].
+	buscador acceso: veterinaria
+]
+
+{ #category : 'acciones' }
+VeterinariaVisual >> ejecutarConsultarFacturasPendientes [
+
+	| buscador |
+	buscador := BuscadorFactura new.
+	buscador acceso: veterinaria.
 ]
 
 { #category : 'acciones' }
@@ -113,15 +131,13 @@ VeterinariaVisual >> ejecutarRegistrarDiagnostico [
 	| form |
 	"crea una instancia de FormRegistrarDiagnostico"
 	form := FormRegistrarDiagnostico new.
-	"le manda la coleccion de medicos y cliente al formulario"
-	form medicosDisponibles: veterinaria medicos.
-	form clientesDisponibles: veterinaria clientes.
 	"cuando temga creado el diagnostico lo agrega a la coleccion de diagnosticos"
 	form accionAceptar: [ :unDiagnostico |
 		veterinaria agregarDiagnostico: unDiagnostico.
 		(CuadroConMensaje conMensaje: 'Diagnóstico registrado correctamente')
 			openInWorld ].
-	form openInWorld
+	"llama a ese metodo que abre el mundo y le manda veterinaria"
+	form acceso: veterinaria.
 ]
 
 { #category : 'acciones' }
@@ -144,7 +160,7 @@ VeterinariaVisual >> initialize [
 
 	| origen |
 	super initialize.
-	self color: Color lightGreen.
+	self color: (Color fromHexString: 'DCE8B4').
 	self position: 45 @ 45.
 	self bounds: (self position extent: 600 @ 800).
 	origen := self innerBounds origin.
@@ -152,7 +168,7 @@ VeterinariaVisual >> initialize [
 	"Se crea el elemento gráfico para mostrar mensajes de resultado"
 	mensaje := TextMorph new.
 	mensaje color: Color black.
-	mensaje backgroundColor: Color lightGreen.
+	mensaje backgroundColor: (Color fromHexString: 'DCE8B4').
 	mensaje margins: 5 @ 5.
 	"Se posicionan, uno debajo del otro"
 	mensaje position: origen + (25 @ 25).
@@ -161,13 +177,13 @@ VeterinariaVisual >> initialize [
 	listaClientes := TextMorph new.
 	listaClientes contents: 'Clientes: (sistema no inicializado)'.
 	listaClientes color: Color black.
-	listaClientes backgroundColor: Color lightGreen.
+	listaClientes backgroundColor: (Color fromHexString: 'DCE8B4').
 	listaClientes margins: 5 @ 5.
 
 	cantidadMascotas := TextMorph new.
 	cantidadMascotas contents: 'Mascotas atendidas: 0'.
 	cantidadMascotas color: Color black.
-	cantidadMascotas backgroundColor: Color lightGreen.
+	cantidadMascotas backgroundColor: (Color fromHexString: 'DCE8B4').
 	cantidadMascotas margins: 5 @ 5.
 
 	self addMorph: listaClientes.
@@ -182,9 +198,7 @@ VeterinariaVisual >> initialize [
 	botonRegistrarCli := BotonAccion new.
 	botonRegistrarMascota := BotonAccion new.
 	botonRegistrarDiagnostico := BotonAccion new.
-	botonAsignarTratamiento := BotonAccion new.
-	botonFacturarDiagnostico := BotonAccion new.
-	botonRegistrarPago := BotonAccion new.
+	botonBuscarDiagnostico := BotonAccion new.
 	botonConsultaHistorialClinico := BotonAccion new.
 	botonConsultaTratamientosDeVet := BotonAccion new.
 	botonFacturasPendientesDeCliente := BotonAccion new.
@@ -201,9 +215,7 @@ VeterinariaVisual >> initialize [
 	self addMorph: botonRegistrarCli.
 	self addMorph: botonRegistrarMascota.
 	self addMorph: botonRegistrarDiagnostico.
-	self addMorph: botonAsignarTratamiento.
-	self addMorph: botonFacturarDiagnostico.
-	self addMorph: botonRegistrarPago.
+	self addMorph: botonBuscarDiagnostico.
 	self addMorph: botonConsultaHistorialClinico.
 	self addMorph: botonConsultaTratamientosDeVet.
 	self addMorph: botonFacturasPendientesDeCliente.
@@ -219,14 +231,10 @@ VeterinariaVisual >> initialize [
 	botonRegistrarMascota position: botonRegistrarCli position + (0 @ 30).
 	botonRegistrarDiagnostico position:
 		botonRegistrarMascota position + (0 @ 30).
-	botonAsignarTratamiento position:
+	botonBuscarDiagnostico position:
 		botonRegistrarDiagnostico position + (0 @ 30).
-	botonFacturarDiagnostico position:
-		botonAsignarTratamiento position + (0 @ 30).
-	botonRegistrarPago position:
-		botonFacturarDiagnostico position + (0 @ 30).
 	botonConsultaHistorialClinico position:
-		botonRegistrarPago position + (0 @ 30).
+		botonBuscarDiagnostico position + (0 @ 30).
 	botonConsultaTratamientosDeVet position:
 		botonConsultaHistorialClinico position + (0 @ 30).
 	botonFacturasPendientesDeCliente position:
@@ -243,13 +251,13 @@ VeterinariaVisual >> initialize [
 		botonRegistrarAtencionCliente position + (0 @ 30).
 	botonCerrar position:
 		botonVerHistorialDeTurnosDeCliente position + (0 @ 40).
+
+
 	"Etiquetas"
 	botonRegistrarCli label: 'Registrar Cliente'.
 	botonRegistrarMascota label: 'Buscar Cliente'.
 	botonRegistrarDiagnostico label: 'Registrar Diagnóstico'.
-	botonAsignarTratamiento label: 'Asignar Tratamiento'.
-	botonFacturarDiagnostico label: 'Facturar Diagnóstico'.
-	botonRegistrarPago label: 'Registrar Pago'.
+	botonBuscarDiagnostico label: 'Buscar Diagnostico'.
 	botonConsultaHistorialClinico label: 'Historial Clínico'.
 	botonConsultaTratamientosDeVet label: 'Tratamientos por Veterinario'.
 	botonFacturasPendientesDeCliente label: 'Facturas Pendientes'.
@@ -265,19 +273,14 @@ VeterinariaVisual >> initialize [
 	"color distinto del boton cerrar"
 	botonCerrar color: (Color fromHexString: 'B08968').
 	botonCerrar extent: 120 @ 30.
+	
 	"Acciones de cada botón"
 	botonRegistrarCli mouseAction: [ self ejecutarRegistrarCliente ].
 
 	botonRegistrarMascota mouseAction: [ self ejecutarBuscarCliente ].
 	botonRegistrarDiagnostico mouseAction: [
 		self ejecutarRegistrarDiagnostico ].
-	"
-	botonAsignarTratamiento mouseAction: [
-		self ejecutarAsignarTratamiento ].
-	botonFacturarDiagnostico mouseAction: [
-		self ejecutarFacturarDiagnostico ].
-	botonRegistrarPago mouseAction: [ self ejecutarRegistrarPago ].
-	"
+	botonBuscarDiagnostico mouseAction: [ self ejecutarBuscarDiagnostico ].
 	botonConsultaHistorialClinico mouseAction: [
 		self ejecutarVerHistorialClinico ].
 	
@@ -286,6 +289,7 @@ VeterinariaVisual >> initialize [
 	"
 	botonFacturasPendientesDeCliente mouseAction: [
 		self ejecutarConsultarFacturasPendientes ].
+	"
 	botonAtenderSolicitudDeTurnoDeCliente mouseAction: [
 		self ejecutarAtenderSolicitudTurno ].
 	botonCancelarTurnoPendiente mouseAction: [
