@@ -17,8 +17,8 @@ Class {
 
 { #category : 'constructores' }
 Veterinaria class >> crearVeterinariaConDatosDePrueba [
-	| veterinaria medico1 medico2 cliente1 cliente2 cliente3 mascota11 mascota21 mascota22 mascota31 vacuna1 vacuna2 medicamento1 medicamento2 medicamento3 medicamento4 medicamento5 diag trat vacunacion factura pago turno matricula diagMascota22 tratQuirurgicoMascota22 |
 
+	| veterinaria medico1 medico2 cliente1 cliente2 cliente3 mascota11 mascota21 mascota22 mascota31 vacuna1 vacuna2 medicamento1 medicamento2 medicamento3 medicamento4 medicamento5 diag trat vacunacion factura pago turno matricula diagMascota22 tratQuirurgicoMascota22 |
 	veterinaria := self
 		               crearVeterinariaConNombre:
 		               'Los animales no son objetos'
@@ -270,10 +270,10 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 	mascota22 agregarVacunacion: vacunacion.
 
 	diagMascota22 := Diagnostico
-		        crearDiagnosticoConFecha: Date today
-		        descripcion: 'Quiste sebáceo'
-		        veterinario: medico1
-		        mascota: mascota22.
+		                 crearDiagnosticoConFecha: Date today
+		                 descripcion: 'Quiste sebáceo'
+		                 veterinario: medico1
+		                 mascota: mascota22.
 	veterinaria agregarDiagnostico: diagMascota22.
 
 	trat := Farmacologico
@@ -285,12 +285,14 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 	veterinaria asignarTratamiento: trat aDiagnostico: diagMascota22.
 
 	tratQuirurgicoMascota22 := Quirurgico
-		        crearTratQuirurgicoConFecha: Date today
-		        motivo: 'Extracción de quiste'
-		        nombreProcedimiento: 'Extirpación'
-		        nivelRiesgo: 1
-		        tipoAnestesia: 'Local'.
-	veterinaria asignarTratamiento: tratQuirurgicoMascota22 aDiagnostico: diagMascota22.
+		                           crearTratQuirurgicoConFecha: Date today
+		                           motivo: 'Extracción de quiste'
+		                           nombreProcedimiento: 'Extirpación'
+		                           nivelRiesgo: 1
+		                           tipoAnestesia: 'Local'.
+	veterinaria
+		asignarTratamiento: tratQuirurgicoMascota22
+		aDiagnostico: diagMascota22.
 
 	"Cliente 3, mascota 3.1 con 3 AV + 1 D con 1 TQ + 1 D con 2 TF"
 	vacunacion := Vacunacion
@@ -383,11 +385,11 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 	"Cliente 2 tiene un turno de tratamiento, CONFIRMADO para la mascota 2.2."
 	turno := TurnoTratamiento
 		         crearTurnoTratamientoConFecha: Date today
-		         hora: '11:00'
+		         hora: '18:00'
 		         motivo: 'Extracción de quiste'
 		         cliente: cliente2
 		         mascota: mascota22
-		         veterinario: medico1
+		         veterinario: medico2
 		         tratamiento: tratQuirurgicoMascota22.
 	veterinaria agendarTurno: turno.
 

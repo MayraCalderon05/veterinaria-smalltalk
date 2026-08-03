@@ -23,65 +23,70 @@ ListaHistorialTurnosDeCliente >> imprirHistorial [
 	| contenedor contenido y fuente botonAtenderTurno botonCancelarTurno |
 	lista removeAllMorphs.
 	y := lista position y.
+	colTurnos
+		ifEmpty: [
+			(CuadroConMensaje conMensaje:
+				'No hay turnos registrados para ' , cliente nombre asString) openInWorld ]
+		ifNotEmpty: [
+			colTurnos do: [ :turno |
+				contenedor := BorderedMorph new.
+				contenedor color: Color white.
+				contenedor position: lista position x @ y.
+				contenedor extent: lista width @ 220.
 
-	colTurnos do: [ :turno |
-		contenedor := BorderedMorph new.
-		contenedor color: Color white.
-		contenedor position: lista position x @ y.
-		contenedor extent: lista width @ 220.
-
-		"armo lo que va a tener adentro"
-		contenido := TextMorph new.
-		contenido width: contenedor width - 10.
-		contenido position: contenedor position + (5 @ 5).
-		fuente := LogicalFont familyName: 'Source Sans Pro' pointSize: 11.
-		contenido contents: (turno descripcionTextual asText addAttribute:
-				 (TextFontReference toFont: fuente)).
-		contenido backgroundColor: Color white.
-
-
-		"armo el contenedor con los componentes"
-		contenedor addMorph: contenido.
-
-		turno estadoConfirmado ifTrue: [
-			botonAtenderTurno := BotonAccion new.
-			botonAtenderTurno label: 'Atender'.
-			botonAtenderTurno extent: 70 @ 40.
-			botonAtenderTurno position:
-				contenido position + (contenido width + 115 @ 0).
-
-			botonCancelarTurno := BotonAccion new.
-			botonCancelarTurno label: 'Cancelar'.
-			botonCancelarTurno extent: 70 @ 40.
-			botonCancelarTurno position: botonAtenderTurno position + (0 @ 60).
-
-			botonAtenderTurno mouseAction: [
-				(veterinaria atenderTurno: turno)
-					ifTrue: [
-						(CuadroConMensaje conMensaje: 'Turno atendido exitosamente')
-							openInWorld ]
-					ifFalse: [
-						(CuadroConMensaje conMensaje: 'No se ha podido atender el turno')
-							openInWorld ] ].
-
-			botonCancelarTurno mouseAction: [
-				(veterinaria cancelarTurnoPendiente: turno)
-					ifTrue: [
-						(CuadroConMensaje conMensaje: 'Turno cancelado exitosamente')
-							openInWorld ]
-					ifFalse: [
-						(CuadroConMensaje conMensaje:
-							 'No se ha podido cancelar el turno') openInWorld ] ].
-
-			contenedor addMorph: botonAtenderTurno.
-			contenedor addMorph: botonCancelarTurno ].
+				"armo lo que va a tener adentro"
+				contenido := TextMorph new.
+				contenido width: contenedor width - 10.
+				contenido position: contenedor position + (5 @ 5).
+				fuente := LogicalFont familyName: 'Source Sans Pro' pointSize: 11.
+				contenido contents:
+					(turno descripcionTextual asText addAttribute:
+						 (TextFontReference toFont: fuente)).
+				contenido backgroundColor: Color white.
 
 
-	"lo agrego al contenedor principal"
+				"armo el contenedor con los componentes"
+				contenedor addMorph: contenido.
 
-	lista addMorph: contenedor.
-	y := y + (contenedor height + 20).
-].
+				turno estadoConfirmado ifTrue: [
+					botonAtenderTurno := BotonAccion new.
+					botonAtenderTurno label: 'Atender'.
+					botonAtenderTurno extent: 70 @ 40.
+					botonAtenderTurno position:
+						contenido position + (contenido width + 115 @ 0).
+
+					botonCancelarTurno := BotonAccion new.
+					botonCancelarTurno label: 'Cancelar'.
+					botonCancelarTurno extent: 70 @ 40.
+					botonCancelarTurno position:
+						botonAtenderTurno position + (0 @ 60).
+
+					botonAtenderTurno mouseAction: [
+						(veterinaria atenderTurno: turno)
+							ifTrue: [
+								(CuadroConMensaje conMensaje: 'Turno atendido exitosamente')
+									openInWorld ]
+							ifFalse: [
+								(CuadroConMensaje conMensaje:
+									 'No se ha podido atender el turno') openInWorld ] ].
+
+					botonCancelarTurno mouseAction: [
+						(veterinaria cancelarTurnoPendiente: turno)
+							ifTrue: [
+								(CuadroConMensaje conMensaje: 'Turno cancelado exitosamente')
+									openInWorld ]
+							ifFalse: [
+								(CuadroConMensaje conMensaje:
+									 'No se ha podido cancelar el turno') openInWorld ] ].
+
+					contenedor addMorph: botonAtenderTurno.
+					contenedor addMorph: botonCancelarTurno ].
+
+
+				"lo agrego al contenedor principal"
+
+				lista addMorph: contenedor.
+				y := y + (contenedor height + 20) ] ].
 	contenidoScroll addMorph: lista
 ]
 

@@ -27,6 +27,8 @@ Mascota class >> crearMascotaConNombre: unNombre especie: unaEspecie raza: unaRa
 		raza: unaRaza
 		fechaNacimiento: unaFechaNacim
 		peso: unPeso.
+		
+		self changed: #clientes .
 	^ m
 ]
 

@@ -34,15 +34,15 @@ Turno >> cliente [
 ]
 
 { #category : 'propios del tipo' }
-Turno >> descripcionTextual [ 
-^ 'TURNO: ', String lf,
-	'Fecha: ', fechaTurno printString , String lf,
-		'Horia: ', horaTurno printString , String lf,
-			'Estado: ', estado asString, String  lf,
-				'Motivo: ', motivo asString, String lf,
-					'Cliente: ', cliente nombre asString, String lf,
-						'Mascota: ', mascota nombre asString, String lf,
-							'Veterinario: ', veterinario nombre asString, String lf.
+Turno >> descripcionTextual [
+
+	^ 'TURNO: ' , String lf , 'Fecha: ' , fechaTurno printString
+	  , String lf , 'Hora: ' , horaTurno printString , String lf
+	  , 'Estado: ' , estado asString , String lf , 'Motivo: '
+	  , motivo asString , String lf , 'Cliente: '
+	  , cliente nombre asString , String lf , 'Mascota: '
+	  , mascota nombre asString , String lf , 'Veterinario: '
+	  , veterinario nombre asString , String lf
 ]
 
 { #category : 'propios del tipo' }
