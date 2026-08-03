@@ -515,12 +515,12 @@ Veterinaria >> buscarTratamientosPendientesParaMascota: unaMascota [
 Veterinaria >> cancelarTurnoPendiente: unTurno [
 
 	| rta |
-	unTurno estado = 'pendiente'
+	unTurno estado = 'confirmado'
 		ifTrue: [
 			unTurno cancelar.
 			rta := true ]
 		ifFalse: [ rta := false ].
-		self changed .
+	self changed: #turnos.
 
 	^ rta
 ]

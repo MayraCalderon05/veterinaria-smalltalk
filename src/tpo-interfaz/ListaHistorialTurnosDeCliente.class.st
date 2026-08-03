@@ -20,7 +20,7 @@ Class {
 { #category : 'acciones' }
 ListaHistorialTurnosDeCliente >> imprirHistorial [
 
-	| contenedor contenido y fuente botonAtenderTurno |
+	| contenedor contenido y fuente botonAtenderTurno botonCancelarTurno |
 	lista removeAllMorphs.
 	y := lista position y.
 
@@ -50,6 +50,11 @@ ListaHistorialTurnosDeCliente >> imprirHistorial [
 			botonAtenderTurno position:
 				contenido position + (contenido width + 115 @ 0).
 
+			botonCancelarTurno := BotonAccion new.
+			botonCancelarTurno label: 'Cancelar'.
+			botonCancelarTurno extent: 70 @ 40.
+			botonCancelarTurno position: botonAtenderTurno position + (0 @ 60).
+
 			botonAtenderTurno mouseAction: [
 				(veterinaria atenderTurno: turno)
 					ifTrue: [
@@ -59,16 +64,25 @@ ListaHistorialTurnosDeCliente >> imprirHistorial [
 						(CuadroConMensaje conMensaje: 'No se ha podido atender el turno')
 							openInWorld ] ].
 
-			contenedor addMorph: botonAtenderTurno ].
+			botonCancelarTurno mouseAction: [
+				(veterinaria cancelarTurnoPendiente: turno)
+					ifTrue: [
+						(CuadroConMensaje conMensaje: 'Turno cancelado exitosamente')
+							openInWorld ]
+					ifFalse: [
+						(CuadroConMensaje conMensaje:
+							 'No se ha podido cancelar el turno') openInWorld ] ].
+
+			contenedor addMorph: botonAtenderTurno.
+			contenedor addMorph: botonCancelarTurno ].
 
 
-		"lo agrego al contenedor principal"
+	"lo agrego al contenedor principal"
 
-		lista addMorph: contenedor.
-		y := y + (contenedor height + 20) ].
-
-	contenidoScroll addMorph: lista.
-
+	lista addMorph: contenedor.
+	y := y + (contenedor height + 20).
+].
+	contenidoScroll addMorph: lista
 ]
 
 { #category : 'inicializadores' }
