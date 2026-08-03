@@ -570,11 +570,9 @@ Veterinaria >> facturasPendientesDe: unCliente [
 
 	| factPendientes factPendientesCliente |
 	factPendientes := self facturasPendientes.
-
-	factPendientesCliente := factPendientes select: [ :cadaFactura |
-		                         cadaFactura cliente equals: unCliente ].
-
-	^ factPendientesCliente 
+	factPendientesCliente := factPendientes select: [ :cadaResultado |
+		(cadaResultado at: 1) equals: unCliente ].
+	^ factPendientesCliente
 ]
 
 { #category : 'propios del tipo' }
