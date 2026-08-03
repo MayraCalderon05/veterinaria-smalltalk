@@ -28,7 +28,7 @@ BuscadorTurnosPorFecha >> acceso: unaVeterinaria [
 	self openInWorld
 ]
 
-{ #category : 'propios del tipo' }
+{ #category : 'as yet unclassified' }
 BuscadorTurnosPorFecha >> generarFecha [
 
 	| f |
@@ -39,7 +39,7 @@ BuscadorTurnosPorFecha >> generarFecha [
 	^ f
 ]
 
-{ #category : 'acciones' }
+{ #category : 'as yet unclassified' }
 BuscadorTurnosPorFecha >> imprimirTurnos [
 
 	| contenedor contenido y fuente botonAtenderTurno botonCancelarTurno |
@@ -205,7 +205,7 @@ BuscadorTurnosPorFecha >> initialize [
 	self addMorph: botonMenuPrincipal
 ]
 
-{ #category : 'acciones' }
+{ #category : 'as yet unclassified' }
 BuscadorTurnosPorFecha >> update: unObjeto [
 
 	unObjeto = #turnos

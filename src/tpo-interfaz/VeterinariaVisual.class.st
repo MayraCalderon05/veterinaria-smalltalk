@@ -74,6 +74,14 @@ VeterinariaVisual >> ejecutarBuscarCliente [
 ]
 
 { #category : 'acciones' }
+VeterinariaVisual >> ejecutarConsultarTratamientosVeterinario [
+| buscador |
+buscador := BuscadorTratPorVeterinario new.
+buscador acceso: veterinaria .
+buscador openInWorld
+]
+
+{ #category : 'acciones' }
 VeterinariaVisual >> ejecutarConsultarTurnosDeFecha [
 
 	| buscador |
@@ -272,9 +280,10 @@ VeterinariaVisual >> initialize [
 	"
 	botonConsultaHistorialClinico mouseAction: [
 		self ejecutarVerHistorialClinico ].
-	"
+	
 	botonConsultaTratamientosDeVet mouseAction: [
 		self ejecutarConsultarTratamientosVeterinario ].
+	"
 	botonFacturasPendientesDeCliente mouseAction: [
 		self ejecutarConsultarFacturasPendientes ].
 	botonAtenderSolicitudDeTurnoDeCliente mouseAction: [
