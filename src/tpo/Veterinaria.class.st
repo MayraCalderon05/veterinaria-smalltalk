@@ -17,14 +17,22 @@ Class {
 
 { #category : 'constructores' }
 Veterinaria class >> crearVeterinariaConDatosDePrueba [
+	| veterinaria medico1 medico2 cliente1 cliente2 cliente3 mascota11 mascota21 mascota22 mascota31 vacuna1 vacuna2 medicamento1 medicamento2 medicamento3 medicamento4 medicamento5 diag trat vacunacion factura pago turno matricula diagMascota22 tratQuirurgicoMascota22 |
 
-	| veterinaria medico1 medico2 cliente1 cliente2 cliente3 mascota11 mascota21 mascota22 mascota31 vacuna1 vacuna2 medicamento1 medicamento2 medicamento3 medicamento4 medicamento5 diag1 tratQ1 vacunacion1 diag2 tratF1 tratF2 diag3 vacunacion2 vacunacion3 tratF3 tratQ2 vacunacion4 vacunacion5 vacunacion6 diag4 tratQ3 diag5 tratF4 tratF5 factura31 pago31 turno1cancelado turno2confirmado turno3atendido |
 	veterinaria := self
 		               crearVeterinariaConNombre:
 		               'Los animales no son objetos'
 		               cuit: '20-12345678-9'.
 
 	"1. 2 médicos veterinarios, con sus datos completos (con al menos 1 matrícula cada 1)"
+	matricula := Matricula
+		             crearMatriculaConNumero: 'MP-1001'
+		             colegioEmisor:
+		             'Colegio de Veterinarios y Especialistas en Dramas Felinos'
+		             fechaInscripcion: (Date newDay: 1 month: 1 year: 2020)
+		             fechaLimite: (Date newDay: 31 month: 12 year: 2030)
+		             tipo: 'Nacional'.
+
 	medico1 := Medico
 		           crearMedicoConDni: '46111222'
 		           nombre: 'Morena'
@@ -32,7 +40,34 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		           domicilio: 'Buenos Aires 123'
 		           fechaNacimiento: (Date newDay: 26 month: 7 year: 2005)
 		           cuil: '27-46111222-4'
-		           matricula: 'MP-1001'.
+		           matricula: matricula.
+
+	matricula := Matricula
+		             crearMatriculaConNumero: 'MP-1002'
+		             colegioEmisor:
+		             'Consejo de Veterinarios de Parque Jurásico y Megafauna'
+		             fechaInscripcion: (Date newDay: 15 month: 8 year: 2015)
+		             fechaLimite: (Date newDay: 15 month: 8 year: 2028)
+		             tipo: 'Especialista en Dinosaurios'.
+	medico1 agregarMatricula: matricula.
+
+	matricula := Matricula
+		             crearMatriculaConNumero: 'MP-1003'
+		             colegioEmisor:
+		             'Sindicato de Masajistas de Carpinchos de Nordelta'
+		             fechaInscripcion: (Date newDay: 20 month: 7 year: 2021)
+		             fechaLimite: (Date newDay: 20 month: 7 year: 2031)
+		             tipo: 'Provincial'.
+	medico1 agregarMatricula: matricula.
+
+	matricula := Matricula
+		             crearMatriculaConNumero: 'MP-1004'
+		             colegioEmisor:
+		             'Federación Galáctica de Veterinarios de Mascotas Alienígenas'
+		             fechaInscripcion: (Date newDay: 4 month: 5 year: 2018)
+		             fechaLimite: (Date newDay: 4 month: 5 year: 2040)
+		             tipo: 'Intergalactica'.
+
 	medico2 := Medico
 		           crearMedicoConDni: '47555666'
 		           nombre: 'Mayra'
@@ -40,8 +75,16 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		           domicilio: 'Av. Siempreviva 742'
 		           fechaNacimiento: (Date newDay: 20 month: 7 year: 2005)
 		           cuil: '20-47555666-1'
-		           matricula: 'MP-1002'.
-	medico2 agregarMatricula: 'MP-1003'.
+		           matricula: matricula.
+
+	matricula := Matricula
+		             crearMatriculaConNumero: 'MP-1005'
+		             colegioEmisor: 'Colegio El Perro Mojado'
+		             fechaInscripcion: (Date newDay: 4 month: 5 year: 2018)
+		             fechaLimite: (Date newDay: 4 month: 5 year: 2040)
+		             tipo: 'Provisoria'.
+	medico2 agregarMatricula: matricula.
+
 	veterinaria agregarMedico: medico1.
 	veterinaria agregarMedico: medico2.
 
@@ -52,6 +95,7 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		             raza: 'Caniche'
 		             fechaNacimiento: (Date newDay: 18 month: 11 year: 2015)
 		             peso: 6.
+
 	cliente1 := Cliente
 		            crearClienteConDni: '24333444'
 		            nombre: 'Valeria'
@@ -59,7 +103,7 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		            domicilio: 'Buenos Aires 200'
 		            telefono: '2995551111'
 		            email: 'valeria@mail.com'
-		            tipo: #particular
+		            tipo: 'particular'
 		            mascota: mascota11.
 
 	mascota21 := Mascota
@@ -68,12 +112,14 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		             raza: '-'
 		             fechaNacimiento: (Date newDay: 15 month: 6 year: 2019)
 		             peso: 4.
+
 	mascota22 := Mascota
 		             crearMascotaConNombre: 'Toby'
 		             especie: 'Perro'
 		             raza: 'Golden'
 		             fechaNacimiento: (Date newDay: 20 month: 9 year: 2021)
 		             peso: 20.
+
 	cliente2 := Cliente
 		            crearClienteConDni: '27444555'
 		            nombre: 'Tomas'
@@ -81,7 +127,7 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		            domicilio: 'Fernandez Oro 500'
 		            telefono: '2995552222'
 		            email: 'lopez@mail.com'
-		            tipo: #particular
+		            tipo: 'particular'
 		            mascotas:
 		            (OrderedCollection with: mascota21 with: mascota22).
 
@@ -91,6 +137,7 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		             raza: 'Caniche'
 		             fechaNacimiento: (Date newDay: 3 month: 2 year: 2016)
 		             peso: 5.
+
 	cliente3 := Cliente
 		            crearClienteConDni: '28666777'
 		            nombre: 'Lola'
@@ -98,7 +145,7 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		            domicilio: 'Don Bosco 800'
 		            telefono: '2995553333'
 		            email: 'lola@mail.com'
-		            tipo: #particular
+		            tipo: 'particular'
 		            mascota: mascota31.
 
 	veterinaria agregarCliente: cliente1.
@@ -111,6 +158,7 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		           laboratorio: 'Labyes'
 		           especieDestino: 'Perro'
 		           cantMesesDeVigencia: 12.
+
 	vacuna2 := Vacuna
 		           crearVacunaConNombre: 'Triple Felina'
 		           laboratorio: 'Zoetis'
@@ -122,18 +170,22 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		                crearMedicamentoConNombre: 'Amoxicilina'
 		                precioBase: 500
 		                ventaLibre: false.
+
 	medicamento2 := Medicamento
 		                crearMedicamentoConNombre: 'Ampicilina'
 		                precioBase: 600
 		                ventaLibre: false.
+
 	medicamento3 := Medicamento
 		                crearMedicamentoConNombre: 'Contal'
 		                precioBase: 400
 		                ventaLibre: false.
+
 	medicamento4 := Medicamento
 		                crearMedicamentoConNombre: 'Frontline'
 		                precioBase: 300
 		                ventaLibre: true.
+
 	medicamento5 := Medicamento
 		                crearMedicamentoConNombre: 'Paracan Plus'
 		                precioBase: 400
@@ -157,182 +209,198 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 			 medicamento: medicamento5).
 
 	"Cliente 1, mascota 1.1, sin AV + 1 D con 1 TQ (R2 y A general)"
-	diag1 := Diagnostico
-		         crearDiagnosticoConFecha: Date today
-		         descripcion: 'Obstruccion de hueso'
-		         veterinario: medico1
-		         mascota: mascota11.
-	veterinaria agregarDiagnostico: diag1.
-	tratQ1 := Quirurgico
-		          crearTratQuirurgicoConFecha: Date today
-		          motivo: 'Obstruccion de hueso'
-		          nombreProcedimiento: 'enema'
-		          nivelRiesgo: 2
-		          tipoAnestesia: 'General'.
-	veterinaria asignarTratamiento: tratQ1 aDiagnostico: diag1.
+	diag := Diagnostico
+		        crearDiagnosticoConFecha: Date today
+		        descripcion: 'Obstruccion de hueso'
+		        veterinario: medico1
+		        mascota: mascota11.
+	veterinaria agregarDiagnostico: diag.
+
+	trat := Quirurgico
+		        crearTratQuirurgicoConFecha: Date today
+		        motivo: 'Obstruccion de hueso'
+		        nombreProcedimiento: 'enema'
+		        nivelRiesgo: 2
+		        tipoAnestesia: 'General'.
+	veterinaria asignarTratamiento: trat aDiagnostico: diag.
 
 	"Cliente 2, mascota 2.1 con 1 AV + 1 D con 2 TF)"
-	vacunacion1 := Vacunacion
-		               crearVacunacionConFecha: Date today
-		               veterinario: medico2
-		               mascota: mascota21
-		               vacuna: vacuna1.
-	diag2 := Diagnostico
-		         crearDiagnosticoConFecha: Date today
-		         descripcion: 'Infección urinaria'
-		         veterinario: medico2
-		         mascota: mascota21.
-	veterinaria agregarDiagnostico: diag2.
-	tratF1 := Farmacologico
-		          crearTratFarmacologicoConFecha: Date today
-		          motivo: 'Antibiótico'
-		          monodroga: medicamento1
-		          dosis: 10
-		          frecuencia: 12.
-	tratF2 := Farmacologico
-		          crearTratFarmacologicoConFecha: Date today
-		          motivo: 'Antiinflamatorio'
-		          monodroga: medicamento2
-		          dosis: 5
-		          frecuencia: 24.
-	veterinaria asignarTratamiento: tratF1 aDiagnostico: diag2.
-	veterinaria asignarTratamiento: tratF2 aDiagnostico: diag2.
+	vacunacion := Vacunacion
+		              crearVacunacionConFecha: Date today
+		              veterinario: medico2
+		              mascota: mascota21
+		              vacuna: vacuna1.
+
+	diag := Diagnostico
+		        crearDiagnosticoConFecha: Date today
+		        descripcion: 'Infección urinaria'
+		        veterinario: medico2
+		        mascota: mascota21.
+	veterinaria agregarDiagnostico: diag.
+
+	trat := Farmacologico
+		        crearTratFarmacologicoConFecha: Date today
+		        motivo: 'Antibiótico'
+		        monodroga: medicamento1
+		        dosis: 10
+		        frecuencia: 12.
+	veterinaria asignarTratamiento: trat aDiagnostico: diag.
+
+	trat := Farmacologico
+		        crearTratFarmacologicoConFecha: Date today
+		        motivo: 'Antiinflamatorio'
+		        monodroga: medicamento2
+		        dosis: 5
+		        frecuencia: 24.
+	veterinaria asignarTratamiento: trat aDiagnostico: diag.
 
 	"Cliente 2 mascota 2.2 con 2 AV + 1 D con 1 TF y 1 TQ (R1 y A local)"
-	vacunacion2 := Vacunacion
-		               crearVacunacionConFecha: Date today
-		               veterinario: medico2
-		               mascota: mascota22
-		               vacuna: vacuna1.
-	vacunacion3 := Vacunacion
-		               crearVacunacionConFecha: Date today
-		               veterinario: medico2
-		               mascota: mascota22
-		               vacuna: vacuna2.
-	mascota22 agregarVacunacion: vacunacion2.
-	mascota22 agregarVacunacion: vacunacion3.
-	diag3 := Diagnostico
-		         crearDiagnosticoConFecha: Date today
-		         descripcion: 'Quiste sebáceo'
-		         veterinario: medico1
-		         mascota: mascota22.
-	veterinaria agregarDiagnostico: diag3.
-	tratF3 := Farmacologico
-		          crearTratFarmacologicoConFecha: Date today
-		          motivo: 'Analgésico postoperatorio'
-		          monodroga: medicamento2
-		          dosis: 2
-		          frecuencia: 8.
-	tratQ2 := Quirurgico
-		          crearTratQuirurgicoConFecha: Date today
-		          motivo: 'Extracción de quiste'
-		          nombreProcedimiento: 'Extirpación'
-		          nivelRiesgo: 1
-		          tipoAnestesia: 'Local'.
-	veterinaria asignarTratamiento: tratF3 aDiagnostico: diag3.
-	veterinaria asignarTratamiento: tratQ2 aDiagnostico: diag3.
+	vacunacion := Vacunacion
+		              crearVacunacionConFecha: Date today
+		              veterinario: medico2
+		              mascota: mascota22
+		              vacuna: vacuna1.
+	mascota22 agregarVacunacion: vacunacion.
+
+	vacunacion := Vacunacion
+		              crearVacunacionConFecha: Date today
+		              veterinario: medico2
+		              mascota: mascota22
+		              vacuna: vacuna2.
+	mascota22 agregarVacunacion: vacunacion.
+
+	diagMascota22 := Diagnostico
+		        crearDiagnosticoConFecha: Date today
+		        descripcion: 'Quiste sebáceo'
+		        veterinario: medico1
+		        mascota: mascota22.
+	veterinaria agregarDiagnostico: diagMascota22.
+
+	trat := Farmacologico
+		        crearTratFarmacologicoConFecha: Date today
+		        motivo: 'Analgésico postoperatorio'
+		        monodroga: medicamento2
+		        dosis: 2
+		        frecuencia: 8.
+	veterinaria asignarTratamiento: trat aDiagnostico: diagMascota22.
+
+	tratQuirurgicoMascota22 := Quirurgico
+		        crearTratQuirurgicoConFecha: Date today
+		        motivo: 'Extracción de quiste'
+		        nombreProcedimiento: 'Extirpación'
+		        nivelRiesgo: 1
+		        tipoAnestesia: 'Local'.
+	veterinaria asignarTratamiento: tratQuirurgicoMascota22 aDiagnostico: diagMascota22.
 
 	"Cliente 3, mascota 3.1 con 3 AV + 1 D con 1 TQ + 1 D con 2 TF"
-	vacunacion4 := Vacunacion
-		               crearVacunacionConFecha: Date today
-		               veterinario: medico1
-		               mascota: mascota31
-		               vacuna: vacuna1.
-	vacunacion5 := Vacunacion
-		               crearVacunacionConFecha: Date today
-		               veterinario: medico2
-		               mascota: mascota31
-		               vacuna: vacuna1.
-	vacunacion6 := Vacunacion
-		               crearVacunacionConFecha: Date today
-		               veterinario: medico1
-		               mascota: mascota31
-		               vacuna: vacuna2.
-	mascota31 agregarVacunacion: vacunacion4.
-	mascota31 agregarVacunacion: vacunacion5.
-	mascota31 agregarVacunacion: vacunacion6.
+	vacunacion := Vacunacion
+		              crearVacunacionConFecha: Date today
+		              veterinario: medico1
+		              mascota: mascota31
+		              vacuna: vacuna1.
+	mascota31 agregarVacunacion: vacunacion.
 
-	diag4 := Diagnostico
-		         crearDiagnosticoConFecha: Date today
-		         descripcion: 'Tumor mamario'
-		         veterinario: medico2
-		         mascota: mascota31.
-	tratQ3 := Quirurgico
-		          crearTratQuirurgicoConFecha: Date today
-		          motivo: 'Extirpación de tumor'
-		          nombreProcedimiento: 'Mastectomía parcial'
-		          nivelRiesgo: 2
-		          tipoAnestesia: 'General'.
+	vacunacion := Vacunacion
+		              crearVacunacionConFecha: Date today
+		              veterinario: medico2
+		              mascota: mascota31
+		              vacuna: vacuna1.
+	mascota31 agregarVacunacion: vacunacion.
 
-	diag5 := Diagnostico
-		         crearDiagnosticoConFecha: Date today
-		         descripcion: 'Dermatitis'
-		         veterinario: medico1
-		         mascota: mascota31.
-	veterinaria agregarDiagnostico: diag5.
-	tratF4 := Farmacologico
-		          crearTratFarmacologicoConFecha: Date today
-		          motivo: 'Antihistamínico'
-		          monodroga: medicamento5
-		          dosis: 1
-		          frecuencia: 12.
-	tratF5 := Farmacologico
-		          crearTratFarmacologicoConFecha: Date today
-		          motivo: 'Antibiótico tópico'
-		          monodroga: medicamento3
-		          dosis: 2
-		          frecuencia: 12.
-	veterinaria asignarTratamiento: tratF4 aDiagnostico: diag5.
-	veterinaria asignarTratamiento: tratF5 aDiagnostico: diag5.
+	vacunacion := Vacunacion
+		              crearVacunacionConFecha: Date today
+		              veterinario: medico1
+		              mascota: mascota31
+		              vacuna: vacuna2.
+	mascota31 agregarVacunacion: vacunacion.
+
+	diag := Diagnostico
+		        crearDiagnosticoConFecha: Date today
+		        descripcion: 'Tumor mamario'
+		        veterinario: medico2
+		        mascota: mascota31.
+	veterinaria agregarDiagnostico: diag.
+
+	trat := Quirurgico
+		        crearTratQuirurgicoConFecha: Date today
+		        motivo: 'Extirpación de tumor'
+		        nombreProcedimiento: 'Mastectomía parcial'
+		        nivelRiesgo: 2
+		        tipoAnestesia: 'General'.
+	veterinaria asignarTratamiento: trat aDiagnostico: diag.
+
+	diag := Diagnostico
+		        crearDiagnosticoConFecha: Date today
+		        descripcion: 'Dermatitis'
+		        veterinario: medico1
+		        mascota: mascota31.
+	veterinaria agregarDiagnostico: diag.
+
+	trat := Farmacologico
+		        crearTratFarmacologicoConFecha: Date today
+		        motivo: 'Antihistamínico'
+		        monodroga: medicamento5
+		        dosis: 1
+		        frecuencia: 12.
+	veterinaria asignarTratamiento: trat aDiagnostico: diag.
+
+	trat := Farmacologico
+		        crearTratFarmacologicoConFecha: Date today
+		        motivo: 'Antibiótico tópico'
+		        monodroga: medicamento3
+		        dosis: 2
+		        frecuencia: 12.
+	veterinaria asignarTratamiento: trat aDiagnostico: diag.
 
 	"El D de la mascota 2.2 facturado y con saldo pendiente."
-	veterinaria generarFactura: diag3.
-	veterinaria realizarFacturacion: diag3.
+	veterinaria generarFactura: diagMascota22.
+	veterinaria realizarFacturacion: diagMascota22.
 
 	"El primer D de la mascota 3.1 facturado y pagado."
-	factura31 := veterinaria generarFactura: diag4.
-	veterinaria realizarFacturacion: diag4.
-	pago31 := Pago
-		          crearPagoConFecha: Date today
-		          montoAbonado: factura31 montoTotal
-		          medioPago: 'Efectivo'.
-	factura31 registrarPago: pago31.
+	factura := veterinaria generarFactura: diag.
+	veterinaria realizarFacturacion: diag.
+
+	pago := Pago
+		        crearPagoConFecha: Date today
+		        montoAbonado: factura montoTotal
+		        medioPago: 'Efectivo'.
+	factura registrarPago: pago.
 
 	"El segundo D de la mascota 3.2 sin facturar."
 	"no hace nada"
 
 	"Cliente 1 tiene 1 turno CANCELADO"
-	turno1cancelado := TurnoConsulta
-		                   crearTurnoConsultaConFecha: Date today
-		                   hora: '10:00'
-		                   motivo: 'Control general'
-		                   cliente: cliente1
-		                   mascota: mascota11
-		                   veterinario: medico1.
-	veterinaria agendarTurno: turno1cancelado.
-	turno1cancelado cancelar.
+	turno := TurnoConsulta
+		         crearTurnoConsultaConFecha: Date today
+		         hora: '10:00'
+		         motivo: 'Control general'
+		         cliente: cliente1
+		         mascota: mascota11
+		         veterinario: medico1.
+	veterinaria agendarTurno: turno.
+	turno cancelar.
 
 	"Cliente 2 tiene un turno de tratamiento, CONFIRMADO para la mascota 2.2."
-	turno2confirmado := TurnoTratamiento
-		                    crearTurnoTratamientoConFecha: Date today
-		                    hora: '11:00'
-		                    motivo: 'Extracción de quiste'
-		                    cliente: cliente2
-		                    mascota: mascota22
-		                    veterinario: medico1
-		                    tratamiento: tratF3.
-	veterinaria agendarTurno: turno2confirmado.
+	turno := TurnoTratamiento
+		         crearTurnoTratamientoConFecha: Date today
+		         hora: '11:00'
+		         motivo: 'Extracción de quiste'
+		         cliente: cliente2
+		         mascota: mascota22
+		         veterinario: medico1
+		         tratamiento: tratQuirurgicoMascota22.
+	veterinaria agendarTurno: turno.
 
 	"Cliente 3 tiene un turno que ya ha sido atendido, para su mascota."
-	turno3atendido := TurnoConsulta
-		                  crearTurnoConsultaConFecha: Date today
-		                  hora: '12:00'
-		                  motivo: 'Revisión post tratamiento'
-		                  cliente: cliente3
-		                  mascota: mascota31
-		                  veterinario: medico2.
-	veterinaria agendarTurno: turno3atendido.
-	veterinaria atenderTurno: turno3atendido.
+	turno := TurnoConsulta
+		         crearTurnoConsultaConFecha: Date today
+		         hora: '12:00'
+		         motivo: 'Revisión post tratamiento'
+		         cliente: cliente3
+		         mascota: mascota31
+		         veterinario: medico2.
+	veterinaria agendarTurno: turno.
+	veterinaria atenderTurno: turno.
 
 	^ veterinaria
 ]
