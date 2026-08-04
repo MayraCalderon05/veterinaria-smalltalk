@@ -26,7 +26,7 @@ Cliente class >> crearClienteConDni: unDni nombre: unNombre apellido: unApellido
 		email: unEmail
 		tipo: unTipo
 		mascota: unaMascota.
-	self changed.
+	self changed: #clientes  .
 	^ c
 ]
 

@@ -46,7 +46,7 @@ FormRegistrarPago >> initialize [
 	botonMedioPago label: 'Elegir medio de pago'.
 	botonMedioPago extent: self width - 100 @ 40.
 	botonMedioPago position: campoMonto position + (0 @ 90).
-	medioPagoSeleccionado := nil.
+
 
 	campoDia := LabelConCampo label: 'Día: '.
 	campoDia position: botonMedioPago position + (0 @ 90).

@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'veterinaria',
 		'medicosDisponibles',
-		'clientesDisponibles',
 		'accionAceptar',
 		'campoDia',
 		'campoMes',

@@ -27,6 +27,8 @@ Mascota class >> crearMascotaConNombre: unNombre especie: unaEspecie raza: unaRa
 		raza: unaRaza
 		fechaNacimiento: unaFechaNacim
 		peso: unPeso.
+		
+		self changed: #clientes .
 	^ m
 ]
 
@@ -58,13 +60,11 @@ Mascota >> descripcionTextual [
 { #category : 'propios del tipo' }
 Mascota >> equals: unaMascota [
 
-
-	| rta |
-	rta := false.
-	nombre = unaMascota nombre & (especie = unaMascota especie)
-	& (raza = unaMascota raza) & (fechaNacim = unaMascota fechaNacim)
-	& (peso = unaMascota peso) ifTrue: [ rta := true ].
-	^ rta
+	 ^ (nombre = unaMascota nombre)
+        and: [ (especie = unaMascota especie)
+        and: [ (raza = unaMascota raza)
+        and: [ (fechaNacim = unaMascota fechaNacim)
+        and: [ peso = unaMascota peso ] ] ] ]
 ]
 
 { #category : 'visualizadores' }

@@ -5,6 +5,7 @@ Class {
 		'veterinaria',
 		'mensaje',
 		'listaClientes',
+		'colClientes',
 		'cantidadMascotas',
 		'botonRegistrarCli',
 		'botonRegistrarMascota',
@@ -13,11 +14,7 @@ Class {
 		'botonConsultaHistorialClinico',
 		'botonConsultaTratamientosDeVet',
 		'botonFacturasPendientesDeCliente',
-		'botonAtenderSolicitudDeTurnoDeCliente',
-		'botonCancelarTurnoPendiente',
 		'botonConsultaTurnosDeFecha',
-		'botonRegistrarAtencionCliente',
-		'botonVerHistorialDeTurnosDeCliente',
 		'botonCerrar',
 		'mascotaEncontrada'
 	],
@@ -38,13 +35,15 @@ ventana openInWorld .
 { #category : 'acciones' }
 VeterinariaVisual >> actualizarListaClientes [
 
-	| texto totalMascotas |
+	| texto totalMascotas fuente|
+	fuente := LogicalFont familyName: 'Source Code Pro' pointSize: 10.
+	colClientes := veterinaria clientes.
 	texto := WriteStream on: String new.
 	texto
 		nextPutAll: 'CLIENTES:';
 		cr.
 
-	veterinaria clientes do: [ :cadaCliente |
+	colClientes do: [ :cadaCliente |
 		texto
 			nextPutAll: cadaCliente nombre;
 			nextPutAll: ' dni: ';
@@ -53,7 +52,7 @@ VeterinariaVisual >> actualizarListaClientes [
 			nextPutAll: cadaCliente mascotas size printString;
 			nextPutAll: ' mascota(s)';
 			cr ].
-	listaClientes contents: texto contents.
+	listaClientes contents: (texto contents asText addAttribute: (TextFontReference toFont: fuente)).
 
 	cantidadMascotas position:
 		listaClientes position + (0 @ (listaClientes height + 10)).
@@ -62,7 +61,7 @@ VeterinariaVisual >> actualizarListaClientes [
 		                 inject: 0
 		                 into: [ :acc :c | acc + c mascotas size ].
 	cantidadMascotas contents:
-		'Mascotas atendidas: ' , totalMascotas printString
+		(('Mascotas atendidas: ' , totalMascotas printString) asText addAttribute: (TextFontReference toFont: fuente)).
 ]
 
 { #category : 'acciones' }
@@ -95,6 +94,23 @@ VeterinariaVisual >> ejecutarConsultarFacturasPendientes [
 ]
 
 { #category : 'acciones' }
+VeterinariaVisual >> ejecutarConsultarTratamientosVeterinario [
+| buscador |
+buscador := BuscadorTratPorVeterinario new.
+buscador acceso: veterinaria .
+buscador openInWorld
+]
+
+{ #category : 'acciones' }
+VeterinariaVisual >> ejecutarConsultarTurnosDeFecha [
+
+	| buscador |
+	buscador := BuscadorTurnosPorFecha new.
+	buscador acceso: veterinaria.
+	buscador openInWorld.
+]
+
+{ #category : 'acciones' }
 VeterinariaVisual >> ejecutarRegistrarCliente [
 
 	| form registrado |
@@ -104,11 +120,14 @@ VeterinariaVisual >> ejecutarRegistrarCliente [
 		registrado := veterinaria agregarCliente: unCliente.
 		registrado
 			ifTrue: [
+				unCliente addDependent: self.
 				(CuadroConMensaje conMensaje: 'Cliente registrado correctamente')
-					openInWorld ]
+					openInWorld.
+					 ]
 			ifFalse: [
 				(CuadroConMensaje conMensaje:
 					 'Ha ocurrido un error al registrar el cliente') openInWorld ] ].
+			
 ]
 
 { #category : 'acciones' }
@@ -131,12 +150,13 @@ VeterinariaVisual >> ejecutarVerHistorialClinico [
 
 	| buscadorMasc listaHistorial |
 	buscadorMasc := BuscadorMascota new.
-	buscadorMasc clientesDisponibles: veterinaria clientes.
+	buscadorMasc acceso: veterinaria.
 	buscadorMasc accionAceptar: [ :unaMascota |
 		listaHistorial := ListaHistorialDeMascota new.
-		listaHistorial deMascota: unaMascota conHistorial: (veterinaria historialClinicoDe: unaMascota ) .
-		listaHistorial openInWorld.
-		] .
+		listaHistorial
+			deMascota: unaMascota
+			conHistorial: (veterinaria historialClinicoDe: unaMascota).
+		listaHistorial openInWorld ].
 	buscadorMasc openInWorld
 ]
 
@@ -144,7 +164,7 @@ VeterinariaVisual >> ejecutarVerHistorialClinico [
 VeterinariaVisual >> initialize [
 	"este método se ejecutará inmediatamente después del new"
 
-	| origen |
+	| origen fuente |
 	super initialize.
 	self color: (Color fromHexString: 'DCE8B4').
 	self position: 45 @ 45.
@@ -157,7 +177,6 @@ VeterinariaVisual >> initialize [
 	mensaje backgroundColor: (Color fromHexString: 'DCE8B4').
 	mensaje margins: 5 @ 5.
 	"Se posicionan, uno debajo del otro"
-	mensaje position: origen + (25 @ 25).
 
 
 	listaClientes := TextMorph new.
@@ -175,7 +194,7 @@ VeterinariaVisual >> initialize [
 	self addMorph: listaClientes.
 	self addMorph: cantidadMascotas.
 
-	listaClientes position: mensaje position + (300 @ 0).
+	listaClientes position: origen + (300 @ 120).
 	cantidadMascotas position:
 		listaClientes position + (0 @ (listaClientes height + 10)).
 
@@ -188,11 +207,7 @@ VeterinariaVisual >> initialize [
 	botonConsultaHistorialClinico := BotonAccion new.
 	botonConsultaTratamientosDeVet := BotonAccion new.
 	botonFacturasPendientesDeCliente := BotonAccion new.
-	botonAtenderSolicitudDeTurnoDeCliente := BotonAccion new.
-	botonCancelarTurnoPendiente := BotonAccion new.
 	botonConsultaTurnosDeFecha := BotonAccion new.
-	botonRegistrarAtencionCliente := BotonAccion new.
-	botonVerHistorialDeTurnosDeCliente := BotonAccion new.
 	botonCerrar := BotonAccion new.
 
 
@@ -205,60 +220,59 @@ VeterinariaVisual >> initialize [
 	self addMorph: botonConsultaHistorialClinico.
 	self addMorph: botonConsultaTratamientosDeVet.
 	self addMorph: botonFacturasPendientesDeCliente.
-	self addMorph: botonAtenderSolicitudDeTurnoDeCliente.
-	self addMorph: botonCancelarTurnoPendiente.
 	self addMorph: botonConsultaTurnosDeFecha.
-	self addMorph: botonRegistrarAtencionCliente.
-	self addMorph: botonVerHistorialDeTurnosDeCliente.
 	self addMorph: mensaje.
 	self addMorph: botonCerrar.
 
-	botonRegistrarCli position: mensaje position + (0 @ 30).
-	botonRegistrarMascota position: botonRegistrarCli position + (0 @ 30).
+	botonRegistrarCli position: origen + (50 @ 100).
+	botonRegistrarMascota position: botonRegistrarCli position + (0 @ 60).
 	botonRegistrarDiagnostico position:
-		botonRegistrarMascota position + (0 @ 30).
+		botonRegistrarMascota position + (0 @ 60).
 	botonBuscarDiagnostico position:
-		botonRegistrarDiagnostico position + (0 @ 30).
+		botonRegistrarDiagnostico position + (0 @ 60).
 	botonConsultaHistorialClinico position:
-		botonBuscarDiagnostico position + (0 @ 30).
+		botonBuscarDiagnostico position + (0 @ 60).
 	botonConsultaTratamientosDeVet position:
-		botonConsultaHistorialClinico position + (0 @ 30).
+		botonConsultaHistorialClinico position + (0 @ 60).
 	botonFacturasPendientesDeCliente position:
-		botonConsultaTratamientosDeVet position + (0 @ 30).
-	botonAtenderSolicitudDeTurnoDeCliente position:
-		botonFacturasPendientesDeCliente position + (0 @ 30).
-	botonCancelarTurnoPendiente position:
-		botonAtenderSolicitudDeTurnoDeCliente position + (0 @ 30).
+		botonConsultaTratamientosDeVet position + (0 @ 60).
 	botonConsultaTurnosDeFecha position:
-		botonCancelarTurnoPendiente position + (0 @ 30).
-	botonRegistrarAtencionCliente position:
-		botonConsultaTurnosDeFecha position + (0 @ 30).
-	botonVerHistorialDeTurnosDeCliente position:
-		botonRegistrarAtencionCliente position + (0 @ 30).
-	botonCerrar position:
-		botonVerHistorialDeTurnosDeCliente position + (0 @ 40).
+		botonFacturasPendientesDeCliente position + (0 @ 60).
+
+	botonCerrar position: botonConsultaTurnosDeFecha position + (0 @ 60).
 
 
 	"Etiquetas"
 	botonRegistrarCli label: 'Registrar Cliente'.
+	botonRegistrarCli extent: 200 @ 45.
+	
 	botonRegistrarMascota label: 'Buscar Cliente'.
+	botonRegistrarMascota extent: 200 @ 45.
+	
 	botonRegistrarDiagnostico label: 'Registrar Diagnóstico'.
+	botonRegistrarDiagnostico extent: 200 @ 45.
+	
 	botonBuscarDiagnostico label: 'Buscar Diagnostico'.
+	botonBuscarDiagnostico extent: 200 @ 45.
+	
 	botonConsultaHistorialClinico label: 'Historial Clínico'.
+	botonConsultaHistorialClinico extent: 200 @ 45.
+	
 	botonConsultaTratamientosDeVet label: 'Tratamientos por Veterinario'.
+	botonConsultaTratamientosDeVet extent: 200 @ 45.
+	
 	botonFacturasPendientesDeCliente label: 'Facturas Pendientes'.
-	botonAtenderSolicitudDeTurnoDeCliente label:
-		'Atender Solicitud de Turno'.
-	botonCancelarTurnoPendiente label: 'Cancelar Turno Pendiente'.
+	botonFacturasPendientesDeCliente extent: 200 @ 45.
+	
 	botonConsultaTurnosDeFecha label: 'Consultar Turnos de Fecha'.
-	botonRegistrarAtencionCliente label: 'Registrar Atención de Cliente'.
-	botonVerHistorialDeTurnosDeCliente label:
-		'Historial de Turnos de Cliente'.
+	botonConsultaTurnosDeFecha extent: 200 @ 45.
+	
 	botonCerrar label: 'Minimizar'.
+	botonCerrar extent: 200 @ 45.
 
 	"color distinto del boton cerrar"
 	botonCerrar color: (Color fromHexString: 'B08968').
-	botonCerrar extent: 120 @ 30.
+	
 	
 	"Acciones de cada botón"
 	botonRegistrarCli mouseAction: [ self ejecutarRegistrarCliente ].
@@ -269,34 +283,36 @@ VeterinariaVisual >> initialize [
 	botonBuscarDiagnostico mouseAction: [ self ejecutarBuscarDiagnostico ].
 	botonConsultaHistorialClinico mouseAction: [
 		self ejecutarVerHistorialClinico ].
-	"
+
 	botonConsultaTratamientosDeVet mouseAction: [
 		self ejecutarConsultarTratamientosVeterinario ].
-	"
+
 	botonFacturasPendientesDeCliente mouseAction: [
 		self ejecutarConsultarFacturasPendientes ].
-	"
-	botonAtenderSolicitudDeTurnoDeCliente mouseAction: [
-		self ejecutarAtenderSolicitudTurno ].
-	botonCancelarTurnoPendiente mouseAction: [
-		self ejecutarCancelarTurnoPendiente ].
+
 	botonConsultaTurnosDeFecha mouseAction: [
 		self ejecutarConsultarTurnosDeFecha ].
-	botonRegistrarAtencionCliente mouseAction: [
-		self ejecutarRegistrarAtencionCliente ].
-	botonVerHistorialDeTurnosDeCliente mouseAction: [
-		self ejecutarVerHistorialTurnosCliente ]"
+
+
 	botonCerrar mouseAction: [ self collapse ].
 
 	veterinaria := Veterinaria crearVeterinariaConDatosDePrueba.
 	veterinaria addDependent: self.
 	veterinaria clientes do: [ :c | c addDependent: self ].
-	mensaje contents: veterinaria nombre.
+	fuente := LogicalFont familyName: 'Source Code Pro' pointSize: 20.
+	mensaje contents: (veterinaria nombre asText addAttribute: (TextFontReference toFont: fuente)) .
+	mensaje extent: 300 @ 60.
+	mensaje position: 
+    ((self innerBounds center x) - (mensaje width // 2)) 
+    @ (origen y + 25).
 	self actualizarListaClientes
 ]
 
 { #category : 'acciones' }
 VeterinariaVisual >> update: unObjeto [
-    unObjeto = #clientes
-        ifTrue: [ self actualizarListaClientes ]
+
+	unObjeto = #clientes
+		ifTrue: [
+			self actualizarListaClientes ]
+
 ]
