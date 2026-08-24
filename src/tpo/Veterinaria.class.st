@@ -285,7 +285,7 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 	veterinaria asignarTratamiento: trat aDiagnostico: diagMascota22.
 
 	tratQuirurgicoMascota22 := Quirurgico
-		                           crearTratQuirurgicoConFecha: Date today
+		                           crearTratQuirurgicoConFecha: Date today 
 		                           motivo: 'Extracción de quiste'
 		                           nombreProcedimiento: 'Extirpación'
 		                           nivelRiesgo: 1
@@ -354,7 +354,7 @@ Veterinaria class >> crearVeterinariaConDatosDePrueba [
 		        frecuencia: 12.
 	veterinaria asignarTratamiento: trat aDiagnostico: diag.
 
-	"El D de la mascota 2.2 facturado y con saldo pendiente."
+	"El D de la mascota 2.1 facturado y con saldo pendiente."
 	veterinaria generarFactura: diagMascota22.
 	veterinaria realizarFacturacion: diagMascota22.
 
