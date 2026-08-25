@@ -40,13 +40,15 @@ BuscadorTurnosPorFecha >> generarFecha [
 
 { #category : 'acciones' }
 BuscadorTurnosPorFecha >> imprimirTurnos [
+
 	| contenedor contenido fuente botonAtenderTurno botonCancelarTurno y |
 	lista removeAllMorphs.
 	y := lista position y.
 	colTurnos := veterinaria turnosConFecha: self generarFecha.
 	colTurnos
 		ifEmpty: [
-			(CuadroConMensaje conMensaje: 'No hay turnos programados para esta fecha') openInWorld.
+			(CuadroConMensaje conMensaje:
+				 'No hay turnos programados para esta fecha') openInWorld.
 			contenedorResultado hide ]
 		ifNotEmpty: [
 			colTurnos do: [ :turno |
@@ -58,7 +60,8 @@ BuscadorTurnosPorFecha >> imprimirTurnos [
 				"Texto: se le fija el ancho restando el espacio de la botonera a la derecha"
 				contenido := TextMorph new.
 				contenido autoFit: false. "Evita que se expanda fuera del borde"
-				contenido extent: (contenedor width - 160) @ (contenedor height - 10).
+				contenido extent:
+					contenedor width - 160 @ (contenedor height - 10).
 				contenido position: contenedor position + (5 @ 5).
 				fuente := LogicalFont familyName: 'Source Sans Pro' pointSize: 11.
 				contenido contents:
@@ -72,23 +75,33 @@ BuscadorTurnosPorFecha >> imprimirTurnos [
 					botonAtenderTurno := BotonAccion new.
 					botonAtenderTurno label: 'Atender'.
 					botonAtenderTurno extent: 70 @ 40.
-					botonAtenderTurno position: contenedor position + (contenedor width - 85 @ 15).
+					botonAtenderTurno position:
+						contenedor position + (contenedor width - 85 @ 15).
 
 					botonCancelarTurno := BotonAccion new.
 					botonCancelarTurno label: 'Cancelar'.
 					botonCancelarTurno extent: 70 @ 40.
-					botonCancelarTurno position: botonAtenderTurno position + (0 @ 50).
+					botonCancelarTurno position:
+						botonAtenderTurno position + (0 @ 50).
 
 					botonAtenderTurno mouseAction: [
 						(veterinaria atenderTurno: turno)
-							ifTrue: [ (CuadroConMensaje conMensaje: 'Turno atendido exitosamente') openInWorld ]
-							ifFalse: [ (CuadroConMensaje conMensaje: 'No se ha podido atender el turno') openInWorld ].
+							ifTrue: [
+								(CuadroConMensaje conMensaje: 'Turno atendido exitosamente')
+									openInWorld ]
+							ifFalse: [
+								(CuadroConMensaje conMensaje:
+									 'No se ha podido atender el turno') openInWorld ].
 						self imprimirTurnos ].
 
 					botonCancelarTurno mouseAction: [
 						(veterinaria cancelarTurnoPendiente: turno)
-							ifTrue: [ (CuadroConMensaje conMensaje: 'Turno cancelado exitosamente') openInWorld ]
-							ifFalse: [ (CuadroConMensaje conMensaje: 'No se ha podido cancelar el turno') openInWorld ].
+							ifTrue: [
+								(CuadroConMensaje conMensaje: 'Turno cancelado exitosamente')
+									openInWorld ]
+							ifFalse: [
+								(CuadroConMensaje conMensaje:
+									 'No se ha podido cancelar el turno') openInWorld ].
 						self imprimirTurnos ].
 
 					contenedor addMorph: botonAtenderTurno.
@@ -96,7 +109,7 @@ BuscadorTurnosPorFecha >> imprimirTurnos [
 
 				lista addMorph: contenedor.
 				y := y + (contenedor height + 10) ].
-			lista changed ].
+			lista changed: #turnos ].
 	contenidoScroll addMorph: lista
 ]
 
